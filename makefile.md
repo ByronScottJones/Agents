@@ -46,6 +46,8 @@ these recommendations to the project's existing conventions and constraints.
 * **Comment Syntax:** Document all user-facing targets with a double-hash comment (`##`) on the preceding line.
 * **Help Implementation:** You MUST include the following `awk` script in the Makefile to auto-generate the help menu:
 
+<!-- markdownlint-disable MD010 -->
+
 ```makefile
 ## This help screen
 help:
@@ -63,3 +65,5 @@ help:
 	{ lastLine = $$0 }' $(MAKEFILE_LIST) | sort -u
 	@printf "\n"
 ```
+
+<!-- markdownlint-enable MD010 -->
