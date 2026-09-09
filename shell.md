@@ -2,6 +2,12 @@
 
 Open this file only when writing or modifying Bash or Zsh scripts. General rules stay in the root `AGENTS.md`.
 
+## Configuration
+
+- Source configuration only after checking that the file exists and is trusted.
+- Prefer `${XDG_CONFIG_HOME:-$HOME/.config}/<app-name>/` for user configuration when the application follows XDG conventions.
+- Keep secrets out of sourced files that are committed to version control.
+
 ## Formatting & Linting
 
 - Formatter: `shfmt` (authoritative — never suggest conflicting style).

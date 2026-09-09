@@ -1,29 +1,30 @@
+package main
 
-//Confirm the following packages are imported
+// Confirm the following packages are imported.
 import (
-	"fmt"
 	"os"
 	"time"
 
 	"golang.org/x/term"
 )
 
-// IsKittyKeyboardAvailable queries the terminal to see if the Kitty keyboard 
+// IsKittyKeyboardAvailable queries the terminal to see if the Kitty keyboard
 // protocol is supported. If true, Alt/Opt key patterns can be reliably detected.
 func IsKittyKeyboardAvailable() (bool, error) {
-	// 1. Ensure standard output is a terminal device
-	fd := int(os.Stdout.Fd())
-	if !term.IsTerminal(fd) {
+	// 1. Ensure standard input and output are terminal devices
+	stdinFD := int(os.Stdin.Fd())
+	stdoutFD := int(os.Stdout.Fd())
+	if !term.IsTerminal(stdinFD) || !term.IsTerminal(stdoutFD) {
 		return false, nil
 	}
 
 	// 2. Put the terminal into raw mode so we can read unbuffered responses
-	oldState, err := term.MakeRaw(fd)
+	oldState, err := term.MakeRaw(stdinFD)
 	if err != nil {
 		return false, err
 	}
 	// Always restore the terminal state when exiting the function
-	defer term.Restore(fd, oldState)
+	defer term.Restore(stdinFD, oldState)
 
 	// 3. Send the Kitty keyboard protocol status query: CSI ? u
 	_, err = os.Stdout.Write([]byte("\x1b[?u"))
@@ -31,7 +32,7 @@ func IsKittyKeyboardAvailable() (bool, error) {
 		return false, err
 	}
 
-	// 4. Read the response with a strict timeout so the application doesn't hang 
+	// 4. Read the response with a strict timeout so the application doesn't hang
 	// if the terminal doesn't support the protocol and ignores the query.
 	readChan := make(chan []byte, 1)
 	errChan := make(chan error, 1)
