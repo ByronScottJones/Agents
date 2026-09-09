@@ -17,7 +17,10 @@ Whenever working on a code project (any session involving source files, scripts,
   Update as needed prior to each commit to ensure the information stays current.
 - Create a git branch for each feature. Complete all coding tasks for that feature and commit, then create a pull request.
   Wait for the user to complete the review of that Pull Request. Once the Pull Request is merged, checkout main, pull changes,
-  then continue the cycle with the next feature/task. 
+  then continue the cycle with the next feature/task.
+- For the Github remote repository, use the GH command to set the Description and Topics for the repo if they do not exist.
+  Topics should be relevant keywords important to finding the project.
+  If creating an MCP service, MCP must always be one of the topics.
 - Commit after every code update. After each round of file changes (new file, edit, delete), stage and commit with a short, descriptive message.
   Use conventional-commit style where it fits (`feat:`, `fix:`, `refactor:`, `docs:`, `chore:`).
 - Never leave changes uncommitted at the end of a task. Before wrapping up, confirm all edits are committed.
