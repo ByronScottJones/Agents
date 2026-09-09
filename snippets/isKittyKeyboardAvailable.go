@@ -11,19 +11,20 @@ import (
 // IsKittyKeyboardAvailable queries the terminal to see if the Kitty keyboard
 // protocol is supported. If true, Alt/Opt key patterns can be reliably detected.
 func IsKittyKeyboardAvailable() (bool, error) {
-	// 1. Ensure standard output is a terminal device
-	fd := int(os.Stdin.Fd())
-	if !term.IsTerminal(fd) {
+	// 1. Ensure standard input and output are terminal devices
+	stdinFD := int(os.Stdin.Fd())
+	stdoutFD := int(os.Stdout.Fd())
+	if !term.IsTerminal(stdinFD) || !term.IsTerminal(stdoutFD) {
 		return false, nil
 	}
 
 	// 2. Put the terminal into raw mode so we can read unbuffered responses
-	oldState, err := term.MakeRaw(fd)
+	oldState, err := term.MakeRaw(stdinFD)
 	if err != nil {
 		return false, err
 	}
 	// Always restore the terminal state when exiting the function
-	defer term.Restore(fd, oldState)
+	defer term.Restore(stdinFD, oldState)
 
 	// 3. Send the Kitty keyboard protocol status query: CSI ? u
 	_, err = os.Stdout.Write([]byte("\x1b[?u"))
