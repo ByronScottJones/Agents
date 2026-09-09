@@ -70,10 +70,10 @@ Every CLI or TUI application must provide:
 - When a checkbox is the active field, the spacebar should toggle the value.
 - All Custom Commands should use Alt-A...Alt-Z
    On Macos, use plain letters but watch for conflicts.
-   If developing in Go, check snippets/SNIPPETS.MD for the functions:
-  - go_isKittyKeyboardAvailable
-  - go_EnableAltKeys
-  - go_DisableAltKeys
+   If developing in Go, check `snippets/SNIPPETS.md` for these functions:
+  - IsKittyKeyboardAvailable
+  - EnableAltKeys
+  - DisableAltKeys
 - Clipboard Operations: Ctrl-Insert Copy, Shift-Insert Paste, Shift-Delete Cut
 - Support non-interactive operation when input or output is redirected.
 - Respect `NO_COLOR` and degrade gracefully when color, mouse events, alternate
