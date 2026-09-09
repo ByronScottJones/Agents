@@ -21,7 +21,7 @@ real terminal input/output device and should be tested with a pseudoterminal.
 
 ## Go
 
-- checkOptionAsMetaKey.go
+- checkOptionasMetaKey.go
   - checks if the current terminal session supports using the Option key as a Meta/Alt key.
 - isKittyKeyboardAvailable.go
   - checks if the Kitty Terminal Keyboard Protocol is available.
