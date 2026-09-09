@@ -22,17 +22,15 @@ Open this file only when writing or modifying Terraform (`.tf`) code. General ru
 
 ## State & Safety
 
-- Remote state always (S3 + DynamoDB lock or equivalent) — never local state in shared repos.
+- Use a locking-capable remote backend appropriate to the cloud provider; never use local state in shared repositories.
 - Use separate var files per environment rather than inline `terraform.workspace` conditions.
 - Never store secrets in `.tfvars` committed to source control — use a secrets manager reference.
-- `prevent_destroy = true` lifecycle on stateful resources (databases, buckets with data).
+- Consider `prevent_destroy = true` for production stateful resources after confirming it fits the recovery workflow.
 - Lock provider versions: `version = "~> 5.0"` — never `version = ">= 0"`.
 - Run `tflint` and `terraform validate` in CI on every PR.
-- Run terraform plan before committing code to Github. If the repository includes or mentions
-  iterraform.sh use that pattern to run the plan. When creating a Git Commit/PR add the relevant
-  section(s) of the terraform plan output as a code block. If the plan output includes
-  replacing or destroying any resource, that section MUST be included, and there needs to be a
-  block in the comments warning that the terraform plan includes replacing or destroying resources.
+- Run `terraform fmt -check` and review plans for unintended replacement or destruction.
+- Run `terraform plan` before applying infrastructure changes. Redact sensitive values from
+  plan artifacts and review any replacement or destruction explicitly.
 
 ## Variables
 

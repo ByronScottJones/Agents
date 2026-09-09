@@ -2,10 +2,17 @@
 
 Open this file only when writing or modifying Go code. General rules stay in the root `AGENTS.md`.
 
+## Configuration
+
+- Use `os.UserConfigDir()` for user-specific configuration paths.
+- Prefer typed configuration and standard environment-variable handling before adding a dependency.
+
 ## Formatting & Linting
 
 - Formatter: `gofmt` / `goimports` (authoritative — never suggest conflicting style).
 - Linter: `golangci-lint`.
+- Validate with `go test ./...`, `go vet ./...`, and the race detector when concurrency is involved.
+- Use `govulncheck` when dependency or standard-library vulnerability analysis is required.
 
 ## Error Handling
 
@@ -29,6 +36,8 @@ Open this file only when writing or modifying Go code. General rules stay in the
 - Context is always the first parameter: `func Foo(ctx context.Context, ...)`.
 - No `init()` functions unless there's no alternative.
 - Prefer `slog` for structured logging (Go 1.21+).
+- Apply timeouts to HTTP clients and servers.
+- Propagate cancellation through goroutines and shut down long-running services gracefully.
 
 ## Code Generation Defaults
 

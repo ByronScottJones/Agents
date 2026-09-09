@@ -1,22 +1,24 @@
 # Tauri & Rust Best Practices (Agent Context)
 
-This document outlines the standard best practices, architectural patterns, and conventions for developing applications using the Tauri (v2) and Rust stack. 
+This document outlines the standard best practices, architectural patterns, and conventions for developing applications using the Tauri (v2) and Rust stack.
 
 ## 1. Architectural Philosophy
+
 * **Rust for Heavy Lifting:** Offload complex calculations, file I/O, database interactions, networking, and OS-level operations to the Rust backend.
 * **Thin Frontend:** Treat your frontend (Svelte, etc.) as a lightweight presentation layer.
 * **Minimize IPC Overhead:** Serialization and deserialization across the IPC bridge (Inter-Process Communication) incurs a performance cost. Batch operations when possible instead of making thousands of rapid, small `invoke` calls.
 
 ## Javascript/TypeScript UI Frameworks
-- Svelte is the preferred  tooklit by the Tauri team.
+
+* Svelte is the preferred  tooklit by the Tauri team.
   **If you use SvelteKit** you must explicitly use adapter-static because Tauri does not support Server-Side Rendering (SSR).
-- Other Frameworks such as React, Solid.js, Vue.js, can be used as needed.
-- Tauri cannot host a Node.js server for Server-Side Rendering. Frameworks must generate static, single page code.
-
-
+* Other Frameworks such as React, Solid.js, Vue.js, can be used as needed.
+* Tauri cannot host a Node.js server for Server-Side Rendering. Frameworks must generate static, single page code.
 
 ## 2. Project Structure
+
 A standard Tauri v2 project should maintain a clear separation of concerns:
+
 ```text
 ├── src/                  # Frontend assets (React, Vue, Vite config, etc.)
 ├── src-tauri/            # Rust backend
@@ -34,6 +36,7 @@ A standard Tauri v2 project should maintain a clear separation of concerns:
 ## 3. Rust Backend Best Practices
 
 ### 3.1. Command Error Handling
+
 Always return a `Result` from your Tauri commands when operations can fail. The error type must implement `serde::Serialize` so that it can be passed across the IPC boundary and correctly reject the JavaScript Promise.
 
 ```rust
@@ -66,6 +69,7 @@ pub async fn read_file_data(path: String) -> Result<String, AppError> {
 ```
 
 ### 3.2. State Management
+
 Use `tauri::State` for dependency injection. When dealing with mutable state, wrap your data in a `std::sync::Mutex` (for synchronous commands) or `tokio::sync::Mutex` (for asynchronous commands).
 
 ```rust
@@ -88,6 +92,7 @@ fn increment_counter(state: State<'_, AppState>) -> Result<u32, String> {
 ```
 
 ### 3.3. Asynchronous Commands
+
 Use `async` for commands that perform I/O (network requests, heavy file operations) so you don't block the IPC thread.
 
 ```rust
@@ -103,6 +108,7 @@ pub async fn fetch_data_from_api(url: String) -> Result<String, AppError> {
 ## 4. Frontend Integration Best Practices
 
 ### 4.1. Strongly Typed IPC Calls (TypeScript)
+
 Always wrap Tauri `invoke` calls in typed service functions to maintain end-to-end type safety between Rust and TypeScript.
 
 ```typescript
@@ -126,9 +132,11 @@ export const fetchUserProfile = async (userId: number): Promise<UserProfile> => 
 ```
 
 ### 4.2. Event Driven Communication
+
 Use Tauri events for unidirectional streams (e.g., progress bars, backend-initiated alerts) rather than polling from the frontend.
 
 **Rust:**
+
 ```rust
 use tauri::Emitter;
 
@@ -144,6 +152,7 @@ fn start_long_task(app_handle: tauri::AppHandle) {
 ```
 
 **TypeScript:**
+
 ```typescript
 import { listen, UnlistenFn } from '@tauri-apps/api/event';
 import { useEffect, useState } from 'react';
@@ -169,7 +178,12 @@ export function useDownloadProgress() {
 
 ## 5. Security & Permissions (Tauri v2)
 
+Treat frontend input, filesystem paths, URLs, and IPC arguments as untrusted.
+Validate them at the command boundary and expose only the minimum operations
+needed by the frontend.
+
 ### 5.1. Capabilities
+
 In Tauri v2, do not globally allow plugins or API methods. Use granular capability files inside `src-tauri/capabilities/` to restrict exactly what the frontend can call.
 
 ```json
@@ -190,11 +204,15 @@ In Tauri v2, do not globally allow plugins or API methods. Use granular capabili
 }
 ```
 
-Official Tauri Plugins are hosted at: https://github.com/tauri-apps/plugins-workspace
-Check https://github.com/tauri-apps/awesome-tauri for Tauri Plugins when additional functionality is needed.
+Official Tauri Plugins are hosted at:
+<https://github.com/tauri-apps/plugins-workspace>. Check
+<https://github.com/tauri-apps/awesome-tauri> when additional functionality is
+needed.
 
 ### 5.2. Content Security Policy (CSP)
+
 Enforce a strict CSP in `tauri.conf.json`. Disable remote execution.
+
 ```json
 {
   "app": {
@@ -206,7 +224,13 @@ Enforce a strict CSP in `tauri.conf.json`. Disable remote execution.
 ```
 
 ## 6. Build and Distribution
+
 * Use `vite` for the fastest frontend build times.
 * Always build the frontend for production before building the Rust binary (`tauri build`).
 * Use `cargo clippy` and `cargo fmt` as standard CI steps for the Rust backend.
-
+* Keep public frontend environment variables explicitly prefixed and never put
+  secrets in frontend configuration.
+* Use `tauri-plugin-store` or an equivalent platform-aware store for persisted
+  user settings rather than ad hoc files in arbitrary paths.
+* Review updater signing, deep-link handling, window permissions, and release
+  artifacts as part of the distribution security review.

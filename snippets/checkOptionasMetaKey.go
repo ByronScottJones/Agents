@@ -11,16 +11,16 @@ import (
 
 // TerminalInfo holds the detected configurations
 type TerminalInfo struct {
-	Emulator      string
-	ActiveProfile string
+	Emulator       string
+	ActiveProfile  string
 	MetaKeyEnabled bool
 }
 
 // CheckTerminalSession analyzes the current terminal emulator environment
 func CheckTerminalSession() TerminalInfo {
 	info := TerminalInfo{
-		Emulator:      os.Getenv("TERM_PROGRAM"),
-		ActiveProfile: "Unknown",
+		Emulator:       os.Getenv("TERM_PROGRAM"),
+		ActiveProfile:  "Unknown",
 		MetaKeyEnabled: false,
 	}
 
@@ -50,7 +50,7 @@ func getActiveProfile() string {
 	cmd := exec.Command("osascript", "-e", `tell application "Terminal" to get name of current settings of tab 1 of window 1`)
 	var out bytes.Buffer
 	cmd.Stdout = &out
-	
+
 	if err := cmd.Run(); err == nil {
 		profile := strings.TrimSpace(out.String())
 		if profile != "" {
@@ -62,7 +62,7 @@ func getActiveProfile() string {
 	cmdFallback := exec.Command("defaults", "read", "com.apple.Terminal", "Default Window Settings")
 	out.Reset()
 	cmdFallback.Stdout = &out
-	
+
 	if err := cmdFallback.Run(); err == nil {
 		return strings.TrimSpace(out.String())
 	}
@@ -80,7 +80,7 @@ func isMetaKeyEnabled(profile string) bool {
 	// Pipe the output of defaults into plutil
 	var defaultsOut bytes.Buffer
 	defaultsCmd.Stdout = &defaultsOut
-	
+
 	if err := defaultsCmd.Run(); err != nil {
 		return false
 	}

@@ -2,10 +2,18 @@
 
 Open this file only when writing or modifying Rust code. General rules stay in the root `AGENTS.md`.
 
+## Configuration
+
+- Use the `directories` crate for platform-specific application paths when the standard library is insufficient.
+- Deserialize configuration with `serde` and use TOML or JSON as appropriate.
+- Use `figment` or `config` when configuration must merge files, environment variables, and defaults.
+
 ## Formatting & Linting
 
 - Formatter: `rustfmt` (authoritative — never suggest conflicting style).
 - Linter: `clippy`.
+- Validate with `cargo fmt --check`, `cargo clippy --all-targets --all-features -- -D warnings`, and `cargo test`.
+- Use `cargo audit` or the project's established dependency scanner when appropriate.
 
 ## Error Handling
 
@@ -26,6 +34,7 @@ Open this file only when writing or modifying Rust code. General rules stay in t
 - Derive `Debug` on all public types.
 - Use `tracing` for structured logging/instrumentation.
 - Avoid `unsafe` — if required, isolate it and document the invariants.
+- Test public documentation with `cargo test --doc` when the project publishes a library.
 
 ## Code Generation Defaults
 

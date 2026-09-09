@@ -1,4 +1,6 @@
-//Make sure the following are imported
+package main
+
+// Make sure the following are imported.
 import (
 	"os"
 	"strconv"
@@ -11,7 +13,7 @@ import (
 // IsAltKeyActive checks if the current Kitty keyboard flags enable Alt key tracking.
 // This assumes IsKittyKeyboardAvailable() has already returned true.
 func IsAltKeyActive() (bool, error) {
-	fd := int(os.Stdout.Fd())
+	fd := int(os.Stdin.Fd())
 	if !term.IsTerminal(fd) {
 		return false, nil
 	}
@@ -46,7 +48,7 @@ func IsAltKeyActive() (bool, error) {
 	select {
 	case response := <-readChan:
 		respStr := string(response)
-		
+
 		// The terminal responds with: CSI ? {flags} u
 		// Example matching strings: "\x1b[?1u" or "\x1b[?3u"
 		if !strings.HasPrefix(respStr, "\x1b[?") || !strings.HasSuffix(respStr, "u") {
@@ -63,7 +65,7 @@ func IsAltKeyActive() (bool, error) {
 		// Bit 1 (value 1): Disambiguate escape codes (Reports Alt perfectly)
 		// Bit 2 (value 2): Report event types (Press/Repeat/Release with modifiers)
 		// If either bit is flipped active, Alt-keys are structurally usable.
-		if (flags & 1) != 0 || (flags & 2) != 0 {
+		if (flags&1) != 0 || (flags&2) != 0 {
 			return true, nil
 		}
 		return false, nil

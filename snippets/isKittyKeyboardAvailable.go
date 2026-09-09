@@ -1,18 +1,18 @@
+package main
 
-//Confirm the following packages are imported
+// Confirm the following packages are imported.
 import (
-	"fmt"
 	"os"
 	"time"
 
 	"golang.org/x/term"
 )
 
-// IsKittyKeyboardAvailable queries the terminal to see if the Kitty keyboard 
+// IsKittyKeyboardAvailable queries the terminal to see if the Kitty keyboard
 // protocol is supported. If true, Alt/Opt key patterns can be reliably detected.
 func IsKittyKeyboardAvailable() (bool, error) {
 	// 1. Ensure standard output is a terminal device
-	fd := int(os.Stdout.Fd())
+	fd := int(os.Stdin.Fd())
 	if !term.IsTerminal(fd) {
 		return false, nil
 	}
@@ -31,7 +31,7 @@ func IsKittyKeyboardAvailable() (bool, error) {
 		return false, err
 	}
 
-	// 4. Read the response with a strict timeout so the application doesn't hang 
+	// 4. Read the response with a strict timeout so the application doesn't hang
 	// if the terminal doesn't support the protocol and ignores the query.
 	readChan := make(chan []byte, 1)
 	errChan := make(chan error, 1)
