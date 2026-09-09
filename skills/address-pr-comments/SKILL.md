@@ -13,7 +13,7 @@ write-side workflow; `get-pr-comments` owns read-only retrieval.
 
 - `owner`, `repository`, `pullRequest`: target PR; default to the active PR.
 - `threadIds`: specific threads; default to all unresolved threads.
-- `mode`: `implement`, `respond`, `resolve`, or `merge-ready-check`.
+- `mode`: `implement`, `respond`, `resolve`, or `merge-ready-check`; default `merge-ready-check`.
 - `autoApply`: allow applying inline suggestions; default `false`.
 - `requireChecks`: require passing checks; default `true`.
 - `format`: `summary` or `json`; default `summary`.

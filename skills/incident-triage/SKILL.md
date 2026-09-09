@@ -22,7 +22,9 @@ Provide a disciplined first response using `incident-response.md` and
 ## Workflow
 
 1. Establish impact, start time, scope, and current symptoms.
-2. Assign or request an incident commander and communication channel.
+2. In read-only `triage` mode, recommend an incident commander and communication
+  channel without creating assignments or channels. Execute those actions only
+  when explicitly authorized.
 3. Collect bounded logs, metrics, traces, deployment history, and dependency status.
 4. Build a timeline and identify plausible changes or failure domains.
 5. Recommend containment and next evidence; do not make speculative changes.

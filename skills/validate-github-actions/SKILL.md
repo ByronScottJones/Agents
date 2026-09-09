@@ -26,7 +26,8 @@ conventions.
 3. Check action references for immutable SHAs and readable version comments.
 4. Audit token permissions, fork behavior, secret exposure, concurrency,
    timeouts, caching, artifacts, environments, and deployment gates.
-5. In fix mode, propose or apply only explicitly selected changes.
+5. When `fixUnpinned` is true, propose pinning changes. Apply them only after
+    explicit confirmation and record each resolved action SHA.
 6. Re-run validation and return findings by severity.
 
 ## Safety

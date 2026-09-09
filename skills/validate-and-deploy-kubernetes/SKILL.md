@@ -11,7 +11,8 @@ Implement `kubernetes.md` as a manifest and rollout workflow.
 ## Parameters
 
 - `manifestPath`: default `k8s/` or `manifests/`.
-- `clusterContext`: current kubectl context unless explicitly supplied.
+- `clusterContext`: required for `apply` and `rollback`; current kubectl context
+   may be used only for read-only validation and diff operations.
 - `namespace`: default `default`.
 - `mode`: `validate`, `diff`, `apply`, or `rollback`; default `validate`.
 - `checkPolicy`, `checkSecurity`, `checkResources`: default `true`.
@@ -26,7 +27,7 @@ Implement `kubernetes.md` as a manifest and rollout workflow.
    accounts, secrets, network exposure, and policy rules.
 3. Run client-side and server-side dry runs when available.
 4. Produce a diff before apply.
-5. For apply, require explicit confirmation, apply the reviewed manifests, wait
+5. For apply, require an explicit context and confirmation, apply the reviewed manifests, wait
    for rollout, and run health checks.
 6. For rollback, identify the target revision, confirm scope, roll back, and verify health.
 

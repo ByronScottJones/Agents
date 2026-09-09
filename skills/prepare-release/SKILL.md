@@ -13,7 +13,7 @@ Coordinate `release.md`, Git history, CI results, artifacts, and deployment risk
 - `owner`, `repository`, `pullRequest`: optional release source.
 - `version`: required or inferred from project convention.
 - `environment`: target promotion environment; default `staging`.
-- `mode`: `notes`, `readiness`, `candidate`, `promote`, or `rollback-plan`.
+- `mode`: `notes`, `readiness`, `candidate`, `promote`, or `rollback-plan`; default `readiness`.
 - `requireChecks`: default `true`.
 - `format`: `summary`, `json`, or Markdown release notes; default `summary`.
 

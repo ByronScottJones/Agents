@@ -16,8 +16,7 @@ through a plan-first workflow.
 - `environment`: target environment; default `staging`.
 - `mode`: `validate`, `plan`, `detect-drift`, `apply`, `destroy`, or `cost`; default `validate`.
 - `targetResources`: optional resource scope.
-- `requireApproval`: default `true` for `apply` and `destroy`.
-- `redactPlan`: default `true`.
+- `reviewedPlanArtifact`: required for `apply`; identifies the reviewed plan by path, ID, or checksum.
 - `format`: `summary`, `json`, or native plan artifact; default `summary`.
 
 ## Workflow
@@ -27,14 +26,17 @@ through a plan-first workflow.
 3. For `plan`, `cost`, or `detect-drift`, produce a reviewable artifact.
 4. Classify creates, updates, replacements, and destroys; identify sensitive values.
 5. Require explicit approval for apply, destroy, production, or destructive plans.
-6. Apply the exact reviewed plan, never a newly generated unreviewed plan.
-7. Verify post-apply state, outputs, health, and drift.
+6. For `apply`, require and verify `reviewedPlanArtifact` before mutation; reject
+  a regenerated or mismatched plan.
+7. Apply the exact verified plan, never a newly generated unreviewed plan.
+8. Verify post-apply state, outputs, health, and drift.
 
 ## Safety
 
 - Default to read-only validation or plan mode.
-- Never apply or destroy without explicit confirmation.
-- Redact secrets from plans, logs, and artifacts.
+- Approval is mandatory for every apply or destroy operation and cannot be disabled by a parameter.
+- Redact secrets from plans, logs, and artifacts; redaction cannot be disabled.
+- Reject apply when the reviewed plan artifact is missing or does not match.
 - Do not bypass policy violations or state locking.
 
 ## Output
