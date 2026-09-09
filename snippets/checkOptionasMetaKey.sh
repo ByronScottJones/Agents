@@ -2,13 +2,13 @@
 
 set -euo pipefail
 
-command -v osascript >/dev/null 2>&1 || {
-    printf '%s\n' 'osascript is required on macOS.' >&2
-    exit 1
-}
-
 # 1. Identify the running terminal emulator
-if [ "$TERM_PROGRAM" = "Apple_Terminal" ]; then
+if [ "${TERM_PROGRAM:-}" = "Apple_Terminal" ]; then
+    command -v osascript >/dev/null 2>&1 || {
+        printf '%s\n' 'osascript is required on macOS.' >&2
+        exit 1
+    }
+
     echo "Terminal Detected: Standard macOS Terminal"
     echo "----------------------------------------"
 
@@ -41,7 +41,7 @@ if [ "$TERM_PROGRAM" = "Apple_Terminal" ]; then
         echo "Option as Meta Key: DISABLED"
     fi
 
-elif [ "$TERM_PROGRAM" = "kitty" ]; then
+elif [ "${TERM_PROGRAM:-}" = "kitty" ]; then
     echo "Terminal Detected: Kitty"
     echo "Configuration note: Kitty handles option/meta mappings natively via 'macos_option_as_alt' in kitty.conf."
 
