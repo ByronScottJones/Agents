@@ -8,9 +8,9 @@ This document outlines the standard best practices, architectural patterns, and 
 * **Thin Frontend:** Treat your frontend (Svelte, etc.) as a lightweight presentation layer.
 * **Minimize IPC Overhead:** Serialization and deserialization across the IPC bridge (Inter-Process Communication) incurs a performance cost. Batch operations when possible instead of making thousands of rapid, small `invoke` calls.
 
-## Javascript/TypeScript UI Frameworks
+## JavaScript/TypeScript UI Frameworks
 
-* Svelte is the preferred  tooklit by the Tauri team.
+* Svelte is the preferred toolkit by the Tauri team.
   **If you use SvelteKit** you must explicitly use adapter-static because Tauri does not support Server-Side Rendering (SSR).
 * Other Frameworks such as React, Solid.js, Vue.js, can be used as needed.
 * Tauri cannot host a Node.js server for Server-Side Rendering. Frameworks must generate static, single page code.

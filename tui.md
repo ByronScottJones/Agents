@@ -69,7 +69,7 @@ Every CLI or TUI application must provide:
 - Delete should delete the last character typed, Shift-Delete the last word. Ctrl-D the last sentence.
 - When a checkbox is the active field, the spacebar should toggle the value.
 - All Custom Commands should use Alt-A...Alt-Z
-   On Macos, use plain letters but watch for conflicts.
+  On macOS, use plain letters but watch for conflicts.
    If developing in Go, check `snippets/SNIPPETS.md` for these functions:
   - IsKittyKeyboardAvailable
   - EnableAltKeys

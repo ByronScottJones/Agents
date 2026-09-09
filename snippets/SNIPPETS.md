@@ -27,7 +27,7 @@ real terminal input/output device and should be tested with a pseudoterminal.
   - checks if the Kitty Terminal Keyboard Protocol is available.
 - isAltKeyActive.go
   - checks if the current Kitty keyboard flags enable Alt key tracking.
-- EnableAltKeys.go
+- enableAltKeys.go
   - Enable the Alt Key in the Terminal.
 - DisableAltKeys.go
   - Disable the Alt Key in the Terminal.
