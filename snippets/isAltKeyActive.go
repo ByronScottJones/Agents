@@ -13,17 +13,18 @@ import (
 // IsAltKeyActive checks if the current Kitty keyboard flags enable Alt key tracking.
 // This assumes IsKittyKeyboardAvailable() has already returned true.
 func IsAltKeyActive() (bool, error) {
-	fd := int(os.Stdin.Fd())
-	if !term.IsTerminal(fd) {
+	stdinFD := int(os.Stdin.Fd())
+	stdoutFD := int(os.Stdout.Fd())
+	if !term.IsTerminal(stdinFD) || !term.IsTerminal(stdoutFD) {
 		return false, nil
 	}
 
 	// 1. Switch to raw mode to read the response stream
-	oldState, err := term.MakeRaw(fd)
+	oldState, err := term.MakeRaw(stdinFD)
 	if err != nil {
 		return false, err
 	}
-	defer term.Restore(fd, oldState)
+	defer term.Restore(stdinFD, oldState)
 
 	// 2. Query the current active flags using CSI ? u
 	_, err = os.Stdout.Write([]byte("\x1b[?u"))
