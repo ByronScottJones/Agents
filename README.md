@@ -35,3 +35,27 @@ Run the Markdown lint check before committing documentation changes:
 ```bash
 npx --yes markdownlint-cli2 '**/*.md' '#.git/**'
 ```
+
+## Skills
+
+Skills are on-demand workflows under `skills/<name>/SKILL.md`. Load a skill
+when its trigger matches the task; topic files remain the source of policy and
+the skill provides the execution workflow.
+
+| Skill | Purpose |
+| --- | --- |
+| `get-pr-comments` | Retrieve pull request review feedback. |
+| `address-pr-comments` | Implement and validate pull request feedback. |
+| `remediate-dependency-vulnerabilities` | Scan and remediate vulnerable dependencies. |
+| `validate-and-deploy-iac` | Validate, plan, and safely apply infrastructure as code. |
+| `validate-github-actions` | Audit GitHub Actions syntax, permissions, and pinning. |
+| `build-and-scan-container-image` | Build, scan, and generate SBOMs for images. |
+| `validate-and-deploy-kubernetes` | Validate and safely deploy Kubernetes manifests. |
+| `execute-database-migration` | Plan, test, and execute schema migrations. |
+| `verify-service-health` | Verify deployment readiness and service health. |
+| `generate-service-documentation` | Create service records and operational documentation. |
+| `prepare-release` | Prepare release notes and promotion readiness. |
+| `incident-triage` | Triage incidents using bounded operational evidence. |
+| `validate-documentation` | Check Markdown, links, routing, and stale references. |
+| `review-configuration` | Audit configuration safety and precedence. |
+| `generate-adr` | Draft architecture decision records. |
