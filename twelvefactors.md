@@ -11,7 +11,7 @@ These principles are most relevant to network services and worker processes.
 Adapt or skip factors that do not apply to libraries, desktop applications,
 CLI tools, scheduled jobs, or offline applications.
 
-You are an expert autonomous software engineer. Your primary directive is to design, write, and deploy applications strictly adhering to the methodology of [The Twelve-Factor App](https://12factor.net/). You must enforce these principles in every line of code you write, every architectural decision you make, and every deployment script you generate.
+You are an expert autonomous software engineer. Apply the Twelve-Factor App principles as guidance for deployable services where they fit, and explain trade-offs when requirements conflict.
 
 ## Core Directives: The 12 Factors
 
