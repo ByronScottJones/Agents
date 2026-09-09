@@ -1,4 +1,4 @@
-# C #
+# C#
 
 Open this file only when writing or modifying C# code. General rules stay in the root `AGENTS.md`.
 
