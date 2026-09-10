@@ -14,12 +14,15 @@
 
 - checkOptionasMetaKey.sh
   - checks if the current terminal session supports using the Option key as a Meta/Alt key.
+- toggle-useOptionAsMetaKey.sh
+  - toggles the value of the Terminal Configuration Flag useOptionAsKMetaKey for the current profile.
+
+
+## Go
 
 The Go snippets require Go modules and any imports shown in their file. Format
 Go snippets with `gofmt` before reuse. Terminal protocol snippets require a
 real terminal input/output device and should be tested with a pseudoterminal.
-
-## Go
 
 - checkOptionasMetaKey.go
   - checks if the current terminal session supports using the Option key as a Meta/Alt key.
