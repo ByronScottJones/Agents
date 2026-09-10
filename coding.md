@@ -85,3 +85,11 @@ free-form input or invent validation rules.
 - Avoid race conditions by using the project’s established synchronization patterns.
 - Keep operations idempotent when they may be retried or run concurrently.
 - Document ordering assumptions when they matter to correctness.
+
+- ## Public API and Compatibility
+
+- Public APIs should have a markdown file documenting the API that can be used by other Agents for development.
+- Preserve backward compatibility unless a breaking change is requested.
+- Document or call out breaking changes clearly when they are unavoidable.
+- Keep input and output contracts stable unless the task explicitly changes them.
+- Update examples and references when public behavior changes.
