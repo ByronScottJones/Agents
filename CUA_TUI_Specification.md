@@ -10,21 +10,26 @@ When it applies, these rules override conflicting general TUI guidance.
 The implementation must define a minimum usable terminal size and show a clear
 warning when the current terminal is smaller than that size.
 
-* **Menu Bar (Top):** Always visible or easily summoned at row 0. Contains application-level commands.
-* **Status / Key Bar (Bottom):** Fixed at the bottom row. Displays context-sensitive help or global shortcuts (e.g., `F1 Help | F3 Quit | F10 Menu`).
+* **Title Bar:** Row 0 - Displays Application Name, Current Document, or other relevant context.
+* **Menu Bar (Top):** Row 1 - Contains application-level commands. See Menu System Conventions.
 * **Workspace (Center):** The primary view, which hosts text editors, lists, or floating modal dialogs.
+* **Status / Key Bar (Bottom):** Fixed at the bottom. Displays context-sensitive help or global shortcuts (e.g., `F1 Help | F3 Quit | F10 Menu`). If the window width would cause truncation, use additional rows. When the main workspace has a multiline text editor, the Status Bar should include the cursor `Row` and `Column`.
 
 ## 2. Keyboard Navigation (Strict Requirements)
 
 Every UI element MUST be fully operable without a mouse.
 
-* **`Tab` / `Shift+Tab`:** Move focus forward and backward between discrete UI controls (text boxes, buttons, lists, checkboxes).
+* **`Tab` / `Shift+Tab`:** Move focus forward and backward between discrete UI controls (text boxes, buttons, lists, checkboxes). The item with current focus should be highlighted, unless it has a cursor.
 * **`Arrow Keys` (Up/Down/Left/Right):** Navigate *within* a focused control (e.g., moving the cursor in a text field, scrolling a listbox, moving between radio buttons in a group).
 * **`Enter`:** Execute the default action of a dialog or click the currently focused button.
 * **`Esc`:** Cancel the current operation, close a menu, or dismiss a dialog box without saving.
-* **`Spacebar`:** Toggle the state of checkboxes (`[ ]` to `[X]`) or select radio buttons (`( )` to `(*)`).
+* **`Spacebar`:** Toggle the state of checkboxes (`☐` to `☑`) or select radio buttons (`◯` to `◉`).
 
 ## 3. Standard Global Shortcuts
+
+* **MacOS Limitation:** MacOs captures the Option Key, and does not always translate it to Alt.
+  - The default terminal has an option to translate, and terminals such as Kitty support Option/Alt translation.
+  - Test for Option/Alt translation at startup, and offer alternative CTRL based key bindings if Option/Alt translation cannot be confirmed.
 
 The agent must bind these keys to their designated actions globally:
 
@@ -36,7 +41,8 @@ The agent must bind these keys to their designated actions globally:
 
 ## 4. Menu System Conventions
 
-* **Standard Ordering:** Menus must follow the standard left-to-right order: `File`, `Edit`, `View`, `[Custom]`, `Help`. `Help` must always be the rightmost item.
+- Follow the Menu conventions, but do not include menu items that make no sense for the application.
+* **Standard Ordering:** Menus should follow the standard left-to-right order: `[AppName]`, `File`, `Edit`, `View`, `[Custom]`, `Help`. `Help` must always be the rightmost item.
 * **Standard Dropdowns:**
   * **File:** New, Open, Save, Save As..., Exit.
   * **Edit:** Undo (`Ctrl+Z`), Cut (`Ctrl+X`), Copy (`Ctrl+C`), Paste (`Ctrl+V`). *(Note: Support legacy `Shift+Del`, `Ctrl+Ins`, `Shift+Ins` if possible)*.
