@@ -60,8 +60,9 @@ free-form input or invent validation rules.
 - Match the existing project conventions before applying defaults.
 - Include the standard header or preamble required by the language file.
 - Use existing snippets and helpers when they solve the same problem.
+- Distinguish project conventions and code structure from formatting rules; defer formatting to the project’s formatter and linter.
 
-## Design and Maintenance
+## Maintenance and Compatibility
 
 - Fix root causes instead of applying surface-level patches.
 - Prefer the standard library for trivial functionality.
@@ -70,6 +71,14 @@ free-form input or invent validation rules.
 - Do not use deprecated APIs unless migration is explicitly out of scope.
 - Never hardcode credentials, account IDs, or environment-specific values.
 - Treat compiler and linter warnings as errors unless there is a documented reason not to.
+
+## Public API and Compatibility
+
+- Public APIs should have a markdown file documenting the API that can be used by other Agents for development.
+- Preserve backward compatibility unless a breaking change is requested.
+- Document or call out breaking changes clearly when they are unavoidable.
+- Keep input and output contracts stable unless the task explicitly changes them.
+- Update examples and references when public behavior changes.
 
 ## Security Considerations
 
@@ -85,11 +94,3 @@ free-form input or invent validation rules.
 - Avoid race conditions by using the project’s established synchronization patterns.
 - Keep operations idempotent when they may be retried or run concurrently.
 - Document ordering assumptions when they matter to correctness.
-
-- ## Public API and Compatibility
-
-- Public APIs should have a markdown file documenting the API that can be used by other Agents for development.
-- Preserve backward compatibility unless a breaking change is requested.
-- Document or call out breaking changes clearly when they are unavoidable.
-- Keep input and output contracts stable unless the task explicitly changes them.
-- Update examples and references when public behavior changes.
