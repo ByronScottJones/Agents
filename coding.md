@@ -9,6 +9,15 @@ language.
 Use the formatter and linter defined by the applicable language file. Treat
 those tools as authoritative and do not recommend conflicting style changes.
 
+## Code Comments
+
+- Prefer clear names and small functions over explanatory comments.
+- Add a brief comment within a function when a function’s purpose, intent, or behavior is not obvious from the code.
+- Use comments to explain intent, constraints, tradeoffs, or non-obvious behavior.
+- Avoid restating what the code already says.
+- Keep comments accurate and update or remove them when the code changes.
+- Use language-appropriate comment styles and follow the repository’s existing conventions.
+- 
 ## Input Validation
 
 When a task adds a user-facing input field and does not define its validation
@@ -42,3 +51,4 @@ free-form input or invent validation rules.
 - Remove dead code or explain why it must remain.
 - Do not use deprecated APIs unless migration is explicitly out of scope.
 - Never hardcode credentials, account IDs, or environment-specific values.
+- Code generation warnings should generally be treated as errors, and be resolved rather than ignored.
