@@ -12,7 +12,7 @@ those tools as authoritative and do not recommend conflicting style changes.
 ## Code Comments
 
 - Prefer clear names and small functions over explanatory comments.
-- Add a brief comment or docstring when a function’s purpose, intent, or behavior is not obvious from the code.
+- Add a brief comment or docstring when a function’s purpose or non-obvious behavior would not be clear to a reader.
 - Use comments to explain intent, constraints, tradeoffs, or non-obvious behavior.
 - Avoid restating what the code already says.
 - Keep comments accurate and update or remove them when the code changes.
@@ -22,7 +22,7 @@ those tools as authoritative and do not recommend conflicting style changes.
 
 - Keep documentation aligned with code and configuration changes.
 - Prefer concise, task-focused documentation with clear headings and examples.
-- Update README files, usage notes, and references when behavior or workflows change.
+- Update README files, usage notes, and references when behavior, setup, or workflows change.
 - Avoid adding documentation that simply repeats obvious code behavior.
 
 ## Input Validation
@@ -47,7 +47,7 @@ free-form input or invent validation rules.
 - Run the narrowest relevant executable check after each substantive edit.
 - Preserve public APIs unless a breaking change is explicitly requested.
 - Keep unrelated refactors out of the change.
-- If tests are missing, add the smallest useful test coverage you can.
+- If tests are missing, add at least one focused test that covers the changed behavior or regression.
 
 ## Version Selection
 
@@ -69,7 +69,7 @@ free-form input or invent validation rules.
 - Remove dead code or explain why it must remain.
 - Do not use deprecated APIs unless migration is explicitly out of scope.
 - Never hardcode credentials, account IDs, or environment-specific values.
-- Code generation warnings should generally be treated as errors, and be resolved rather than ignored.
+- Treat compiler and linter warnings as errors unless there is a documented reason not to.
 
 ## Security Considerations
 
@@ -85,10 +85,3 @@ free-form input or invent validation rules.
 - Avoid race conditions by using the project’s established synchronization patterns.
 - Keep operations idempotent when they may be retried or run concurrently.
 - Document ordering assumptions when they matter to correctness.
-
-## Public API and Compatibility
-
-- Preserve backward compatibility unless a breaking change is requested.
-- Document or call out breaking changes clearly when they are unavoidable.
-- Keep input and output contracts stable unless the task explicitly changes them.
-- Update examples and references when public behavior changes.
