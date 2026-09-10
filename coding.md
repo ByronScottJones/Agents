@@ -17,7 +17,7 @@ those tools as authoritative and do not recommend conflicting style changes.
 - Avoid restating what the code already says.
 - Keep comments accurate and update or remove them when the code changes.
 - Use language-appropriate comment styles and follow the repository’s existing conventions.
-- 
+
 ## Input Validation
 
 When a task adds a user-facing input field and does not define its validation
