@@ -20,6 +20,54 @@ If you already cloned the repo elsewhere, you can link it instead:
 ln -s /path/to/Agents "$HOME/.agents"
 ```
 
+## Link into AI coding tools
+
+Many tools work best when they can see the repo contents through a stable path such as `$HOME/.agents` or a symlink to it.
+
+### Recommended pattern
+
+Use a tool-specific parent directory for that tool's own files, then link the shared agent guidance into a common subdirectory such as `agents`.
+
+Examples:
+
+```bash
+mkdir -p "$HOME/.claude"
+ln -s /path/to/Agents "$HOME/.claude/agents"
+
+mkdir -p "$HOME/.codex"
+ln -s /path/to/Agents "$HOME/.codex/agents"
+
+mkdir -p "$HOME/.gemini"
+ln -s /path/to/Agents "$HOME/.gemini/agents"
+```
+
+This lets each tool keep its own settings, cache, and history alongside a shared `agents` directory.
+
+### Claude Code
+
+- Keep Claude Code's own configuration in `.claude/`.
+- Link the shared guidance into `.claude/agents`.
+- If Claude Code supports a configurable instructions path, point it at the repo root or the linked `agents` directory.
+
+### Codex
+
+- Keep Codex-specific files in its own parent directory.
+- Link the shared guidance into `.../agents` rather than replacing the whole directory.
+- Start Codex from the repository root when possible so `AGENTS.md` is discovered automatically.
+
+### Gemini CLI
+
+- Keep Gemini CLI state in its own directory.
+- Link the shared guidance into `.../agents` as a subdirectory.
+- Prefer launching Gemini CLI from the repo root or a workspace that can reach the linked path.
+
+### Other agent tools
+
+- Prefer a direct clone or symlink for the shared guidance, not a full copy.
+- Use a tool-specific parent directory and link only the shared agent guidance into a common `agents` subdirectory.
+- Make sure the tool can reach the repository root and any nested topic files.
+- If the tool supports a dedicated instructions path, point it to the linked `agents/AGENTS.md` or equivalent entry file.
+
 ## Guidance Layout
 
 - `AGENTS.md` is always active and routes work to topic files.
