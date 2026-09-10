@@ -28,9 +28,9 @@ Every UI element MUST be fully operable without a mouse.
 ## 3. Standard Global Shortcuts
 
 * **MacOS Limitation:** MacOs captures the Option Key, and does not always translate it to Alt.
-  - The default terminal has an option to translate, and terminals such as Kitty support Option/Alt translation.
-  - Test for Option/Alt translation at startup, and offer alternative CTRL based key bindings if Option/Alt translation cannot be confirmed.
-
+  - The default terminal has a per-profile configuration flag `useOptionAsMetaKey`, and terminals such as Kitty support Option/Alt translation.
+  - Test for Option/Alt translation at startup, and offer alternative CTRL based key bindings if Option/Alt translation cannot be confirmed. Check snippets/SNIPPETS.md for example code.
+ 
 The agent must bind these keys to their designated actions globally:
 
 * **`F1`:** Open context-sensitive Help.
