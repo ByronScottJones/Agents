@@ -43,30 +43,37 @@ ln -s /path/to/Agents "$HOME/.gemini/agents"
 
 This lets each tool keep its own settings, cache, and history alongside a shared `agents` directory.
 
-### Claude Code
+### Grant default access so tools stop asking every time
 
-- Keep Claude Code's own configuration in `.claude/`.
-- Link the shared guidance into `.claude/agents`.
-- If Claude Code supports a configurable instructions path, point it at the repo root or the linked `agents` directory.
+The exact setting name varies by tool, but the goal is the same: set the workspace, instructions path, or trusted project root once so the tool can reuse it on future runs.
 
-### Codex
+#### Claude Code
 
-- Keep Codex-specific files in its own parent directory.
-- Link the shared guidance into `.../agents` rather than replacing the whole directory.
-- Start Codex from the repository root when possible so `AGENTS.md` is discovered automatically.
+- Add the repository root or `.claude/agents` to Claude Code's trusted workspace/project list if it supports one.
+- If Claude Code supports a default instructions or policy path, point it at `$HOME/.claude/agents/AGENTS.md` or the repo root.
+- Keep the symlink in place so Claude can access the shared guidance without prompting for a new location each time.
+- If Claude Code remembers approved directories, approve the parent directory that contains the `agents` link so the full path stays available.
 
-### Gemini CLI
+#### Codex
 
-- Keep Gemini CLI state in its own directory.
-- Link the shared guidance into `.../agents` as a subdirectory.
-- Prefer launching Gemini CLI from the repo root or a workspace that can reach the linked path.
+- Configure Codex to open the repository root or the tool-specific parent directory that contains `agents`.
+- If Codex supports a default workspace or trusted directory, set it once to the parent directory such as `$HOME/.codex`.
+- If Codex supports a custom instructions file, point it at `$HOME/.codex/agents/AGENTS.md`.
+- Approve or trust the parent directory so future sessions can reuse the same location without a new prompt.
 
-### Other agent tools
+#### Gemini CLI
 
-- Prefer a direct clone or symlink for the shared guidance, not a full copy.
-- Use a tool-specific parent directory and link only the shared agent guidance into a common `agents` subdirectory.
-- Make sure the tool can reach the repository root and any nested topic files.
-- If the tool supports a dedicated instructions path, point it to the linked `agents/AGENTS.md` or equivalent entry file.
+- Start Gemini CLI from the repository root or from a directory that already has access to the `agents` symlink.
+- If Gemini CLI supports a saved workspace or project directory, set it to `$HOME/.gemini` or the repo root once.
+- If Gemini CLI supports default instruction files, point it at `$HOME/.gemini/agents/AGENTS.md`.
+- Trust the parent directory so Gemini can reuse the shared guidance without asking again.
+
+#### Other agent tools
+
+- Look for a setting named workspace, project root, trusted directory, instructions path, or prompt file.
+- Set it to the repo root or the tool-specific parent directory containing the `agents` symlink.
+- If the tool supports persistent approvals, approve the parent directory rather than just a single file.
+- If the tool supports startup arguments, pass the shared guidance path once and save that configuration for reuse.
 
 ## Guidance Layout
 
