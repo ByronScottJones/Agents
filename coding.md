@@ -74,7 +74,7 @@ free-form input or invent validation rules.
 
 ## Public API and Compatibility
 
-- Public APIs should have a markdown file documenting the API that can be used by other Agents for development.
+- Document public APIs in markdown when other agents or contributors need to use them.
 - Preserve backward compatibility unless a breaking change is requested.
 - Document or call out breaking changes clearly when they are unavoidable.
 - Keep input and output contracts stable unless the task explicitly changes them.
