@@ -2,7 +2,7 @@
 
 # C#
 
-Open this file only when writing or modifying C# code. General rules stay in the root `AGENTS.md`.
+Open this file only when writing or modifying C#, Dotnet, .Net, code. General rules stay in the root `AGENTS.md`.
 
 ## Formatting & Linting
 
@@ -71,8 +71,8 @@ Open this file only when writing or modifying C# code. General rules stay in the
 ## 5. Cloud and Serverless Optimization
 
 - **Cold Start Mitigation:** When deploying distributed architectures or serverless functions (like AWS Lambda), minimize dependencies in the deployment package. Consider Native AOT (Ahead-of-Time) compilation for extreme latency-sensitive applications.
-- **Statelessness:** Ensure all endpoints are entirely stateless. Externalize temporary state to a database or distributed cache.
-- **Structured Logging:** Output logs in a structured JSON format using `ILogger` to ensure downstream aggregators and alerting systems can parse telemetry efficiently.
+- **Statelessness:** Endpoints SHOULD be stateless and idempotent wherever possible. Externalize temporary state to a database or distributed cache.
+- **Structured Logging:** Output logs in a structured JSON format using `ILogger` to ensure downstream aggregators and alerting systems can parse telemetry efficiently. OpenTelemetry should be incorporated into distributed architectures.
 
 ## 6. Dependency Injection (DI)
 
