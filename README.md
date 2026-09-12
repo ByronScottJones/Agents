@@ -6,6 +6,8 @@
 
 ## Clone into `$HOME/.agents`
 
+**Bash:**
+
 ```bash
 # Optional: back up any existing ~/.agents directory
 mv "$HOME/.agents" "$HOME/.agents.backup.$(date +%Y%m%d%H%M%S)"
@@ -14,10 +16,32 @@ mv "$HOME/.agents" "$HOME/.agents.backup.$(date +%Y%m%d%H%M%S)"
 git clone -b main https://github.com/ByronScottJones/Agents.git "$HOME/.agents"
 ```
 
+**PowerShell (Windows):**
+
+```powershell
+# Optional: back up any existing ~/.agents directory
+if (Test-Path "$HOME\.agents") {
+  $timestamp = Get-Date -Format "yyyyMMddHHmmss"
+  Rename-Item -Path "$HOME\.agents" -NewName ".agents.backup.$timestamp"
+}
+
+# Clone this repository directly into ~/.agents
+git clone -b main https://github.com/ByronScottJones/Agents.git "$HOME\.agents"
+```
+
 If you already cloned the repo elsewhere, you can link it instead:
+
+**Bash:**
 
 ```bash
 ln -s /path/to/Agents "$HOME/.agents"
+```
+
+**PowerShell (Windows):**
+
+```powershell
+# Create a symlink (requires admin or developer mode on Windows 10+)
+New-Item -ItemType SymbolicLink -Path "$HOME\.agents" -Target "C:\path\to\Agents" -Force
 ```
 
 ## Link into AI coding tools
@@ -28,7 +52,7 @@ Many tools work best when they can see the repo contents through a stable path s
 
 Use a tool-specific parent directory for that tool's own files, then link the shared agent guidance into a common subdirectory such as `agents`.
 
-Examples:
+**Bash:**
 
 ```bash
 mkdir -p "$HOME/.claude"
@@ -42,6 +66,22 @@ ln -s /path/to/Agents "$HOME/.copilot/agents"
 
 mkdir -p "$HOME/.gemini"
 ln -s /path/to/Agents "$HOME/.gemini/agents"
+```
+
+**PowerShell (Windows):**
+
+```powershell
+# Create directories
+New-Item -ItemType Directory -Path "$HOME\.claude" -Force
+New-Item -ItemType Directory -Path "$HOME\.codex" -Force
+New-Item -ItemType Directory -Path "$HOME\.copilot" -Force
+New-Item -ItemType Directory -Path "$HOME\.gemini" -Force
+
+# Create symlinks (requires admin or developer mode on Windows 10+)
+New-Item -ItemType SymbolicLink -Path "$HOME\.claude\agents" -Target "C:\path\to\Agents" -Force
+New-Item -ItemType SymbolicLink -Path "$HOME\.codex\agents" -Target "C:\path\to\Agents" -Force
+New-Item -ItemType SymbolicLink -Path "$HOME\.copilot\agents" -Target "C:\path\to\Agents" -Force
+New-Item -ItemType SymbolicLink -Path "$HOME\.gemini\agents" -Target "C:\path\to\Agents" -Force
 ```
 
 This lets each tool keep its own settings, cache, and history alongside a shared `agents` directory.
@@ -88,9 +128,15 @@ The exact setting name varies by tool, but the goal is the same: set the workspa
 
 ## Validation
 
-Run the Markdown lint check before committing documentation changes:
+**Bash:**
 
 ```bash
+npx --yes markdownlint-cli2 '**/*.md' '#.git/**'
+```
+
+**PowerShell (Windows):**
+
+```powershell
 npx --yes markdownlint-cli2 '**/*.md' '#.git/**'
 ```
 
