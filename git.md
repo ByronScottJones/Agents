@@ -1,3 +1,8 @@
+---
+title: "Git Workflow"
+description: "Load this file for repository, branch, commit, or pull request work."
+---
+
 # Git Workflow
 
 Load this file for repository, branch, commit, or pull request work.

@@ -1,3 +1,8 @@
+---
+title: "Architecture"
+description: "Load this file when designing systems, changing boundaries, or recording significant technical decisions."
+---
+
 # Architecture
 
 Load this file when designing systems, changing boundaries, or recording

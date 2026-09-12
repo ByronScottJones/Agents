@@ -1,3 +1,9 @@
+---
+title: "HTML"
+description: "Open this file only when writing or modifying HTML."
+applies_to: ["*.html", "*.htm"]
+---
+
 # HTML
 
 Open this file only when writing or modifying HTML. General rules stay in the root `AGENTS.md`.

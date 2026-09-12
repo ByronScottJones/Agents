@@ -1,3 +1,8 @@
+---
+title: "Databases and Data"
+description: "Load this file when designing persistence, schemas, queries, or data migrations."
+---
+
 # Databases and Data
 
 Load this file when designing persistence, schemas, queries, or data migrations.

@@ -1,3 +1,8 @@
+---
+title: "Configuration"
+description: "Load this file when designing or modifying application configuration."
+---
+
 # Configuration
 
 Load this file when designing or modifying application configuration. Language

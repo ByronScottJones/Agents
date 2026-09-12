@@ -1,3 +1,8 @@
+---
+title: "Performance Engineering"
+description: "Load this file when optimizing, capacity planning, or investigating latency, throughput, memory, or resource consumption."
+---
+
 # Performance Engineering
 
 Load this file when optimizing, capacity planning, or investigating latency,

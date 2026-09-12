@@ -1,3 +1,8 @@
+---
+title: "APIs and Service Contracts"
+description: "Load this file when designing or changing HTTP, RPC, event, or service contracts."
+---
+
 # APIs and Service Contracts
 
 Load this file when designing or changing HTTP, RPC, event, or service contracts.

@@ -1,3 +1,9 @@
+---
+title: "Rust"
+description: "Open this file only when writing or modifying Rust code."
+applies_to: ["*.rs"]
+---
+
 # Rust
 
 Open this file only when writing or modifying Rust code. General rules stay in the root `AGENTS.md`.

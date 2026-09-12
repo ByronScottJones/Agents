@@ -1,3 +1,8 @@
+---
+title: "CUA TUI Specification"
+description: "Apply this specification only when the task explicitly requires CUA (Common User Access) compliance for a text user interface."
+---
+
 # CUA (Common User Access) TUI Specification for Agentic Code Generation
 
 This specification defines the structural and behavioral requirements for generating CUA-compliant Text User Interfaces (TUIs). Instruct the coding agent to adhere strictly to these rules to ensure standardized, predictable user experiences.

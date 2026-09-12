@@ -1,3 +1,9 @@
+---
+title: "Markdown"
+description: "Load this file when creating, editing, or reviewing Markdown files."
+applies_to: ["*.md"]
+---
+
 # Markdown
 
 Load this file when creating, editing, or reviewing Markdown files.

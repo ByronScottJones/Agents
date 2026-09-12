@@ -1,3 +1,9 @@
+---
+title: "C#"
+description: "Open this file only when writing or modifying C#, Dotnet, .Net, code."
+applies_to: ["*.cs", "*.csproj", "*.sln"]
+---
+
 <!-- markdownlint-disable MD003 MD020 -->
 
 # C#

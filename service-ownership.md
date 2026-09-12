@@ -1,3 +1,8 @@
+---
+title: "Service Ownership"
+description: "Load this file when creating or operating a service, platform component, or shared dependency."
+---
+
 # Service Ownership
 
 Load this file when creating or operating a service, platform component, or

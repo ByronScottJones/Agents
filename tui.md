@@ -1,3 +1,8 @@
+---
+title: "Text User Interfaces"
+description: "Load this file when designing or modifying a terminal user interface."
+---
+
 # Text User Interfaces
 
 Load this file when designing or modifying a terminal user interface.

@@ -1,3 +1,8 @@
+---
+title: "Coding Standards"
+description: "Load this file when a task involves source files, scripts, or configuration."
+---
+
 # Coding Standards
 
 Load this file when a task involves source files, scripts, or configuration.

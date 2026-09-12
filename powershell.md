@@ -1,3 +1,9 @@
+---
+title: "PowerShell Coding Standards"
+description: "Open this file when generating, modifying, or analyzing PowerShell scripts."
+applies_to: ["*.ps1", "*.psm1", "*.psd1"]
+---
+
 # PowerShell Coding Standards
 
 When generating, modifying, or analyzing PowerShell scripts, follow these

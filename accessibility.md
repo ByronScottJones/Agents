@@ -1,3 +1,8 @@
+---
+title: "Accessibility"
+description: "Load this file when designing or modifying user-facing software."
+---
+
 # Accessibility
 
 Load this file when designing or modifying user-facing software.

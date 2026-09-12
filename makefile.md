@@ -1,3 +1,9 @@
+---
+title: "GNU Makefile Guidance"
+description: "Load this file when generating, editing, or evaluating a GNU Makefile."
+applies_to: ["Makefile", "*.mk"]
+---
+
 # GNU Makefile Guidance
 
 Load this file when generating, editing, or evaluating a GNU Makefile. Adapt
