@@ -55,33 +55,100 @@ Use a tool-specific parent directory for that tool's own files, then link the sh
 **Bash:**
 
 ```bash
-mkdir -p "$HOME/.claude"
-ln -s /path/to/Agents "$HOME/.claude/agents"
+#!/usr/bin/env bash
 
-mkdir -p "$HOME/.codex"
-ln -s /path/to/Agents "$HOME/.codex/agents"
+# Resolve shared Agents source directory:
+# 1) Prefer ~/.agents if present
+# 2) Otherwise prompt until a valid directory is entered
+resolve_agents_src() {
+  if [ -d "$HOME/.agents" ]; then
+    printf '%s\n' "$HOME/.agents"
+    return 0
+  fi
 
-mkdir -p "$HOME/.copilot"
-ln -s /path/to/Agents "$HOME/.copilot/agents"
+  local input
+  while :; do
+    read -r -p "Enter the full path to your Agents repo: " input
+    if [ -d "$input" ]; then
+      printf '%s\n' "$input"
+      return 0
+    fi
+    echo "Path does not exist or is not a directory: $input"
+  done
+}
 
-mkdir -p "$HOME/.gemini"
-ln -s /path/to/Agents "$HOME/.gemini/agents"
+# Create link only if missing; never replace existing paths
+ensure_agents_link() {
+  local parent_dir="$1"
+  local link_path="$parent_dir/agents"
+  local target="$2"
+
+  mkdir -p "$parent_dir"
+  if [ ! -e "$link_path" ]; then
+    ln -s "$target" "$link_path"
+    echo "Created: $link_path -> $target"
+  else
+    echo "Skipped (already exists): $link_path"
+  fi
+}
+
+AGENTS_SRC="$(resolve_agents_src)"
+
+ensure_agents_link "$HOME/.claude"  "$AGENTS_SRC"
+ensure_agents_link "$HOME/.codex"   "$AGENTS_SRC"
+ensure_agents_link "$HOME/.copilot" "$AGENTS_SRC"
+ensure_agents_link "$HOME/.gemini"  "$AGENTS_SRC"
 ```
 
 **PowerShell (Windows):**
 
 ```powershell
-# Create directories
-New-Item -ItemType Directory -Path "$HOME\.claude" -Force
-New-Item -ItemType Directory -Path "$HOME\.codex" -Force
-New-Item -ItemType Directory -Path "$HOME\.copilot" -Force
-New-Item -ItemType Directory -Path "$HOME\.gemini" -Force
+# Resolve shared Agents source directory:
+# 1) Prefer $HOME\.agents if present
+# 2) Otherwise prompt until a valid directory is entered
+function Resolve-AgentsSource {
+  $defaultPath = Join-Path $HOME ".agents"
+  if (Test-Path $defaultPath -PathType Container) {
+    return $defaultPath
+  }
 
-# Create symlinks (requires admin or developer mode on Windows 10+)
-New-Item -ItemType SymbolicLink -Path "$HOME\.claude\agents" -Target "C:\path\to\Agents" -Force
-New-Item -ItemType SymbolicLink -Path "$HOME\.codex\agents" -Target "C:\path\to\Agents" -Force
-New-Item -ItemType SymbolicLink -Path "$HOME\.copilot\agents" -Target "C:\path\to\Agents" -Force
-New-Item -ItemType SymbolicLink -Path "$HOME\.gemini\agents" -Target "C:\path\to\Agents" -Force
+  do {
+    $inputPath = Read-Host "Enter the full path to your Agents repo"
+    if (-not (Test-Path $inputPath -PathType Container)) {
+      Write-Host "Path does not exist or is not a directory: $inputPath"
+    }
+  } until (Test-Path $inputPath -PathType Container)
+
+  return $inputPath
+}
+
+# Create link only if missing; never replace existing paths
+function Ensure-AgentsLink {
+  param(
+    [Parameter(Mandatory = $true)][string]$ParentDir,
+    [Parameter(Mandatory = $true)][string]$Target
+  )
+
+  if (-not (Test-Path $ParentDir -PathType Container)) {
+    New-Item -ItemType Directory -Path $ParentDir | Out-Null
+  }
+
+  $linkPath = Join-Path $ParentDir "agents"
+  if (-not (Test-Path $linkPath)) {
+    New-Item -ItemType SymbolicLink -Path $linkPath -Target $Target | Out-Null
+    Write-Host "Created: $linkPath -> $Target"
+  }
+  else {
+    Write-Host "Skipped (already exists): $linkPath"
+  }
+}
+
+$agentsSrc = Resolve-AgentsSource
+
+Ensure-AgentsLink -ParentDir (Join-Path $HOME ".claude")  -Target $agentsSrc
+Ensure-AgentsLink -ParentDir (Join-Path $HOME ".codex")   -Target $agentsSrc
+Ensure-AgentsLink -ParentDir (Join-Path $HOME ".copilot") -Target $agentsSrc
+Ensure-AgentsLink -ParentDir (Join-Path $HOME ".gemini")  -Target $agentsSrc
 ```
 
 This lets each tool keep its own settings, cache, and history alongside a shared `agents` directory.
