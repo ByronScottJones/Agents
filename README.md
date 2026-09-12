@@ -94,6 +94,8 @@ ensure_agents_link() {
 
 AGENTS_SRC="$(resolve_agents_src)"
 
+ensure_agents_link "$HOME/.antigravity_ide"  "$AGENTS_SRC"
+ensure_agents_link "$HOME/.chatgpt"  "$AGENTS_SRC"
 ensure_agents_link "$HOME/.claude"  "$AGENTS_SRC"
 ensure_agents_link "$HOME/.codex"   "$AGENTS_SRC"
 ensure_agents_link "$HOME/.copilot" "$AGENTS_SRC"
@@ -145,10 +147,18 @@ function Ensure-AgentsLink {
 
 $agentsSrc = Resolve-AgentsSource
 
-Ensure-AgentsLink -ParentDir (Join-Path $HOME ".claude")  -Target $agentsSrc
-Ensure-AgentsLink -ParentDir (Join-Path $HOME ".codex")   -Target $agentsSrc
-Ensure-AgentsLink -ParentDir (Join-Path $HOME ".copilot") -Target $agentsSrc
-Ensure-AgentsLink -ParentDir (Join-Path $HOME ".gemini")  -Target $agentsSrc
+$AgentDirNames = @(
+    ".antigravity_ide",
+    ".chatgpt",
+    ".claude",
+    ".codex",
+    ".copilot",
+    ".gemini"
+)
+
+foreach ($dirName in $AgentDirNames) {
+    Ensure-AgentsLink -ParentDir (Join-Path $HOME $dirName) -Target $agentsSrc
+}
 ```
 
 This lets each tool keep its own settings, cache, and history alongside a shared `agents` directory.
