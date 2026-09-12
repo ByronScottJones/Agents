@@ -50,7 +50,7 @@ Many tools work best when they can see the repo contents through a stable path s
 
 ### Recommended pattern
 
-Use a tool-specific parent directory for that tool's own files, then link the shared agent guidance into a common subdirectory such as `agents`.
+Use a tool-specific parent directory for that tool's own files, then link the shared agent guidance into a common subdirectory such as `agents`. This lets each tool keep its own settings, cache, and history alongside a shared `agents` directory.
 
 **Bash:**
 
@@ -161,7 +161,7 @@ foreach ($dirName in $AgentDirNames) {
 }
 ```
 
-This lets each tool keep its own settings, cache, and history alongside a shared `agents` directory.
+---
 
 ### Grant default access so tools stop asking every time
 
