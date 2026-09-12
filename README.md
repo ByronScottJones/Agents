@@ -37,6 +37,9 @@ ln -s /path/to/Agents "$HOME/.claude/agents"
 mkdir -p "$HOME/.codex"
 ln -s /path/to/Agents "$HOME/.codex/agents"
 
+mkdir -p "$HOME/.copilot"
+ln -s /path/to/Agents "$HOME/.copilot/agents"
+
 mkdir -p "$HOME/.gemini"
 ln -s /path/to/Agents "$HOME/.gemini/agents"
 ```
