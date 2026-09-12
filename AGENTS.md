@@ -1,3 +1,8 @@
+---
+title: "Agent Guidance"
+description: "Always active; routes to the topic files required by the current task."
+---
+
 # Agent Guidance
 
 This file is always active. Apply its rules to every task, then load only the

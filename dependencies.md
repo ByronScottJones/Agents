@@ -1,3 +1,8 @@
+---
+title: "Dependency Management"
+description: "Load this file when adding, upgrading, removing, or reviewing dependencies."
+---
+
 # Dependency Management
 
 Load this file when adding, upgrading, removing, or reviewing dependencies.

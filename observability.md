@@ -1,3 +1,8 @@
+---
+title: "Observability"
+description: "Load this file when adding or reviewing logs, metrics, traces, health checks, dashboards, or alerts."
+---
+
 # Observability
 
 Load this file when adding or reviewing logs, metrics, traces, health checks,

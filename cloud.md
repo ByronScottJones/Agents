@@ -1,3 +1,8 @@
+---
+title: "Cloud Architecture"
+description: "Load this file when designing or operating cloud-hosted systems."
+---
+
 # Cloud Architecture
 
 Load this file when designing or operating cloud-hosted systems. Provider files

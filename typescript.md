@@ -1,3 +1,9 @@
+---
+title: "JavaScript / TypeScript"
+description: "Open this file only when writing or modifying JavaScript or TypeScript code."
+applies_to: ["*.ts", "*.tsx", "*.js", "*.jsx"]
+---
+
 # JavaScript / TypeScript
 
 Open this file only when writing or modifying JavaScript or TypeScript code. General rules stay in the root `AGENTS.md`.

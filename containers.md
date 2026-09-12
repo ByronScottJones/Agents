@@ -1,3 +1,9 @@
+---
+title: "Containers"
+description: "Load this file when creating, reviewing, or operating container images."
+applies_to: ["Dockerfile", "*.dockerfile", "docker-compose*.yml", "compose.yml"]
+---
+
 # Containers
 
 Load this file when creating, reviewing, or operating container images.

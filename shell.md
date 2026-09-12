@@ -1,3 +1,9 @@
+---
+title: "Bash / Zsh"
+description: "Open this file only when writing or modifying Bash or Zsh scripts."
+applies_to: ["*.sh", "*.bash", "*.zsh"]
+---
+
 # Bash / Zsh
 
 Open this file only when writing or modifying Bash or Zsh scripts. General rules stay in the root `AGENTS.md`.

@@ -1,3 +1,9 @@
+---
+title: "Terraform"
+description: "Open this file only when writing or modifying Terraform code."
+applies_to: ["*.tf", "*.tfvars"]
+---
+
 # Terraform
 
 Open this file only when writing or modifying Terraform (`.tf`) code. General rules stay in the root `AGENTS.md`.

@@ -1,3 +1,8 @@
+---
+title: "Risk and Compliance"
+description: "Load this file when work involves regulated data, audit controls, material risk, or formal compliance requirements."
+---
+
 # Risk and Compliance
 
 Load this file when work involves regulated data, audit controls, material risk,

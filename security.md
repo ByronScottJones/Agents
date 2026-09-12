@@ -1,3 +1,8 @@
+---
+title: "Security Engineering"
+description: "Load this file for security-sensitive design, implementation, review, or deployment work."
+---
+
 # Security Engineering
 
 Load this file for security-sensitive design, implementation, review, or

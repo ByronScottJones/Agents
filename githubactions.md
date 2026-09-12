@@ -1,3 +1,9 @@
+---
+title: "GitHub Actions CI/CD"
+description: "Load this file when creating or modifying GitHub Actions workflows."
+applies_to: [".github/workflows/*.yml", ".github/workflows/*.yaml"]
+---
+
 # GitHub Actions CI/CD
 
 ## Workflow Structure & Execution

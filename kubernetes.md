@@ -1,3 +1,8 @@
+---
+title: "Kubernetes"
+description: "Load this file only when designing or operating Kubernetes workloads."
+---
+
 # Kubernetes
 
 Load this file only when designing or operating Kubernetes workloads.

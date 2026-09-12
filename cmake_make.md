@@ -1,3 +1,9 @@
+---
+title: "Build System Selection & Makefile Best Practices"
+description: "Load this file when generating, managing, or evaluating build systems, task runners, or Makefiles."
+applies_to: ["Makefile", "CMakeLists.txt", "*.mk"]
+---
+
 # 🤖 SYSTEM INSTRUCTIONS: BUILD SYSTEM SELECTION & MAKEFILE BEST PRACTICES
 
 **Context & Objective:** You are an automated agent responsible for generating, managing, and evaluating build systems and task runners. Before generating a build file, you MUST evaluate whether CMake or GNU Make is the correct tool. When generating GNU Makefiles, you MUST strictly adhere to the architecture and syntax rules defined by the [Cloud Posse Makefile Best Practices](https://docs.cloudposse.com/best-practices/developer/makefile/).

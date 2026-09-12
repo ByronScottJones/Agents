@@ -1,3 +1,9 @@
+---
+title: "Go"
+description: "Open this file only when writing or modifying Go code."
+applies_to: ["*.go"]
+---
+
 # Go
 
 Open this file only when writing or modifying Go code. General rules stay in the root `AGENTS.md`.

@@ -1,3 +1,8 @@
+---
+title: "GUI Automation (UICTL)"
+description: "Load this file for tasks involving a running GUI application — finding windows, screenshots, accessibility trees, clicking, or typing."
+---
+
 # GUI Automation (UICTL)
 
 For tasks involving a running GUI application on macOS, Windows, or Linux —

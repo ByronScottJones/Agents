@@ -1,3 +1,9 @@
+---
+title: "Tauri & Rust Best Practices"
+description: "Load this file when developing an application using the Tauri (v2) and Rust stack."
+applies_to: ["src-tauri/**/*.rs", "src-tauri/tauri.conf.json", "tauri.conf.json"]
+---
+
 # Tauri & Rust Best Practices (Agent Context)
 
 This document outlines the standard best practices, architectural patterns, and conventions for developing applications using the Tauri (v2) and Rust stack.
