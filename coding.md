@@ -29,7 +29,7 @@ Each Application project should have:
 
   - Agents.md file in the root
   - agents folder for subfiles, skills, etc
-  For each subfile that you load, if it is relevant to the project, copy it to the project level agents folder, and update Agents.md linking it to the subfile.
+  For each subfile that you load, if it is relevant to the project, copy it to the project level agents folder, and update Agents.md "Topic Routing" table, linking it to the subfile.
 
 ## Documentation
 
