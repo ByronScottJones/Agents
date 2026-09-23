@@ -23,6 +23,14 @@ those tools as authoritative and do not recommend conflicting style changes.
 - Keep comments accurate and update or remove them when the code changes.
 - Use language-appropriate comment styles and follow the repository’s existing conventions.
 
+## Project Level Agents.md Replication
+
+Each Application project should have:
+
+  - Agents.md file in the root
+  - agents folder for subfiles, skills, etc
+  For each subfile that you load, if it is relevant to the project, copy it to the project level agents folder, and update Agents.md linking it to the subfile.
+
 ## Documentation
 
 - Keep documentation aligned with code and configuration changes.
