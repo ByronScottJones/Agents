@@ -31,6 +31,24 @@ Each Application project should have:
   - agents folder for subfiles, skills, etc
   For each subfile that you load, if it is relevant to the project, copy it to the project level agents folder, and update Agents.md "Topic Routing" table, linking it to the subfile.
 
+## Engineering Handover Notes
+
+Each application project should have an `ENGINEERING.md` in the root: handover
+notes for the engineer or agent who continues the work. Read it before making
+changes, and update it in the same change set when architecture, decisions,
+verification status, or known risks change. Include:
+
+- What this is: purpose, scope, and user-facing behavior.
+- Tech stack and key dependencies.
+- File map with a one-line purpose per file.
+- Architecture: module responsibilities and data flow.
+- Key decisions and their rationale, including rejected alternatives.
+- Verified: what was tested, how, and when; call out anything not exercised.
+- Remaining risks, known gaps, and possible future work.
+- Build, run, and validation commands.
+
+Link `ENGINEERING.md` from `README.md` and `AGENTS.md`.
+
 ## Documentation
 
 - Keep documentation aligned with code and configuration changes.
