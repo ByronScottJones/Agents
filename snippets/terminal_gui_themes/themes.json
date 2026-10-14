@@ -1,0 +1,115 @@
+{
+  "$schema": "https://githubusercontent.com",
+  "themes": [
+    {
+      "name": "Default 16-color friendly",
+      "base_ansi": { "background": "#000000", "foreground": "#FFFFFF" },
+      "components": {
+        "window": { "normal": "White/Black", "focus": "White/Blue", "hotNormal": "BrightYellow/Black", "hotFocus": "BrightYellow/Blue" },
+        "dialog": { "normal": "Black/BrightGray", "focus": "White/Blue", "hotNormal": "Blue/BrightGray", "hotFocus": "BrightYellow/Blue" },
+        "menu": { "normal": "Black/White", "focus": "White/Blue", "hotNormal": "Red/White", "hotFocus": "BrightYellow/Blue" },
+        "button": { "normal": "White/DarkGray", "focus": "White/Blue", "hotNormal": "BrightYellow/DarkGray", "hotFocus": "BrightYellow/Blue" },
+        "border": { "normal": "White/Black", "focus": "Blue/Black", "hotNormal": "BrightYellow/Black", "hotFocus": "BrightYellow/Blue" }
+      }
+    },
+    {
+      "name": "One Dark Pro",
+      "base_ansi": { "background": "#282C34", "foreground": "#ABB2BF", "accent": "#61AFEF" },
+      "components": {
+        "window": { "normal": "#ABB2BF/#282C34", "focus": "#ABB2BF/#2C313C", "hotNormal": "#E5C07B/#282C34", "hotFocus": "#E5C07B/#2C313C" },
+        "dialog": { "normal": "#ABB2BF/#21252B", "focus": "#FFFFFF/#3E4451", "hotNormal": "#98C379/#21252B", "hotFocus": "#E5C07B/#3E4451" },
+        "menu": { "normal": "#ABB2BF/#21252B", "focus": "#FFFFFF/#61AFEF", "hotNormal": "#E06C75/#21252B", "hotFocus": "#FFFFFF/#61AFEF" },
+        "button": { "normal": "#ABB2BF/#3E4451", "focus": "#FFFFFF/#61AFEF", "hotNormal": "#E5C07B/#3E4451", "hotFocus": "#FFFFF0/#61AFEF" },
+        "border": { "normal": "#4B5263/#282C34", "focus": "#61AFEF/#282C34", "hotNormal": "#E06C75/#282C34", "hotFocus": "#61AFEF/#2C313C" }
+      }
+    },
+    {
+      "name": "Dracula",
+      "base_ansi": { "background": "#282A36", "foreground": "#F8F8F2", "accent": "#BD93F9" },
+      "components": {
+        "window": { "normal": "#F8F8F2/#282A36", "focus": "#F8F8F2/#44475A", "hotNormal": "#FF79C6/#282A36", "hotFocus": "#FF79C6/#44475A" },
+        "dialog": { "normal": "#F8F8F2/#21222C", "focus": "#F8F8F2/#44475A", "hotNormal": "#50FA7B/#21222C", "hotFocus": "#F1FA8C/#44475A" },
+        "menu": { "normal": "#F8F8F2/#191A21", "focus": "#F8F8F2/#BD93F9", "hotNormal": "#FF79C6/#191A21", "hotFocus": "#F1FA8C/#BD93F9" },
+        "button": { "normal": "#F8F8F2/#44475A", "focus": "#282A36/#50FA7B", "hotNormal": "#FF79C6/#44475A", "hotFocus": "#282A36/#50FA7B" },
+        "border": { "normal": "#6272A4/#282A36", "focus": "#BD93F9/#282A36", "hotNormal": "#FF5555/#282A36", "hotFocus": "#BD93F9/#44475A" }
+      }
+    },
+    {
+      "name": "Tokyo Night",
+      "base_ansi": { "background": "#1A1B26", "foreground": "#A9B1D6", "accent": "#7AA2F7" },
+      "components": {
+        "window": { "normal": "#A9B1D6/#1A1B26", "focus": "#C0CAF5/#24283B", "hotNormal": "#FF9E64/#1A1B26", "hotFocus": "#FF9E64/#24283B" },
+        "dialog": { "normal": "#A9B1D6/#16161E", "focus": "#C0CAF5/#2F334D", "hotNormal": "#9ECE6A/#16161E", "hotFocus": "#E0AF68/#2F334D" },
+        "menu": { "normal": "#A9B1D6/#16161E", "focus": "#FFFFFF/#7AA2F7", "hotNormal": "#F7768E/#16161E", "hotFocus": "#FFFFFF/#7AA2F7" },
+        "button": { "normal": "#A9B1D6/#33467C", "focus": "#FFFFFF/#7AA2F7", "hotNormal": "#E0AF68/#33467C", "hotFocus": "#FFFFFF/#7AA2F7" },
+        "border": { "normal": "#383E5A/#1A1B26", "focus": "#7AA2F7/#1A1B26", "hotNormal": "#F7768E/#1A1B26", "hotFocus": "#7AA2F7/#24283B" }
+      }
+    },
+    {
+      "name": "Catppuccin Mocha",
+      "base_ansi": { "background": "#1E1E2E", "foreground": "#CDD6F4", "accent": "#89B4FA" },
+      "components": {
+        "window": { "normal": "#CDD6F4/#1E1E2E", "focus": "#CDD6F4/#252538", "hotNormal": "#F5C2E7/#1E1E2E", "hotFocus": "#F5C2E7/#252538" },
+        "dialog": { "normal": "#CDD6F4/#11111B", "focus": "#CDD6F4/#313244", "hotNormal": "#A6E3A1/#11111B", "hotFocus": "#F9E2AF/#313244" },
+        "menu": { "normal": "#CDD6F4/#11111B", "focus": "#11111B/#89B4FA", "hotNormal": "#F38BA8/#11111B", "hotFocus": "#11111B/#89B4FA" },
+        "button": { "normal": "#CDD6F4/#45475A", "focus": "#1E1E2E/#89B4FA", "hotNormal": "#F9E2AF/#45475A", "hotFocus": "#1E1E2E/#89B4FA" },
+        "border": { "normal": "#585B70/#1E1E2E", "focus": "#89B4FA/#1E1E2E", "hotNormal": "#F38BA8/#1E1E2E", "hotFocus": "#89B4FA/#252538" }
+      }
+    },
+    {
+      "name": "GitHub Dark",
+      "base_ansi": { "background": "#0D1117", "foreground": "#C9D1D9", "accent": "#58A6FF" },
+      "components": {
+        "window": { "normal": "#C9D1D9/#0D1117", "focus": "#C9D1D9/#161B22", "hotNormal": "#FF7B72/#0D1117", "hotFocus": "#FF7B72/#161B22" },
+        "dialog": { "normal": "#C9D1D9/#010409", "focus": "#FFFFFF/#21262D", "hotNormal": "#7EE787/#010409", "hotFocus": "#D29922/#21262D" },
+        "menu": { "normal": "#C9D1D9/#010409", "focus": "#FFFFFF/#58A6FF", "hotNormal": "#FF7B72/#010409", "hotFocus": "#FFFFFF/#58A6FF" },
+        "button": { "normal": "#C9D1D9/#21262D", "focus": "#FFFFFF/#238636", "hotNormal": "#D29922/#21262D", "hotFocus": "#FFFFFF/#238636" },
+        "border": { "normal": "#30363D/#0D1117", "focus": "#58A6FF/#0D1117", "hotNormal": "#FF7B72/#0D1117", "hotFocus": "#58A6FF/#161B22" }
+      }
+    },
+    {
+      "name": "Night Owl",
+      "base_ansi": { "background": "#011627", "foreground": "#D6DEEB", "accent": "#82AAFF" },
+      "components": {
+        "window": { "normal": "#D6DEEB/#011627", "focus": "#D6DEEB/#0b253a", "hotNormal": "#C792EA/#011627", "hotFocus": "#C792EA/#0b253a" },
+        "dialog": { "normal": "#D6DEEB/#010e19", "focus": "#FFFFFF/#1d3b53", "hotNormal": "#22DA6E/#010e19", "hotFocus": "#C5E478/#1d3b53" },
+        "menu": { "normal": "#D6DEEB/#010e19", "focus": "#011627/#82AAFF", "hotNormal": "#EF5350/#010e19", "hotFocus": "#011627/#82AAFF" },
+        "button": { "normal": "#D6DEEB/#1d3b53", "focus": "#011627/#7E57C2", "hotNormal": "#C5E478/#1d3b53", "hotFocus": "#FFFFFF/#7E57C2" },
+        "border": { "normal": "#1d3b53/#011627", "focus": "#82AAFF/#011627", "hotNormal": "#EF5350/#011627", "hotFocus": "#82AAFF/#0b253a" }
+      }
+    },
+    {
+      "name": "Gruvbox Material",
+      "base_ansi": { "background": "#282828", "foreground": "#D4BE98", "accent": "#7DAEA3" },
+      "components": {
+        "window": { "normal": "#D4BE98/#282828", "focus": "#D4BE98/#32302F", "hotNormal": "#D3869B/#282828", "hotFocus": "#D3869B/#32302F" },
+        "dialog": { "normal": "#D4BE98/#1D2021", "focus": "#E2CCA9/#504945", "hotNormal": "#A9B665/#1D2021", "hotFocus": "#D8A657/#504945" },
+        "menu": { "normal": "#D4BE98/#1D2021", "focus": "#282828/#7DAEA3", "hotNormal": "#EA6962/#1D2021", "hotFocus": "#282828/#7DAEA3" },
+        "button": { "normal": "#D4BE98/#504945", "focus": "#282828/#A9B665", "hotNormal": "#D8A657/#504945", "hotFocus": "#282828/#A9B665" },
+        "border": { "normal": "#504945/#282828", "focus": "#7DAEA3/#282828", "hotNormal": "#EA6962/#282828", "hotFocus": "#7DAEA3/#32302F" }
+      }
+    },
+    {
+      "name": "SynthWave '84",
+      "base_ansi": { "background": "#262335", "foreground": "#FFFFFF", "accent": "#FF00FF" },
+      "components": {
+        "window": { "normal": "#FFFFFF/#262335", "focus": "#FFFFFF/#372948", "hotNormal": "#FF7EDB/#262335", "hotFocus": "#FF7EDB/#372948" },
+        "dialog": { "normal": "#FFFFFF/#241B2F", "focus": "#FFFFFF/#463465", "hotNormal": "#03EDF9/#241B2F", "hotFocus": "#F3E70F/#463465" },
+        "menu": { "normal": "#FFFFFF/#241B2F", "focus": "#241B2F/#FF00FF", "hotNormal": "#FF0040/#241B2F", "hotFocus": "#241B2F/#FF00FF" },
+        "button": { "normal": "#FFFFFF/#463465", "focus": "#FFFFFF/#8F00FF", "hotNormal": "#F3E70F/#463465", "hotFocus": "#FFFFFF/#8F00FF" },
+        "border": { "normal": "#463465/#262335", "focus": "#FF00FF/#262335", "hotNormal": "#FF0040/#262335", "hotFocus": "#FF00FF/#372948" }
+      }
+    },
+    {
+      "name": "Microsoft Default CUA",
+      "base_ansi": { "background": "#0000AA", "foreground": "#AAAAAA" },
+      "components": {
+        "window": { "normal": "BrightWhite/#0000AA", "focus": "BrightWhite/#0000AA", "hotNormal": "BrightYellow/#0000AA", "hotFocus": "BrightYellow/#0000AA" },
+        "dialog": { "normal": "Black/BrightWhite", "focus": "White/Blue", "hotNormal": "DarkGray/BrightWhite", "hotFocus": "BrightYellow/Blue" },
+        "menu": { "normal": "Black/BrightWhite", "focus": "White/Black", "hotNormal": "Red/BrightWhite", "hotFocus": "BrightYellow/Black" },
+        "button": { "normal": "Black/BrightWhite", "focus": "White/Blue", "hotNormal": "DarkGray/BrightWhite", "hotFocus": "BrightYellow/Blue" },
+        "border": { "normal": "BrightWhite/#0000AA", "focus": "BrightWhite/#0000AA", "hotNormal": "BrightYellow/#0000AA", "hotFocus": "BrightYellow/#0000AA" }
+      }
+    }
+  ]
+}
