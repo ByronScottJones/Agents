@@ -49,6 +49,7 @@ Load the matching file before making decisions or edits in that topic:
 | Rust | [`rust.md`](rust.md) |
 | Terraform | [`terraform.md`](terraform.md) |
 | Tauri applications | [`tauri.md`](tauri.md) |
+| Delegating work to local LM Studio models, or the `lmstudio-rs-mcp` server | [`lmstudio-subagents.md`](lmstudio-subagents.md) |
 | Terminal user interfaces | [`tui.md`](tui.md) |
 | Common User Access TUI specification | [`CUA_TUI_Specification.md`](CUA_TUI_Specification.md) |
 | Twelve-Factor application design | [`twelvefactors.md`](twelvefactors.md) |
