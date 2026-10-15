@@ -1,8 +1,8 @@
 {
   "skillName": "twg",
   "target": "global",
-  "installPath": "/Users/jonesb7/.agents/skills/twg",
-  "binaryPath": "/Users/jonesb7/.local/bin/twg",
+  "installPath": "/Users/$USER/.agents/skills/twg",
+  "binaryPath": "/Users/$USER/.local/bin/twg",
   "installedAt": "2026-09-30T12:59:19.057Z",
   "installedVersion": "1.3.3",
   "buildProfile": "external",
