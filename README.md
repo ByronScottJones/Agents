@@ -278,30 +278,30 @@ the skill provides the execution workflow.
 
 | Skill | Purpose |
 | --- | --- |
-| `get-pr-comments` | Retrieve pull request review feedback. |
 | `address-pr-comments` | Implement and validate pull request feedback. |
-| `remediate-dependency-vulnerabilities` | Scan and remediate vulnerable dependencies. |
-| `validate-and-deploy-iac` | Validate, plan, and safely apply infrastructure as code. |
-| `validate-github-actions` | Audit GitHub Actions syntax, permissions, and pinning. |
 | `build-and-scan-container-image` | Build, scan, and generate SBOMs for images. |
-| `validate-and-deploy-kubernetes` | Validate and safely deploy Kubernetes manifests. |
 | `execute-database-migration` | Plan, test, and execute schema migrations. |
-| `verify-service-health` | Verify deployment readiness and service health. |
-| `generate-service-documentation` | Create service records and operational documentation. |
-| `prepare-release` | Prepare release notes and promotion readiness. |
-| `incident-triage` | Triage incidents using bounded operational evidence. |
-| `validate-documentation` | Check Markdown, links, routing, and stale references. |
-| `review-configuration` | Audit configuration safety and precedence. |
 | `generate-adr` | Draft architecture decision records. |
+| `generate-service-documentation` | Create service records and operational documentation. |
+| `get-pr-comments` | Retrieve pull request review feedback. |
+| `incident-triage` | Triage incidents using bounded operational evidence. |
+| `prepare-release` | Prepare release notes and promotion readiness. |
+| `remediate-dependency-vulnerabilities` | Scan and remediate vulnerable dependencies. |
+| `review-configuration` | Audit configuration safety and precedence. |
 | `twg` | Use TWG whenever Atlassian/company context would help. |
-| `twg-jira` | Jira workitems, issues, projects, boards, sprints, and writes. |
-| `twg-confluence` | Confluence content, spaces, and authoring. |
-| `twg-space-creation` | Create or clone Confluence spaces. |
-| `twg-status-rollups` | Project, goal, launch-readiness, and leadership rollups. |
-| `twg-context-discovery` | Dependency maps, repos, and OOO catch-ups. |
 | `twg-agentic-search` | Deep internal research with Rovo. |
-| `twg-responsibility-routing` | Owners, SMEs, approvers, and escalation. |
+| `twg-code-review` | Additional code-review context. |
+| `twg-confluence` | Confluence content, spaces, and authoring. |
+| `twg-context-discovery` | Dependency maps, repos, and OOO catch-ups. |
 | `twg-engineering-work` | Code/repo discovery, PRs, and contributors. |
+| `twg-jira` | Jira workitems, issues, projects, boards, sprints, and writes. |
 | `twg-jira-resolve-merged-work` | Stale Jira work with merged PRs. |
 | `twg-operational-health` | Incidents/on-call, handoffs, Assets, and risk. |
-| `twg-code-review` | Additional code-review context. |
+| `twg-responsibility-routing` | Owners, SMEs, approvers, and escalation. |
+| `twg-space-creation` | Create or clone Confluence spaces. |
+| `twg-status-rollups` | Project, goal, launch-readiness, and leadership rollups. |
+| `validate-and-deploy-iac` | Validate, plan, and safely apply infrastructure as code. |
+| `validate-and-deploy-kubernetes` | Validate and safely deploy Kubernetes manifests. |
+| `validate-documentation` | Check Markdown, links, routing, and stale references. |
+| `validate-github-actions` | Audit GitHub Actions syntax, permissions, and pinning. |
+| `verify-service-health` | Verify deployment readiness and service health. |
