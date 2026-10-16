@@ -1,0 +1,263 @@
+{
+  "$schema": "https://schemastore.org",
+  "version": "1.1.0",
+  "description": "theme token dictionary with 16 popular palettes for Tauri and TUI engines.",
+  "themes": [
+        {
+      "name": "Catppuccin Mocha",
+      "type": "dark",
+      "palette": {
+        "background": { "hex": "#1e1e2e", "ansi_16": 0, "ansi_256": 234, "css_closest": "darkslategray" },
+        "surface":    { "hex": "#313244", "ansi_16": 8, "ansi_256": 236, "css_closest": "dimgray" },
+        "overlay":    { "hex": "#45475a", "ansi_16": 8, "ansi_256": 238, "css_closest": "gray" },
+        "text":       { "hex": "#cdd6f4", "ansi_16": 7, "ansi_256": 253, "css_closest": "gainsboro" },
+        "subtext":    { "hex": "#a6adc8", "ansi_16": 7, "ansi_256": 248, "css_closest": "silver" },
+        "primary":    { "hex": "#cba6f7", "ansi_16": 13, "ansi_256": 183, "css_closest": "plum" },
+        "secondary":  { "hex": "#89b4fa", "ansi_16": 12, "ansi_256": 111, "css_closest": "cornflowerblue" },
+        "success":    { "hex": "#a6e3a1", "ansi_16": 10, "ansi_256": 149, "css_closest": "lightgreen" },
+        "warning":    { "hex": "#f9e2af", "ansi_16": 11, "ansi_256": 223, "css_closest": "khaki" },
+        "error":      { "hex": "#f38ba8", "ansi_16": 9, "ansi_256": 211, "css_closest": "lightcoral" }
+      }
+    },
+    {
+      "name": "Dracula",
+      "type": "dark",
+      "palette": {
+        "background": { "hex": "#282a36", "ansi_16": 0, "ansi_256": 235, "css_closest": "darkslategray" },
+        "surface":    { "hex": "#44475a", "ansi_16": 8, "ansi_256": 238, "css_closest": "dimgray" },
+        "overlay":    { "hex": "#6272a4", "ansi_16": 8, "ansi_256": 61, "css_closest": "slate" },
+        "text":       { "hex": "#f8f8f2", "ansi_16": 15, "ansi_256": 255, "css_closest": "whitesmoke" },
+        "subtext":    { "hex": "#bd93f9", "ansi_16": 7, "ansi_256": 141, "css_closest": "mediumpurple" },
+        "primary":    { "hex": "#ff79c6", "ansi_16": 13, "ansi_256": 212, "css_closest": "hotpink" },
+        "secondary":  { "hex": "#8be9fd", "ansi_16": 14, "ansi_256": 117, "css_closest": "aquamarine" },
+        "success":    { "hex": "#50fa7b", "ansi_16": 10, "ansi_256": 84, "css_closest": "palegreen" },
+        "warning":    { "hex": "#f1fa8c", "ansi_16": 11, "ansi_256": 228, "css_closest": "lightyellow" },
+        "error":      { "hex": "#ff5555", "ansi_16": 9, "ansi_256": 203, "css_closest": "tomato" }
+      }
+    },
+    {
+      "name": "One Dark Pro",
+      "type": "dark",
+      "palette": {
+        "background": { "hex": "#282c34", "ansi_16": 0, "ansi_256": 236, "css_closest": "darkgray" },
+        "surface":    { "hex": "#353b45", "ansi_16": 8, "ansi_256": 237, "css_closest": "dimgray" },
+        "overlay":    { "hex": "#4b5263", "ansi_16": 8, "ansi_256": 240, "css_closest": "gray" },
+        "text":       { "hex": "#abb2bf", "ansi_16": 7, "ansi_256": 249, "css_closest": "lightgray" },
+        "subtext":    { "hex": "#5c6370", "ansi_16": 8, "ansi_256": 241, "css_closest": "gray" },
+        "primary":    { "hex": "#61afef", "ansi_16": 12, "ansi_256": 75, "css_closest": "cornflowerblue" },
+        "secondary":  { "hex": "#c678dd", "ansi_16": 13, "ansi_256": 176, "css_closest": "orchid" },
+        "success":    { "hex": "#98c379", "ansi_16": 10, "ansi_256": 114, "css_closest": "darkseagreen" },
+        "warning":    { "hex": "#d19a66", "ansi_16": 3, "ansi_256": 173, "css_closest": "sandybrown" },
+        "error":      { "hex": "#e06c75", "ansi_16": 9, "ansi_256": 168, "css_closest": "indianred" }
+      }
+    },
+    {
+      "name": "Tokyo Night",
+      "type": "dark",
+      "palette": {
+        "background": { "hex": "#1a1b26", "ansi_16": 0, "ansi_256": 234, "css_closest": "midnightblue" },
+        "surface":    { "hex": "#24283b", "ansi_16": 8, "ansi_256": 235, "css_closest": "darkslategray" },
+        "overlay":    { "hex": "#414868", "ansi_16": 8, "ansi_256": 239, "css_closest": "slategray" },
+        "text":       { "hex": "#a9b1d6", "ansi_16": 7, "ansi_256": 146, "css_closest": "lightsteelblue" },
+        "subtext":    { "hex": "#787c99", "ansi_16": 7, "ansi_256": 102, "css_closest": "gray" },
+        "primary":    { "hex": "#7aa2f7", "ansi_16": 12, "ansi_256": 111, "css_closest": "cornflowerblue" },
+        "secondary":  { "hex": "#bb9af7", "ansi_16": 13, "ansi_256": 147, "css_closest": "mediumpurple" },
+        "success":    { "hex": "#9ece6a", "ansi_16": 10, "ansi_256": 149, "css_closest": "yellowgreen" },
+        "warning":    { "hex": "#e0af68", "ansi_16": 11, "ansi_256": 179, "css_closest": "burlywood" },
+        "error":      { "hex": "#f7768e", "ansi_16": 9, "ansi_256": 204, "css_closest": "lightpink" }
+      }
+    },
+    {
+      "name": "Gruvbox Material Dark",
+      "type": "dark",
+      "palette": {
+        "background": { "hex": "#282828", "ansi_16": 0, "ansi_256": 235, "css_closest": "darkgray" },
+        "surface":    { "hex": "#32302f", "ansi_16": 8, "ansi_256": 236, "css_closest": "dimgray" },
+        "overlay":    { "hex": "#504945", "ansi_16": 8, "ansi_256": 239, "css_closest": "dimgray" },
+        "text":       { "hex": "#ddc7a1", "ansi_16": 7, "ansi_256": 223, "css_closest": "wheat" },
+        "subtext":    { "hex": "#a89984", "ansi_16": 7, "ansi_256": 246, "css_closest": "darkgray" },
+        "primary":    { "hex": "#a9b665", "ansi_16": 2, "ansi_256": 143, "css_closest": "darkkhaki" },
+        "secondary":  { "hex": "#d8a657", "ansi_16": 3, "ansi_256": 179, "css_closest": "sandybrown" },
+        "success":    { "hex": "#89b482", "ansi_16": 10, "ansi_256": 108, "css_closest": "darkseagreen" },
+        "warning":    { "hex": "#ea999c", "ansi_16": 11, "ansi_256": 211, "css_closest": "lightcoral" },
+        "error":      { "hex": "#ea6962", "ansi_16": 9, "ansi_256": 167, "css_closest": "indianred" }
+      }
+    },
+    {
+      "name": "Nord",
+      "type": "dark",
+      "palette": {
+        "background": { "hex": "#2e3440", "ansi_16": 0, "ansi_256": 237, "css_closest": "darkslategrey" },
+        "surface":    { "hex": "#3b4252", "ansi_16": 8, "ansi_256": 238, "css_closest": "slategray" },
+        "overlay":    { "hex": "#4c566a", "ansi_16": 8, "ansi_256": 240, "css_closest": "lightslategray" },
+        "text":       { "hex": "#d8dee9", "ansi_16": 15, "ansi_256": 254, "css_closest": "gainsboro" },
+        "subtext":    { "hex": "#e5e9f0", "ansi_16": 7, "ansi_256": 255, "css_closest": "whitesmoke" },
+        "primary":    { "hex": "#88c0d0", "ansi_16": 14, "ansi_256": 110, "css_closest": "powderblue" },
+        "secondary":  { "hex": "#81a1c1", "ansi_16": 12, "ansi_256": 103, "css_closest": "steelblue" },
+        "success":    { "hex": "#a3be8c", "ansi_16": 10, "ansi_256": 150, "css_closest": "darkseagreen" },
+        "warning":    { "hex": "#ebcb8b", "ansi_16": 11, "ansi_256": 222, "css_closest": "khaki" },
+        "error":      { "hex": "#bf616a", "ansi_16": 9, "ansi_256": 131, "css_closest": "indianred" }
+      }
+    },
+    {
+      "name": "Solarized Dark",
+      "type": "dark",
+      "palette": {
+        "background": { "hex": "#002b36", "ansi_16": 0, "ansi_256": 233, "css_closest": "midnightblue" },
+        "surface":    { "hex": "#073642", "ansi_16": 8, "ansi_256": 235, "css_closest": "darkslategray" },
+        "overlay":    { "hex": "#586e75", "ansi_16": 8, "ansi_256": 242, "css_closest": "slategray" },
+        "text":       { "hex": "#839496", "ansi_16": 12, "ansi_256": 245, "css_closest": "lightslategray" },
+        "subtext":    { "hex": "#93a1a1", "ansi_16": 7, "ansi_256": 246, "css_closest": "silver" },
+        "primary":    { "hex": "#268bd2", "ansi_16": 4, "ansi_256": 32, "css_closest": "dodgerblue" },
+        "secondary":  { "hex": "#2aa198", "ansi_16": 6, "ansi_256": 37, "css_closest": "lightseagreen" },
+        "success":    { "hex": "#859900", "ansi_16": 2, "ansi_256": 100, "css_closest": "olivedrab" },
+        "warning":    { "hex": "#b58900", "ansi_16": 3, "ansi_256": 136, "css_closest": "darkgoldenrod" },
+        "error":      { "hex": "#dc322f", "ansi_16": 1, "ansi_256": 160, "css_closest": "crimson" }
+      }
+    },
+    {
+      "name": "Solarized Light",
+      "type": "light",
+      "palette": {
+        "background": { "hex": "#fdf6e3", "ansi_16": 15, "ansi_256": 230, "css_closest": "floralwhite" },
+        "surface":    { "hex": "#eee8d5", "ansi_16": 7, "ansi_256": 254, "css_closest": "gainsboro" },
+        "overlay":    { "hex": "#93a1a1", "ansi_16": 8, "ansi_256": 246, "css_closest": "silver" },
+        "text":       { "hex": "#586e75", "ansi_16": 0, "ansi_256": 242, "css_closest": "slategray" },
+        "subtext":    { "hex": "#657b83", "ansi_16": 8, "ansi_256": 243, "css_closest": "dimgray" },
+        "primary":    { "hex": "#268bd2", "ansi_16": 4, "ansi_256": 32, "css_closest": "dodgerblue" },
+        "secondary":  { "hex": "#2aa198", "ansi_16": 6, "ansi_256": 37, "css_closest": "lightseagreen" },
+        "success":    { "hex": "#859900", "ansi_16": 2, "ansi_256": 100, "css_closest": "olivedrab" },
+        "warning":    { "hex": "#b58900", "ansi_16": 3, "ansi_256": 136, "css_closest": "darkgoldenrod" },
+        "error":      { "hex": "#dc322f", "ansi_16": 1, "ansi_256": 160, "css_closest": "crimson" }
+      }
+    },
+    {
+      "name": "Monokai",
+      "type": "dark",
+      "palette": {
+        "background": { "hex": "#272822", "ansi_16": 0, "ansi_256": 235, "css_closest": "darkslategray" },
+        "surface":    { "hex": "#3e3d32", "ansi_16": 8, "ansi_256": 237, "css_closest": "dimgray" },
+        "overlay":    { "hex": "#75715e", "ansi_16": 8, "ansi_256": 242, "css_closest": "gray" },
+        "text":       { "hex": "#f8f8f2", "ansi_16": 15, "ansi_256": 255, "css_closest": "whitesmoke" },
+        "subtext":    { "hex": "#8f908a", "ansi_16": 7, "ansi_256": 245, "css_closest": "darkgray" },
+        "primary":    { "hex": "#f92672", "ansi_16": 9, "ansi_256": 197, "css_closest": "deeppink" },
+        "secondary":  { "hex": "#66d9ef", "ansi_16": 14, "ansi_256": 81, "css_closest": "deepskyblue" },
+        "success":    { "hex": "#a6e22e", "ansi_16": 10, "ansi_256": 148, "css_closest": "yellowgreen" },
+        "warning":    { "hex": "#fd971f", "ansi_16": 3, "ansi_256": 208, "css_closest": "darkorange" },
+        "error":      { "hex": "#f92672", "ansi_16": 9, "ansi_256": 197, "css_closest": "deeppink" }
+      }
+    },
+    {
+      "name": "Night Owl",
+      "type": "dark",
+      "palette": {
+        "background": { "hex": "#011627", "ansi_16": 0, "ansi_256": 233, "css_closest": "midnightblue" },
+        "surface":    { "hex": "#0b2942", "ansi_16": 8, "ansi_256": 17, "css_closest": "navy" },
+        "overlay":    { "hex": "#103c5e", "ansi_16": 8, "ansi_256": 24, "css_closest": "darkcyan" },
+        "text":       { "hex": "#d6deeb", "ansi_16": 15, "ansi_256": 253, "css_closest": "gainsboro" },
+        "subtext":    { "hex": "#5f7e97", "ansi_16": 7, "ansi_256": 66, "css_closest": "slategray" },
+        "primary":    { "hex": "#c792ea", "ansi_16": 13, "ansi_256": 176, "css_closest": "plum" },
+        "secondary":  { "hex": "#82aaff", "ansi_16": 12, "ansi_256": 111, "css_closest": "cornflowerblue" },
+        "success":    { "hex": "#22da6e", "ansi_16": 10, "ansi_256": 41, "css_closest": "springgreen" },
+        "warning":    { "hex": "#ecc48d", "ansi_16": 11, "ansi_256": 222, "css_closest": "khaki" },
+        "error":      { "hex": "#ef5350", "ansi_16": 9, "ansi_256": 203, "css_closest": "tomato" }
+      }
+    },
+    {
+      "name": "GitHub Dark",
+      "type": "dark",
+      "palette": {
+        "background": { "hex": "#0d1117", "ansi_16": 0, "ansi_256": 232, "css_closest": "black" },
+        "surface":    { "hex": "#161b22", "ansi_16": 8, "ansi_256": 234, "css_closest": "darkbackground" },
+        "overlay":    { "hex": "#21262d", "ansi_16": 8, "ansi_256": 235, "css_closest": "darkslategray" },
+        "text":       { "hex": "#c9d1d9", "ansi_16": 7, "ansi_256": 252, "css_closest": "lightgray" },
+        "subtext":    { "hex": "#8b949e", "ansi_16": 8, "ansi_256": 246, "css_closest": "gray" },
+        "primary":    { "hex": "#58a6ff", "ansi_16": 12, "ansi_256": 75, "css_closest": "cornflowerblue" },
+        "secondary":  { "hex": "#bc8cff", "ansi_16": 13, "ansi_256": 141, "css_closest": "mediumpurple" },
+        "success":    { "hex": "#3fb950", "ansi_16": 10, "ansi_256": 71, "css_closest": "limegreen" },
+        "warning":    { "hex": "#d29922", "ansi_16": 3, "ansi_256": 172, "css_closest": "goldenrod" },
+        "error":      { "hex": "#f85149", "ansi_16": 9, "ansi_256": 203, "css_closest": "crimson" }
+      }
+    },
+    {
+      "name": "Synthwave '84",
+      "type": "dark",
+      "palette": {
+        "background": { "hex": "#262335", "ansi_16": 0, "ansi_256": 235, "css_closest": "darkslateblue" },
+        "surface":    { "hex": "#342e4f", "ansi_16": 8, "ansi_256": 236, "css_closest": "indigo" },
+        "overlay":    { "hex": "#463465", "ansi_16": 8, "ansi_256": 53, "css_closest": "purple" },
+        "text":       { "hex": "#ffffff", "ansi_16": 15, "ansi_256": 231, "css_closest": "white" },
+        "subtext":    { "hex": "#b3a3ce", "ansi_16": 7, "ansi_256": 146, "css_closest": "thistle" },
+        "primary":    { "hex": "#f43f5e", "ansi_16": 9, "ansi_256": 203, "css_closest": "crimson" },
+        "secondary":  { "hex": "#2fe3fe", "ansi_16": 14, "ansi_256": 45, "css_closest": "cyan" },
+        "success":    { "hex": "#fede5d", "ansi_16": 11, "ansi_256": 221, "css_closest": "gold" },
+        "warning":    { "hex": "#ff7edb", "ansi_16": 13, "ansi_256": 213, "css_closest": "violet" },
+        "error":      { "hex": "#fe4450", "ansi_16": 9, "ansi_256": 203, "css_closest": "coral" }
+      }
+    },
+    {
+      "name": "Ayu Dark",
+      "type": "dark",
+      "palette": {
+        "background": { "hex": "#0f1419", "ansi_16": 0, "ansi_256": 233, "css_closest": "black" },
+        "surface":    { "hex": "#171e24", "ansi_16": 8, "ansi_256": 234, "css_closest": "darkbackground" },
+        "overlay":    { "hex": "#242e38", "ansi_16": 8, "ansi_256": 236, "css_closest": "darkslategray" },
+        "text":       { "hex": "#e6b450", "ansi_16": 3, "ansi_256": 179, "css_closest": "goldenrod" },
+        "subtext":    { "hex": "#5c6773", "ansi_16": 8, "ansi_256": 241, "css_closest": "slategray" },
+        "primary":    { "hex": "#ffb454", "ansi_16": 11, "ansi_256": 215, "css_closest": "sandybrown" },
+        "secondary":  { "hex": "#39bae6", "ansi_16": 14, "ansi_256": 74, "css_closest": "deepskyblue" },
+        "success":    { "hex": "#7fd962", "ansi_16": 10, "ansi_256": 113, "css_closest": "lightgreen" },
+        "warning":    { "hex": "#f29718", "ansi_16": 3, "ansi_256": 208, "css_closest": "orange" },
+        "error":      { "hex": "#f07178", "ansi_16": 9, "ansi_256": 204, "css_closest": "lightcoral" }
+      }
+    },
+    {
+      "name": "Rose Pine",
+      "type": "dark",
+      "palette": {
+        "background": { "hex": "#191724", "ansi_16": 0, "ansi_256": 234, "css_closest": "midnightblue" },
+        "surface":    { "hex": "#1f1d2e", "ansi_16": 8, "ansi_256": 235, "css_closest": "darkslategray" },
+        "overlay":    { "hex": "#26233a", "ansi_16": 8, "ansi_256": 236, "css_closest": "darkslateblue" },
+        "text":       { "hex": "#e0def4", "ansi_16": 7, "ansi_256": 253, "css_closest": "lavender" },
+        "subtext":    { "hex": "#908caa", "ansi_16": 7, "ansi_256": 246, "css_closest": "lightslategray" },
+        "primary":    { "hex": "#c4a7e7", "ansi_16": 13, "ansi_256": 182, "css_closest": "plum" },
+        "secondary":  { "hex": "#ebbcba", "ansi_16": 11, "ansi_256": 181, "css_closest": "rosybrown" },
+        "success":    { "hex": "#31748f", "ansi_16": 6, "ansi_256": 66, "css_closest": "cadetblue" },
+        "warning":    { "hex": "#f6c177", "ansi_16": 3, "ansi_256": 216, "css_closest": "burlywood" },
+        "error":      { "hex": "#eb6f92", "ansi_16": 9, "ansi_256": 168, "css_closest": "palevioletred" }
+      }
+    },
+    {
+      "name": "Everforest",
+      "type": "dark",
+      "palette": {
+        "background": { "hex": "#2d353b", "ansi_16": 0, "ansi_256": 236, "css_closest": "darkslategray" },
+        "surface":    { "hex": "#343f44", "ansi_16": 8, "ansi_256": 237, "css_closest": "darkslategray" },
+        "overlay":    { "hex": "#3d484d", "ansi_16": 8, "ansi_256": 238, "css_closest": "dimgray" },
+        "text":       { "hex": "#d3c6aa", "ansi_16": 7, "ansi_256": 223, "css_closest": "wheat" },
+        "subtext":    { "hex": "#859289", "ansi_16": 7, "ansi_256": 102, "css_closest": "gray" },
+        "primary":    { "hex": "#a7c080", "ansi_16": 10, "ansi_256": 144, "css_closest": "darkseagreen" },
+        "secondary":  { "hex": "#7fbbb3", "ansi_16": 6, "ansi_256": 109, "css_closest": "cadetblue" },
+        "success":    { "hex": "#83c092", "ansi_16": 10, "ansi_256": 108, "css_closest": "mediumaquamarine" },
+        "warning":    { "hex": "#dbbc7f", "ansi_16": 11, "ansi_256": 180, "css_closest": "khaki" },
+        "error":      { "hex": "#e67e80", "ansi_16": 9, "ansi_256": 174, "css_closest": "lightcoral" }
+       }
+     },
+     {
+        "name": "Aura",
+        "type": "dark",
+        "palette": {
+          "background": { "hex": "#15141b", "ansi_16": 0, "ansi_256": 233, "css_closest": "black" },
+          "surface":    { "hex": "#201e2a", "ansi_16": 8, "ansi_256": 234, "css_closest": "darkbackground" },
+          "overlay":    { "hex": "#2d2b3a", "ansi_16": 8, "ansi_256": 236, "css_closest": "darkslategray" },
+          "text":       { "hex": "#edecee", "ansi_16": 15, "ansi_256": 255, "css_closest": "whitesmoke" },
+          "subtext":    { "hex": "#6d6d6d", "ansi_16": 8, "ansi_256": 242, "css_closest": "gray" },
+          "primary":    { "hex": "#a277ff", "ansi_16": 13, "ansi_256": 141, "css_closest": "mediumpurple" },
+          "secondary":  { "hex": "#61ffca", "ansi_16": 14, "ansi_256": 86, "css_closest": "aquamarine" },
+          "success":    { "hex": "#a2ff77", "ansi_16": 10, "ansi_256": 155, "css_closest": "palegreen" },
+          "warning":    { "hex": "#ffca77", "ansi_16": 11, "ansi_256": 222, "css_closest": "sandybrown" },
+          "error":      { "hex": "#ff6767", "ansi_16": 9, "ansi_256": 203, "css_closest": "tomato" }
+        }
+     }
+   ]
+}
