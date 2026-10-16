@@ -45,3 +45,34 @@ Open this file only when writing or modifying Rust code. General rules stay in t
 ## Code Generation Defaults
 
 - Explicit `use` imports — no wildcard imports except in tests.
+
+- ## 11. Formatting Config (`rustfmt.toml`) & Verification Commands
+Always run verification commands before finalizing changes. All warnings are treated as errors (`-D warnings`).
+
+## Required Verification Pipeline
+
+```bash
+cargo fmt --all -- --check
+cargo clippy --workspace --all-targets --all-features -- -D warnings
+cargo test --workspace --all-targets --all-features
+cargo test --workspace --doc --all-features
+```
+
+## Standard `rustfmt.toml`
+
+```toml
+edition = "2024"
+style_edition = "2024"
+max_width = 100
+hard_tabs = false
+tab_spaces = 4
+newline_style = "Unix"
+use_small_heuristics = "Default"
+reorder_imports = true
+reorder_modules = true
+remove_nested_parens = true
+merge_derives = true
+use_try_shorthand = true
+use_field_init_shorthand = true
+force_explicit_abi = true
+```
