@@ -276,6 +276,8 @@ Skills are on-demand workflows under `skills/<name>/SKILL.md`. Load a skill
 when its trigger matches the task; topic files remain the source of policy and
 the skill provides the execution workflow.
 
+### General workflows
+
 | Skill | Purpose |
 | --- | --- |
 | `address-pr-comments` | Implement and validate pull request feedback. |
@@ -288,6 +290,16 @@ the skill provides the execution workflow.
 | `prepare-release` | Prepare release notes and promotion readiness. |
 | `remediate-dependency-vulnerabilities` | Scan and remediate vulnerable dependencies. |
 | `review-configuration` | Audit configuration safety and precedence. |
+| `validate-and-deploy-iac` | Validate, plan, and safely apply infrastructure as code. |
+| `validate-and-deploy-kubernetes` | Validate and safely deploy Kubernetes manifests. |
+| `validate-documentation` | Check Markdown, links, routing, and stale references. |
+| `validate-github-actions` | Audit GitHub Actions syntax, permissions, and pinning. |
+| `verify-service-health` | Verify deployment readiness and service health. |
+
+### TWG workflows
+
+| Skill | Purpose |
+| --- | --- |
 | `twg` | Use TWG whenever Atlassian/company context would help. |
 | `twg-agentic-search` | Deep internal research with Rovo. |
 | `twg-code-review` | Additional code-review context. |
@@ -300,8 +312,3 @@ the skill provides the execution workflow.
 | `twg-responsibility-routing` | Owners, SMEs, approvers, and escalation. |
 | `twg-space-creation` | Create or clone Confluence spaces. |
 | `twg-status-rollups` | Project, goal, launch-readiness, and leadership rollups. |
-| `validate-and-deploy-iac` | Validate, plan, and safely apply infrastructure as code. |
-| `validate-and-deploy-kubernetes` | Validate and safely deploy Kubernetes manifests. |
-| `validate-documentation` | Check Markdown, links, routing, and stale references. |
-| `validate-github-actions` | Audit GitHub Actions syntax, permissions, and pinning. |
-| `verify-service-health` | Verify deployment readiness and service health. |
