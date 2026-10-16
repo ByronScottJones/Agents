@@ -50,7 +50,60 @@ Many tools work best when they can see the repo contents through a stable path s
 
 ### Recommended pattern
 
-Use a tool-specific parent directory for that tool's own files, then link the shared agent guidance into a common subdirectory such as `agents`. This lets each tool keep its own settings, cache, and history alongside a shared `agents` directory.
+```mermaid
+flowchart TD
+    A[Shared Agents repo\n$HOME/.agents]:::shared
+
+    subgraph Claude[Claude Code]
+        C1[$HOME/.claude]
+        C2[$HOME/.claude/agents]
+    end
+
+    subgraph Codex[Codex]
+        X1[$HOME/.codex]
+        X2[$HOME/.codex/agents]
+    end
+
+    subgraph Gemini[Gemini CLI]
+        G1[$HOME/.gemini]
+        G2[$HOME/.gemini/agents]
+    end
+
+    subgraph ChatGPT[ChatGPT]
+        H1[$HOME/.chatgpt]
+        H2[$HOME/.chatgpt/agents]
+    end
+
+    subgraph Copilot[Copilot]
+        P1[$HOME/.copilot]
+        P2[$HOME/.copilot/agents]
+    end
+
+    subgraph Other[Other tools]
+        O1[$HOME/.antigravity_ide]
+        O2[$HOME/.antigravity_ide/agents]
+    end
+
+    C1 --> C2
+    X1 --> X2
+    G1 --> G2
+    H1 --> H2
+    P1 --> P2
+    O1 --> O2
+
+    A -. symlink target .-> C2
+    A -. symlink target .-> X2
+    A -. symlink target .-> G2
+    A -. symlink target .-> H2
+    A -. symlink target .-> P2
+    A -. symlink target .-> O2
+
+    classDef shared fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px;
+```
+
+Example layout: each tool keeps its own home directory, and the `agents` subdirectory inside that tool points back to the shared `$HOME/.agents` repo.
+
+Use a tool-specific parent directory for that tool's own files, then link the shared agent guidance into a common subdirectory such as `agents`. This lets each tool keep its own settings, cache, and history while reusing the same repository-backed instructions.
 
 **Bash:**
 
