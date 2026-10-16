@@ -103,7 +103,7 @@ flowchart TD
 
 Example layout: each tool keeps its own home directory, and the `agents` subdirectory inside that tool points back to the shared `$HOME/.agents` repo.
 
-Use a tool-specific parent directory for that tool's own files, then link the shared agent guidance into a common subdirectory such as `agents`. This lets each tool keep its own settings, cache, and history while reusing the same repository-backed instructions.
+Use a tool-specific parent directory for that tool's own files, then link the shared agent guidance into a common subdirectory such as `agents`. This lets each tool keep its own settings, cache, and state while sharing the same guidance files.
 
 **Bash:**
 
@@ -293,3 +293,15 @@ the skill provides the execution workflow.
 | `validate-documentation` | Check Markdown, links, routing, and stale references. |
 | `review-configuration` | Audit configuration safety and precedence. |
 | `generate-adr` | Draft architecture decision records. |
+| `twg` | Use TWG whenever Atlassian/company context would help. |
+| `twg-jira` | Jira workitems, issues, projects, boards, sprints, and writes. |
+| `twg-confluence` | Confluence content, spaces, and authoring. |
+| `twg-space-creation` | Create or clone Confluence spaces. |
+| `twg-status-rollups` | Project, goal, launch-readiness, and leadership rollups. |
+| `twg-context-discovery` | Dependency maps, repos, and OOO catch-ups. |
+| `twg-agentic-search` | Deep internal research with Rovo. |
+| `twg-responsibility-routing` | Owners, SMEs, approvers, and escalation. |
+| `twg-engineering-work` | Code/repo discovery, PRs, and contributors. |
+| `twg-jira-resolve-merged-work` | Stale Jira work with merged PRs. |
+| `twg-operational-health` | Incidents/on-call, handoffs, Assets, and risk. |
+| `twg-code-review` | Additional code-review context. |
