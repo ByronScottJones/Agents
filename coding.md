@@ -237,13 +237,18 @@ free-form input or invent validation rules.
 
 ## Version Selection
 
-- Use currently supported language SDKs, compilers, and libraries.
+- Prefer recent, supported language SDKs, compilers, and libraries.
 - Pin libraries and tools in project configuration instead of using `latest`.
 - Prefer minimal version bumps unless a broader upgrade is needed.
 
 ## Code Generation
 
 - Match the existing project conventions before applying defaults.
+- For languages that have a language-wide coding style, use that.
+  - Go: Unified Language Design
+  - C#: C# [Coding Conventions](https://github.com/ktaranov/naming-convention/blob/master/C%23%20Coding%20Standards%20and%20Naming%20Conventions.md)
+  - Rust: Rust Style Guide
+  - Python: [Pep8](https://peps.python.org/pep-0008/) 
 - Include the standard header or preamble required by the language file.
 - Use existing snippets and helpers when they solve the same problem.
 - Distinguish project conventions and code structure from formatting rules; defer formatting to the project’s formatter and linter.
