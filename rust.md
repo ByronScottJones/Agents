@@ -46,7 +46,8 @@ Open this file only when writing or modifying Rust code. General rules stay in t
 
 - Explicit `use` imports — no wildcard imports except in tests.
 
-- ## 11. Formatting Config (`rustfmt.toml`) & Verification Commands
+## Formatting Config (`rustfmt.toml`) & Verification Commands
+
 Always run verification commands before finalizing changes. All warnings are treated as errors (`-D warnings`).
 
 ## Required Verification Pipeline
@@ -75,4 +76,49 @@ merge_derives = true
 use_try_shorthand = true
 use_field_init_shorthand = true
 force_explicit_abi = true
+```
+
+## Dependency Auditing (`deny.toml`) & Git Hooks
+
+- **Dependency Hygiene:**
+  - Never use wildcard versions (`*`) in `Cargo.toml`.
+  - Prefer pure-Rust dependencies (e.g., `rustls` over `openssl-sys`) to simplify cross-compilation and auditing.
+  - All added crates must use permissive SPDX licenses (`MIT`, `Apache-2.0`, `BSD-3-Clause`, `ISC`, `Zlib`, `MPL-2.0`, `Unicode-3.0`) and pass `cargo deny check` with zero advisories or yanked versions.
+
+## Standard `deny.toml`
+```toml
+[graph]
+all-features = true
+
+[advisories]
+version = 2
+unmaintained = "workspace"
+unsound = "all"
+yanked = "deny"
+
+[licenses]
+version = 2
+allow = [
+    "Apache-2.0",
+    "Apache-2.0 WITH LLVM-exception",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "BSL-1.0",
+    "CC0-1.0",
+    "ISC",
+    "MIT",
+    "MPL-2.0",
+    "Unicode-3.0",
+    "Unicode-DFS-2016",
+    "Zlib",
+]
+
+[bans]
+multiple-versions = "warn"
+wildcards = "deny"
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"
+allow-registry = ["[https://github.com/rust-lang/crates.io-index](https://github.com/rust-lang/crates.io-index)"]
 ```
