@@ -276,23 +276,28 @@ Skills are on-demand workflows under `skills/<name>/SKILL.md`. Load a skill
 when its trigger matches the task; topic files remain the source of policy and
 the skill provides the execution workflow.
 
-### General workflows
+### Documentation and operations
+
+| Skill | Purpose |
+| --- | --- |
+| `generate-adr` | Draft architecture decision records. |
+| `generate-service-documentation` | Create service records and operational documentation. |
+| `incident-triage` | Triage incidents using bounded operational evidence. |
+| `prepare-release` | Prepare release notes and promotion readiness. |
+| `review-configuration` | Audit configuration safety and precedence. |
+| `validate-documentation` | Check Markdown, links, routing, and stale references. |
+
+### Engineering and security
 
 | Skill | Purpose |
 | --- | --- |
 | `address-pr-comments` | Implement and validate pull request feedback. |
 | `build-and-scan-container-image` | Build, scan, and generate SBOMs for images. |
 | `execute-database-migration` | Plan, test, and execute schema migrations. |
-| `generate-adr` | Draft architecture decision records. |
-| `generate-service-documentation` | Create service records and operational documentation. |
 | `get-pr-comments` | Retrieve pull request review feedback. |
-| `incident-triage` | Triage incidents using bounded operational evidence. |
-| `prepare-release` | Prepare release notes and promotion readiness. |
 | `remediate-dependency-vulnerabilities` | Scan and remediate vulnerable dependencies. |
-| `review-configuration` | Audit configuration safety and precedence. |
 | `validate-and-deploy-iac` | Validate, plan, and safely apply infrastructure as code. |
 | `validate-and-deploy-kubernetes` | Validate and safely deploy Kubernetes manifests. |
-| `validate-documentation` | Check Markdown, links, routing, and stale references. |
 | `validate-github-actions` | Audit GitHub Actions syntax, permissions, and pinning. |
 | `verify-service-health` | Verify deployment readiness and service health. |
 
