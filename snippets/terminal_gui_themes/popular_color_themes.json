@@ -258,6 +258,166 @@
           "warning":    { "hex": "#ffca77", "ansi_16": 11, "ansi_256": 222, "css_closest": "sandybrown" },
           "error":      { "hex": "#ff6767", "ansi_16": 9, "ansi_256": 203, "css_closest": "tomato" }
         }
+     },
+     {
+    "name": "Default 16-color friendly",
+    "type": "dark",
+    "palette": {
+      "background": { "hex": "#000000", "ansi_16": 0, "ansi_256": 16, "css_closest": "black" },
+      "surface":    { "hex": "#555555", "ansi_16": 8, "ansi_256": 240, "css_closest": "dimgray" },
+      "overlay":    { "hex": "#aaaaaa", "ansi_16": 7, "ansi_256": 248, "css_closest": "silver" },
+      "text":       { "hex": "#ffffff", "ansi_16": 15, "ansi_256": 231, "css_closest": "white" },
+      "subtext":    { "hex": "#aaaaaa", "ansi_16": 7, "ansi_256": 248, "css_closest": "silver" },
+      "primary":    { "hex": "#0000aa", "ansi_16": 4, "ansi_256": 19, "css_closest": "blue" },
+      "secondary":  { "hex": "#00aa00", "ansi_16": 2, "ansi_256": 34, "css_closest": "green" },
+      "success":    { "hex": "#55ff55", "ansi_16": 10, "ansi_256": 83, "css_closest": "lightgreen" },
+      "warning":    { "hex": "#ffff55", "ansi_16": 11, "ansi_256": 227, "css_closest": "yellow" },
+      "error":      { "hex": "#ff5555", "ansi_16": 9, "ansi_256": 203, "css_closest": "lightcoral" }
+    }
+  },
+  {
+    "name": "One Dark Pro",
+    "type": "dark",
+    "palette": {
+      "background": { "hex": "#282c34", "ansi_16": 0, "ansi_256": 236, "css_closest": "darkgray" },
+      "surface":    { "hex": "#2c313c", "ansi_16": 8, "ansi_256": 236, "css_closest": "dimgray" },
+      "overlay":    { "hex": "#3e4451", "ansi_16": 8, "ansi_256": 238, "css_closest": "dimgray" },
+      "text":       { "hex": "#abb2bf", "ansi_16": 7, "ansi_256": 249, "css_closest": "lightgray" },
+      "subtext":    { "hex": "#5c6370", "ansi_16": 8, "ansi_256": 241, "css_closest": "gray" },
+      "primary":    { "hex": "#61afef", "ansi_16": 12, "ansi_256": 75, "css_closest": "cornflowerblue" },
+      "secondary":  { "hex": "#c678dd", "ansi_16": 13, "ansi_256": 176, "css_closest": "orchid" },
+      "success":    { "hex": "#98c379", "ansi_16": 10, "ansi_256": 114, "css_closest": "darkseagreen" },
+      "warning":    { "hex": "#e5c07b", "ansi_16": 11, "ansi_256": 180, "css_closest": "khaki" },
+      "error":      { "hex": "#e06c75", "ansi_16": 9, "ansi_256": 168, "css_closest": "indianred" }
+    }
+  },
+  {
+    "name": "Dracula",
+    "type": "dark",
+    "palette": {
+      "background": { "hex": "#282a36", "ansi_16": 0, "ansi_256": 235, "css_closest": "darkslategray" },
+      "surface":    { "hex": "#44475a", "ansi_16": 8, "ansi_256": 238, "css_closest": "dimgray" },
+      "overlay":    { "hex": "#6272a4", "ansi_16": 8, "ansi_256": 61, "css_closest": "slate" },
+      "text":       { "hex": "#f8f8f2", "ansi_16": 15, "ansi_256": 255, "css_closest": "whitesmoke" },
+      "subtext":    { "hex": "#bd93f9", "ansi_16": 7, "ansi_256": 141, "css_closest": "mediumpurple" },
+      "primary":    { "hex": "#ff79c6", "ansi_16": 13, "ansi_256": 212, "css_closest": "hotpink" },
+      "secondary":  { "hex": "#8be9fd", "ansi_16": 14, "ansi_256": 117, "css_closest": "aquamarine" },
+      "success":    { "hex": "#50fa7b", "ansi_16": 10, "ansi_256": 84, "css_closest": "palegreen" },
+      "warning":    { "hex": "#f1fa8c", "ansi_16": 11, "ansi_256": 228, "css_closest": "lightyellow" },
+      "error":      { "hex": "#ff5555", "ansi_16": 9, "ansi_256": 203, "css_closest": "tomato" }
+    }
+  },
+  {
+    "name": "Tokyo Night",
+    "type": "dark",
+    "palette": {
+      "background": { "hex": "#1a1b26", "ansi_16": 0, "ansi_256": 234, "css_closest": "midnightblue" },
+      "surface":    { "hex": "#24283b", "ansi_16": 8, "ansi_256": 235, "css_closest": "darkslategray" },
+      "overlay":    { "hex": "#414868", "ansi_16": 8, "ansi_256": 239, "css_closest": "slategray" },
+      "text":       { "hex": "#a9b1d6", "ansi_16": 7, "ansi_256": 146, "css_closest": "lightsteelblue" },
+      "subtext":    { "hex": "#787c99", "ansi_16": 7, "ansi_256": 102, "css_closest": "gray" },
+      "primary":    { "hex": "#7aa2f7", "ansi_16": 12, "ansi_256": 111, "css_closest": "cornflowerblue" },
+      "secondary":  { "hex": "#bb9af7", "ansi_16": 13, "ansi_256": 147, "css_closest": "mediumpurple" },
+      "success":    { "hex": "#9ece6a", "ansi_16": 10, "ansi_256": 149, "css_closest": "yellowgreen" },
+      "warning":    { "hex": "#e0af68", "ansi_16": 11, "ansi_256": 179, "css_closest": "burlywood" },
+      "error":      { "hex": "#f7768e", "ansi_16": 9, "ansi_256": 204, "css_closest": "lightpink" }
+    }
+  },
+  {
+    "name": "Catppuccin Mocha",
+    "type": "dark",
+    "palette": {
+      "background": { "hex": "#1e1e2e", "ansi_16": 0, "ansi_256": 234, "css_closest": "darkslategray" },
+      "surface":    { "hex": "#313244", "ansi_16": 8, "ansi_256": 236, "css_closest": "dimgray" },
+      "overlay":    { "hex": "#45475a", "ansi_16": 8, "ansi_256": 238, "css_closest": "gray" },
+      "text":       { "hex": "#cdd6f4", "ansi_16": 7, "ansi_256": 253, "css_closest": "gainsboro" },
+      "subtext":    { "hex": "#a6adc8", "ansi_16": 7, "ansi_256": 248, "css_closest": "silver" },
+      "primary":    { "hex": "#cba6f7", "ansi_16": 13, "ansi_256": 183, "css_closest": "plum" },
+      "secondary":  { "hex": "#89b4fa", "ansi_16": 12, "ansi_256": 111, "css_closest": "cornflowerblue" },
+      "success":    { "hex": "#a6e3a1", "ansi_16": 10, "ansi_256": 149, "css_closest": "lightgreen" },
+      "warning":    { "hex": "#f9e2af", "ansi_16": 11, "ansi_256": 223, "css_closest": "khaki" },
+      "error":      { "hex": "#f38ba8", "ansi_16": 9, "ansi_256": 211, "css_closest": "lightcoral" }
+    }
+  },
+  {
+    "name": "GitHub Dark",
+    "type": "dark",
+    "palette": {
+      "background": { "hex": "#0d1117", "ansi_16": 0, "ansi_256": 232, "css_closest": "black" },
+      "surface":    { "hex": "#161b22", "ansi_16": 8, "ansi_256": 234, "css_closest": "darkbackground" },
+      "overlay":    { "hex": "#21262d", "ansi_16": 8, "ansi_256": 235, "css_closest": "darkslategray" },
+      "text":       { "hex": "#c9d1d9", "ansi_16": 7, "ansi_256": 252, "css_closest": "lightgray" },
+      "subtext":    { "hex": "#8b949e", "ansi_16": 8, "ansi_256": 246, "css_closest": "gray" },
+      "primary":    { "hex": "#58a6ff", "ansi_16": 12, "ansi_256": 75, "css_closest": "cornflowerblue" },
+      "secondary":  { "hex": "#bc8cff", "ansi_16": 13, "ansi_256": 141, "css_closest": "mediumpurple" },
+      "success":    { "hex": "#3fb950", "ansi_16": 10, "ansi_256": 71, "css_closest": "limegreen" },
+      "warning":    { "hex": "#d29922", "ansi_16": 3, "ansi_256": 172, "css_closest": "goldenrod" },
+      "error":      { "hex": "#f85149", "ansi_16": 9, "ansi_256": 203, "css_closest": "crimson" }
+    }
+  },
+  {
+    "name": "Night Owl",
+    "type": "dark",
+    "palette": {
+      "background": { "hex": "#011627", "ansi_16": 0, "ansi_256": 233, "css_closest": "midnightblue" },
+      "surface":    { "hex": "#0b2942", "ansi_16": 8, "ansi_256": 17, "css_closest": "navy" },
+      "overlay":    { "hex": "#103c5e", "ansi_16": 8, "ansi_256": 24, "css_closest": "darkcyan" },
+      "text":       { "hex": "#d6deeb", "ansi_16": 15, "ansi_256": 253, "css_closest": "gainsboro" },
+      "subtext":    { "hex": "#5f7e97", "ansi_16": 7, "ansi_256": 66, "css_closest": "slategray" },
+      "primary":    { "hex": "#c792ea", "ansi_16": 13, "ansi_256": 176, "css_closest": "plum" },
+      "secondary":  { "hex": "#82aaff", "ansi_16": 12, "ansi_256": 111, "css_closest": "cornflowerblue" },
+      "success":    { "hex": "#22da6e", "ansi_16": 10, "ansi_256": 41, "css_closest": "springgreen" },
+      "warning":    { "hex": "#ecc48d", "ansi_16": 11, "ansi_256": 222, "css_closest": "khaki" },
+      "error":      { "hex": "#ef5350", "ansi_16": 9, "ansi_256": 203, "css_closest": "tomato" }
+    }
+  },
+  {
+    "name": "Gruvbox Material",
+    "type": "dark",
+    "palette": {
+      "background": { "hex": "#282828", "ansi_16": 0, "ansi_256": 235, "css_closest": "darkgray" },
+      "surface":    { "hex": "#32302f", "ansi_16": 8, "ansi_256": 236, "css_closest": "dimgray" },
+      "overlay":    { "hex": "#504945", "ansi_16": 8, "ansi_256": 239, "css_closest": "dimgray" },
+      "text":       { "hex": "#ddc7a1", "ansi_16": 7, "ansi_256": 223, "css_closest": "wheat" },
+      "subtext":    { "hex": "#a89984", "ansi_16": 7, "ansi_256": 246, "css_closest": "darkgray" },
+      "primary":    { "hex": "#a9b665", "ansi_16": 2, "ansi_256": 143, "css_closest": "darkkhaki" },
+      "secondary":  { "hex": "#d8a657", "ansi_16": 3, "ansi_256": 179, "css_closest": "sandybrown" },
+      "success":    { "hex": "#89b482", "ansi_16": 10, "ansi_256": 108, "css_closest": "darkseagreen" },
+      "warning":    { "hex": "#ea999c", "ansi_16": 11, "ansi_256": 211, "css_closest": "lightcoral" },
+      "error":      { "hex": "#ea6962", "ansi_16": 9, "ansi_256": 167, "css_closest": "indianred" }
+    }
+  },
+  {
+    "name": "SynthWave '84",
+    "type": "dark",
+    "palette": {
+      "background": { "hex": "#262335", "ansi_16": 0, "ansi_256": 235, "css_closest": "darkslateblue" },
+      "surface":    { "hex": "#342e4f", "ansi_16": 8, "ansi_256": 236, "css_closest": "indigo" },
+      "overlay":    { "hex": "#463465", "ansi_16": 8, "ansi_256": 53, "css_closest": "purple" },
+      "text":       { "hex": "#ffffff", "ansi_16": 15, "ansi_256": 231, "css_closest": "white" },
+      "subtext":    { "hex": "#b3a3ce", "ansi_16": 7, "ansi_256": 146, "css_closest": "thistle" },
+      "primary":    { "hex": "#f43f5e", "ansi_16": 9, "ansi_256": 203, "css_closest": "crimson" },
+      "secondary":  { "hex": "#2fe3fe", "ansi_16": 14, "ansi_256": 45, "css_closest": "cyan" },
+      "success":    { "hex": "#fede5d", "ansi_16": 11, "ansi_256": 221, "css_closest": "gold" },
+      "warning":    { "hex": "#ff7edb", "ansi_16": 13, "ansi_256": 213, "css_closest": "violet" },
+      "error":      { "hex": "#fe4450", "ansi_16": 9, "ansi_256": 203, "css_closest": "coral" }
+    }
+  },
+  {
+    "name": "Microsoft Default CUA",
+    "type": "dark",
+    "palette": {
+      "background": { "hex": "#0000aa", "ansi_16": 4, "ansi_256": 19, "css_closest": "blue" },
+      "surface":    { "hex": "#000055", "ansi_16": 0, "ansi_256": 17, "css_closest": "navy" },
+      "overlay":    { "hex": "#aaaaaa", "ansi_16": 7, "ansi_256": 248, "css_closest": "silver" },
+      "text":       { "hex": "#ffffff", "ansi_16": 15, "ansi_256": 231, "css_closest": "white" },
+      "subtext":    { "hex": "#aaaaaa", "ansi_16": 7, "ansi_256": 248, "css_closest": "silver" },
+      "primary":    { "hex": "#ffffff", "ansi_16": 15, "ansi_256": 231, "css_closest": "white" },
+      "secondary":  { "hex": "#ffff55", "ansi_16": 11, "ansi_256": 227, "css_closest": "yellow" },
+      "success":    { "hex": "#55ff55", "ansi_16": 10, "ansi_256": 83, "css_closest": "lightgreen" },
+      "warning":    { "hex": "#ffff55", "ansi_16": 11, "ansi_256": 227, "css_closest": "yellow" },
+      "error":      { "hex": "#ff5555", "ansi_16": 9, "ansi_256": 203, "css_closest": "lightcoral" }
      }
-   ]
+   } 
+  ]
 }
