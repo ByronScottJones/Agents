@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Only run Rust checks if Rust or Cargo files are staged
+STAGED_RUST_FILES=$(git diff --cached --name-only --diff-filter=ACMR | grep -E '(\.rs$|Cargo\.(toml|lock)$|deny\.toml$|rustfmt\.toml$)' || true)
+
+if [[ -z "$STAGED_RUST_FILES" ]]; then
+    exit 0
+fi
+
+export CARGO_TERM_COLOR=always
+export RUSTFLAGS="-Dwarnings"
+export RUSTDOCFLAGS="-Dwarnings"
+
+echo "==> [1/4] Checking formatting (cargo fmt)..."
+cargo fmt --all -- --check
+
+echo "==> [2/4] Linting with Clippy (cargo clippy)..."
+cargo clippy --workspace --all-targets --all-features -- -D warnings
+
+if command -v cargo-deny >/dev/null 2>&1; then
+    echo "==> [3/4] Auditing dependencies (cargo deny)..."
+    cargo deny check
+else
+    echo "==> [3/4] Skipping cargo-deny (not installed; run 'cargo install cargo-deny --locked')"
+fi
+
+echo "==> [4/4] Running tests (cargo test)..."
+cargo test --workspace --all-targets --all-features
+
+echo "==> All pre-commit checks passed!"
