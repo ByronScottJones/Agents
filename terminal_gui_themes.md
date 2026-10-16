@@ -2,6 +2,8 @@
 
 This document provides architectural context, strict schema specifications, and implementation patterns for generating or modifying Terminal User Interface (TUI) theme layouts within this repository.
 
+Files referenced here are located in snippets/terminal_gui_themes.
+
 Refer to these guidelines when modifying `themes.json`, extending `ThemeLoader.cs`, or writing layout components.
 
 ---
