@@ -158,6 +158,7 @@ Write the entry in the branch, in the same pull request as the work. Use this
 template:
 
 ```markdown
+---
 ### <branch-name>: <one-line summary>
 
 - Branch: `<branch>`, base `<base>`
