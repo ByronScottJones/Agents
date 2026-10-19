@@ -8,7 +8,7 @@ applies_to: [".github/workflows/*.yml", ".github/workflows/*.yaml"]
 
 ## Workflow Structure & Execution
 
-* **Manual by Default:** Create requested workflows, but trigger them with `workflow_dispatch` only. Add automatic triggers (`push`, `pull_request`, `schedule`) only when explicitly requested; when supplying them, keep them commented out or note them beside the manual trigger.
+* **Manual by Default:** Create requested workflows, but trigger them with `workflow_dispatch` only. Define automatic triggers (`push`, `pull_request`, `schedule`) only when requested, and keep them disabled by gating every job with `if: github.event_name == 'workflow_dispatch' || vars.AUTO_CI == 'true'`. Setting the `AUTO_CI` repository variable to `true` enables them without editing the workflow.
 * **Granular Triggers:** Use descriptive workflow names and explicit, granular triggers (e.g., path or branch-specific `push` or `pull_request` events) when automatic triggers are requested.
 * **Modular Jobs:** Define distinct, independent jobs. Control execution flow and dependencies using `needs`, `outputs`, and `if` conditions.
 * **Artifact Passing:** Transfer build outputs between jobs or workflows securely using `actions/upload-artifact` and `actions/download-artifact`.

@@ -1,11 +1,13 @@
 name: CI
 
-# Manual by default. Uncomment the push/pull_request triggers to run automatically.
+# Manual by default. Push/pull_request triggers exist but jobs are skipped
+# unless the repository variable AUTO_CI is set to 'true'
+# (Settings > Secrets and variables > Actions > Variables).
 on:
   workflow_dispatch:
-  # push:
-  #   branches: [main]
-  # pull_request:
+  push:
+    branches: [main]
+  pull_request:
 
 permissions:
   contents: read
@@ -18,6 +20,7 @@ env:
 jobs:
   check:
     name: Format, Clippy & Test
+    if: github.event_name == 'workflow_dispatch' || vars.AUTO_CI == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -49,6 +52,7 @@ jobs:
 
   deny:
     name: Dependency audit (cargo deny)
+    if: github.event_name == 'workflow_dispatch' || vars.AUTO_CI == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
