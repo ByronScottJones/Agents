@@ -120,5 +120,5 @@ wildcards = "deny"
 [sources]
 unknown-registry = "deny"
 unknown-git = "deny"
-allow-registry = ["[https://github.com/rust-lang/crates.io-index](https://github.com/rust-lang/crates.io-index)"]
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]
 ```

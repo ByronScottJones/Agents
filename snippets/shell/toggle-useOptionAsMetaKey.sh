@@ -1,29 +1,44 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# Toggles useOptionAsMetaKey for the frontmost macOS Terminal profile.
+# Changes apply to new windows and tabs that use the profile.
 
-# 1. Dynamically get the name of the currently active Terminal profile
-CURRENT_PROFILE=$(osascript -e 'tell application "Terminal" to name of current settings of first window' 2>/dev/null)
+set -euo pipefail
 
-# Fallback if AppleScript fails
-if [ -z "$CURRENT_PROFILE" ]; then
-    echo "Could not detect active Terminal profile. Exiting."
+readonly PLIST="${HOME}/Library/Preferences/com.apple.Terminal.plist"
+readonly PLIST_BUDDY="/usr/libexec/PlistBuddy"
+
+die() {
+    printf '%s\n' "$1" >&2
     exit 1
-fi
+}
 
-PLIST="$HOME/Library/Preferences/com.apple.Terminal.plist"
+main() {
+    local profile key current_state
 
-# 2. Check the current value for this specific profile
-CURRENT_STATE=$(/usr/libexec/PlistBuddy -c "Print :Window\ Settings:${CURRENT_PROFILE}:useOptionAsMetaKey" "$PLIST" 2>/dev/null)
+    command -v osascript >/dev/null 2>&1 || die 'osascript is required on macOS.'
+    [[ -x "${PLIST_BUDDY}" ]] || die "${PLIST_BUDDY} is required on macOS."
 
-# 3. Toggle the boolean value
-if [ "$CURRENT_STATE" = "true" ]; then
-    /usr/libexec/PlistBuddy -c "Set :Window\ Settings:${CURRENT_PROFILE}:useOptionAsMetaKey false" "$PLIST"
-    echo "Option as Meta Key is now DISABLED for profile: '$CURRENT_PROFILE'"
-else
-    # Create key as bool if it doesn't exist, otherwise update it
-    /usr/libexec/PlistBuddy -c "Add :Window\ Settings:${CURRENT_PROFILE}:useOptionAsMetaKey bool true" "$PLIST" 2>/dev/null || \
-    /usr/libexec/PlistBuddy -c "Set :Window\ Settings:${CURRENT_PROFILE}:useOptionAsMetaKey true" "$PLIST"
-    echo "Option as Meta Key is now ENABLED for profile: '$CURRENT_PROFILE'"
-fi
+    # 1. Get the name of the active Terminal profile
+    profile=$(osascript -e 'tell application "Terminal" to name of current settings of first window' 2>/dev/null || true)
+    [[ -n "${profile}" ]] || die 'Could not detect active Terminal profile.'
 
-# Note: Changes apply to NEW windows/tabs using this profile.
-echo "Open a new tab or window using '$CURRENT_PROFILE' to see changes."
+    # PlistBuddy separates key path segments with ':' and escapes spaces with '\'
+    key=":Window\\ Settings:${profile// /\\ }:useOptionAsMetaKey"
+
+    # 2. Read the current value; empty when the key does not exist yet
+    current_state=$("${PLIST_BUDDY}" -c "Print ${key}" "${PLIST}" 2>/dev/null || true)
+
+    # 3. Toggle the boolean value, creating the key when it is missing
+    if [[ "${current_state}" == "true" ]]; then
+        "${PLIST_BUDDY}" -c "Set ${key} false" "${PLIST}"
+        printf "Option as Meta Key is now DISABLED for profile: '%s'\n" "${profile}"
+    else
+        "${PLIST_BUDDY}" -c "Add ${key} bool true" "${PLIST}" 2>/dev/null ||
+            "${PLIST_BUDDY}" -c "Set ${key} true" "${PLIST}"
+        printf "Option as Meta Key is now ENABLED for profile: '%s'\n" "${profile}"
+    fi
+
+    printf "Open a new tab or window using '%s' to see changes.\n" "${profile}"
+}
+
+main "$@"

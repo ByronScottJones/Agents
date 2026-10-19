@@ -1,5 +1,4 @@
 {
-  "$schema": "https://schemastore.org",
   "version": "1.1.0",
   "description": "theme token dictionary with 16 popular palettes for Tauri and TUI engines.",
   "themes": [

@@ -1,9 +1,16 @@
 package main
 
-import "os"
+import (
+	"fmt"
+	"os"
+)
 
-func disableAltKeys() error {
-	// Pops the pushed flag state off the stack, restoring normal behavior
-	_, err := os.Stdout.Write([]byte("\x1b[<1b"))
-	return err
+// DisableAltKeys pops the flag state pushed by EnableAltKeys off the
+// terminal's stack, restoring normal key reporting.
+func DisableAltKeys() error {
+	// CSI < 1 b
+	if _, err := os.Stdout.WriteString("\x1b[<1b"); err != nil {
+		return fmt.Errorf("disable alt keys: %w", err)
+	}
+	return nil
 }
