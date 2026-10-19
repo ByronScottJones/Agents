@@ -1,7 +1,8 @@
-using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Terminal.Gui;
+using Terminal.Gui.Configuration;
+using Terminal.Gui.Drawing;
+using Attribute = Terminal.Gui.Drawing.Attribute;
 
 namespace TerminalGuiThemeEngine;
 
@@ -11,35 +12,36 @@ public static class ThemeLoader
     private static readonly bool SupportsTrueColor =
         Environment.GetEnvironmentVariable("COLORTERM") is "truecolor" or "24bit";
 
-    // Immutable reference map for standard ANSI colors used as Euclidean distance nodes
-    private static readonly Dictionary<Color, (int R, int G, int B)> AnsiColorMap = new()
+    // Reference map for the 16 ANSI colors used as Euclidean distance nodes
+    private static readonly Dictionary<ColorName16, (int R, int G, int B)> AnsiColorMap = new()
     {
-        { Color.Black, (0, 0, 0) },
-        { Color.Blue, (0, 0, 170) },
-        { Color.Green, (0, 170, 0) },
-        { Color.Cyan, (0, 170, 170) },
-        { Color.Red, (170, 0, 0) },
-        { Color.Magenta, (170, 0, 170) },
-        { Color.Brown, (170, 85, 0) }, // "Yellow" alternate
-        { Color.Gray, (170, 170, 170) }, // "White" alternate
-        { Color.DarkGray, (85, 85, 85) },
-        { Color.BrightBlue, (85, 85, 255) },
-        { Color.BrightGreen, (85, 255, 85) },
-        { Color.BrightCyan, (85, 255, 255) },
-        { Color.BrightRed, (255, 85, 85) },
-        { Color.BrightMagenta, (255, 85, 255) },
-        { Color.BrightYellow, (255, 255, 85) },
-        { Color.BrightWhite, (255, 255, 255) }
+        { ColorName16.Black, (0, 0, 0) },
+        { ColorName16.Blue, (0, 0, 170) },
+        { ColorName16.Green, (0, 170, 0) },
+        { ColorName16.Cyan, (0, 170, 170) },
+        { ColorName16.Red, (170, 0, 0) },
+        { ColorName16.Magenta, (170, 0, 170) },
+        { ColorName16.Yellow, (170, 85, 0) }, // dark yellow, rendered as brown
+        { ColorName16.Gray, (170, 170, 170) },
+        { ColorName16.DarkGray, (85, 85, 85) },
+        { ColorName16.BrightBlue, (85, 85, 255) },
+        { ColorName16.BrightGreen, (85, 255, 85) },
+        { ColorName16.BrightCyan, (85, 255, 255) },
+        { ColorName16.BrightRed, (255, 85, 85) },
+        { ColorName16.BrightMagenta, (255, 85, 255) },
+        { ColorName16.BrightYellow, (255, 255, 85) },
+        { ColorName16.White, (255, 255, 255) }
     };
 
     private static readonly JsonSerializerOptions JsonOptions = new() { PropertyNameCaseInsensitive = true };
 
-    private static readonly Attribute DefaultAttribute = new(Color.White, Color.Black);
+    private static readonly Attribute DefaultAttribute = new(new Color(ColorName16.Gray), new Color(ColorName16.Black));
 
     /// <summary>
-    /// Reads the theme file and registers five color schemes per theme
-    /// (<c>{Name}Window</c>, <c>Dialog</c>, <c>Menu</c>, <c>Button</c>, <c>Border</c>).
-    /// Spaces and apostrophes are removed from theme names to build the keys.
+    /// Reads the theme file and registers five schemes per theme with the
+    /// <see cref="SchemeManager"/>: <c>{Key}Window</c>, <c>Dialog</c>, <c>Menu</c>,
+    /// <c>Button</c>, and <c>Border</c>. Assign them to a view with
+    /// <c>view.SchemeName</c>. Call this after <c>app.Init()</c>.
     /// </summary>
     /// <returns>The theme names in file order.</returns>
     /// <exception cref="FileNotFoundException">The theme file does not exist.</exception>
@@ -54,8 +56,7 @@ public static class ThemeLoader
         ThemeRoot? root;
         try
         {
-            string jsonContent = File.ReadAllText(jsonPath);
-            root = JsonSerializer.Deserialize<ThemeRoot>(jsonContent, JsonOptions);
+            root = JsonSerializer.Deserialize<ThemeRoot>(File.ReadAllText(jsonPath), JsonOptions);
         }
         catch (JsonException ex)
         {
@@ -71,22 +72,22 @@ public static class ThemeLoader
         foreach (var theme in root.Themes)
         {
             string key = ThemeKey(theme.Name);
-            Colors.ColorSchemes[$"{key}Window"] = CreateScheme(theme.Components.Window);
-            Colors.ColorSchemes[$"{key}Dialog"] = CreateScheme(theme.Components.Dialog);
-            Colors.ColorSchemes[$"{key}Menu"] = CreateScheme(theme.Components.Menu);
-            Colors.ColorSchemes[$"{key}Button"] = CreateScheme(theme.Components.Button);
-            Colors.ColorSchemes[$"{key}Border"] = CreateScheme(theme.Components.Border);
+            SchemeManager.AddScheme($"{key}Window", CreateScheme(theme.Components.Window));
+            SchemeManager.AddScheme($"{key}Dialog", CreateScheme(theme.Components.Dialog));
+            SchemeManager.AddScheme($"{key}Menu", CreateScheme(theme.Components.Menu));
+            SchemeManager.AddScheme($"{key}Button", CreateScheme(theme.Components.Button));
+            SchemeManager.AddScheme($"{key}Border", CreateScheme(theme.Components.Border));
             names.Add(theme.Name);
         }
 
         return names;
     }
 
-    /// <summary>Builds the color scheme key prefix for a theme name.</summary>
+    /// <summary>Builds the scheme name prefix for a theme name.</summary>
     public static string ThemeKey(string themeName) =>
         themeName.Replace(" ", string.Empty).Replace("'", string.Empty);
 
-    private static ColorScheme CreateScheme(ComponentStates states) =>
+    private static Scheme CreateScheme(ComponentStates states) =>
         new()
         {
             Normal = ParseColorPair(states.Normal),
@@ -118,54 +119,51 @@ public static class ThemeLoader
         if (colorStr.StartsWith('#'))
         {
             // Expect #RRGGBB; anything else falls back to white
-            if (colorStr.Length != 7
-                || !int.TryParse(colorStr.AsSpan(1, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int r)
-                || !int.TryParse(colorStr.AsSpan(3, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int g)
-                || !int.TryParse(colorStr.AsSpan(5, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int b))
+            if (colorStr.Length != 7 || !Color.TryParse(colorStr, null, out Color rgb))
             {
-                return Color.White;
+                return new Color(ColorName16.White);
             }
 
             // If terminal supports 24-bit TrueColor, return target RGB natively
             if (SupportsTrueColor)
             {
-                return new Color(r, g, b);
+                return rgb;
             }
 
             // Otherwise, fall back to the nearest 16-color ANSI value
-            return GetNearestAnsiColor(r, g, b);
+            return new Color(GetNearestAnsiColor(rgb.R, rgb.G, rgb.B));
         }
 
-        return colorStr.ToLowerInvariant() switch
+        return new Color(colorStr.ToLowerInvariant() switch
         {
-            "black" => Color.Black,
-            "blue" => Color.Blue,
-            "green" => Color.Green,
-            "cyan" => Color.Cyan,
-            "red" => Color.Red,
-            "magenta" => Color.Magenta,
-            "brown" or "yellow" => Color.Brown,
-            "white" or "gray" or "brightgray" => Color.Gray,
-            "darkgray" => Color.DarkGray,
-            "brightblue" => Color.BrightBlue,
-            "brightgreen" => Color.BrightGreen,
-            "brightcyan" => Color.BrightCyan,
-            "brightred" => Color.BrightRed,
-            "brightmagenta" => Color.BrightMagenta,
-            "brightyellow" => Color.BrightYellow,
-            "brightwhite" => Color.BrightWhite,
-            _ => Color.White
-        };
+            "black" => ColorName16.Black,
+            "blue" => ColorName16.Blue,
+            "green" => ColorName16.Green,
+            "cyan" => ColorName16.Cyan,
+            "red" => ColorName16.Red,
+            "magenta" => ColorName16.Magenta,
+            "brown" or "yellow" => ColorName16.Yellow,
+            "white" or "gray" or "brightgray" => ColorName16.Gray,
+            "darkgray" => ColorName16.DarkGray,
+            "brightblue" => ColorName16.BrightBlue,
+            "brightgreen" => ColorName16.BrightGreen,
+            "brightcyan" => ColorName16.BrightCyan,
+            "brightred" => ColorName16.BrightRed,
+            "brightmagenta" => ColorName16.BrightMagenta,
+            "brightyellow" => ColorName16.BrightYellow,
+            "brightwhite" => ColorName16.White,
+            _ => ColorName16.White
+        });
     }
 
-    private static Color GetNearestAnsiColor(int r, int g, int b)
+    private static ColorName16 GetNearestAnsiColor(int r, int g, int b)
     {
-        Color closestColor = Color.White;
+        ColorName16 closestColor = ColorName16.White;
         double minDistance = double.MaxValue;
 
         foreach (var kvp in AnsiColorMap)
         {
-            // Core 3D Euclidean vector distance calculation mapping target channels
+            // 3D Euclidean distance between the target and the ANSI reference color
             double distance = Math.Sqrt(
                 Math.Pow(r - kvp.Value.R, 2) +
                 Math.Pow(g - kvp.Value.G, 2) +

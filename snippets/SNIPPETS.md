@@ -55,8 +55,10 @@ target repository at the location noted, and rename it where indicated.
 A Terminal.Gui theme-switching example. The first three files work together and
 require the `Terminal.Gui` NuGet package, .NET `System.Text.Json`, and a project
 with `<Nullable>enable</Nullable>` and `<ImplicitUsings>enable</ImplicitUsings>`.
-The code was written against the Terminal.Gui v1-style API and has not been
-compiled against a specific release; verify it against the version you pin.
+The code targets Terminal.Gui 2.5.0 on `net10.0` (`IApplication`, `Scheme`,
+`SchemeManager`, `DropDownList`) and builds cleanly with warnings as errors.
+Terminal.Gui v1 code uses a different API (`Application.Init()`, `ColorScheme`,
+`ComboBox`); verify against the version you pin before upgrading.
 
 - terminal_gui_themes/program.cs
   - example application that loads the themes and lets the user switch the active color scheme from a `ComboBox`.
