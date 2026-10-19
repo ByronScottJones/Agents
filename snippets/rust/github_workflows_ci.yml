@@ -1,9 +1,16 @@
 name: CI
 
+# Manual by default. Push/pull_request triggers exist but jobs are skipped
+# unless the repository variable AUTO_CI is set to 'true'
+# (Settings > Secrets and variables > Actions > Variables).
 on:
+  workflow_dispatch:
   push:
     branches: [main]
   pull_request:
+
+permissions:
+  contents: read
 
 env:
   CARGO_TERM_COLOR: always
@@ -13,18 +20,23 @@ env:
 jobs:
   check:
     name: Format, Clippy & Test
+    if: github.event_name == 'workflow_dispatch' || vars.AUTO_CI == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 1
+          persist-credentials: false
 
       - name: Install Rust toolchain
-        uses: dtolnay/rust-toolchain@stable
+        uses: dtolnay/rust-toolchain@b725eda525362e7cf34af9a7243cac1e3f01a7ec # stable
         with:
+          toolchain: stable
           components: rustfmt, clippy
 
       - name: Cache Cargo registry and target directory
-        uses: Swatinem/rust-cache@v2
+        uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
 
       - name: Check formatting (rustfmt)
         run: cargo fmt --all -- --check
@@ -37,3 +49,19 @@ jobs:
 
       - name: Run doc tests
         run: cargo test --workspace --doc --all-features
+
+  deny:
+    name: Dependency audit (cargo deny)
+    if: github.event_name == 'workflow_dispatch' || vars.AUTO_CI == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Run cargo deny check
+        uses: EmbarkStudios/cargo-deny-action@3c6349835b2b7b196a839186cb8b78e02f7b5f25 # v2
+        with:
+          command: check
