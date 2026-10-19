@@ -2,12 +2,18 @@ package main
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"os"
 	"os/exec"
 	"runtime"
 	"strings"
+	"time"
 )
+
+// commandTimeout bounds each helper command; osascript can block on a
+// permission prompt.
+const commandTimeout = 5 * time.Second
 
 // TerminalInfo holds the detected configurations
 type TerminalInfo struct {
@@ -16,8 +22,8 @@ type TerminalInfo struct {
 	MetaKeyEnabled bool
 }
 
-// CheckTerminalSession analyzes the current terminal emulator environment
-func CheckTerminalSession() TerminalInfo {
+// CheckTerminalSession analyzes the current terminal emulator environment.
+func CheckTerminalSession(ctx context.Context) (TerminalInfo, error) {
 	info := TerminalInfo{
 		Emulator:       os.Getenv("TERM_PROGRAM"),
 		ActiveProfile:  "Unknown",
@@ -27,78 +33,92 @@ func CheckTerminalSession() TerminalInfo {
 	// Normalized edge case where TERM_PROGRAM might be empty
 	if info.Emulator == "" {
 		info.Emulator = "Generic/Unknown"
-		return info
+		return info, nil
 	}
 
 	// Stop execution here if we are not on macOS
 	if runtime.GOOS != "darwin" {
-		return info
+		return info, nil
 	}
 
 	// Process macOS specific terminal configurations
 	if info.Emulator == "Apple_Terminal" {
-		info.ActiveProfile = getActiveProfile()
-		info.MetaKeyEnabled = isMetaKeyEnabled(info.ActiveProfile)
+		profile, err := getActiveProfile(ctx)
+		if err != nil {
+			return info, err
+		}
+		info.ActiveProfile = profile
+
+		enabled, err := isMetaKeyEnabled(ctx, profile)
+		if err != nil {
+			return info, err
+		}
+		info.MetaKeyEnabled = enabled
 	}
 
-	return info
+	return info, nil
+}
+
+// output runs a command with the package timeout and returns its trimmed stdout.
+func output(ctx context.Context, stdin *bytes.Buffer, name string, args ...string) (string, error) {
+	ctx, cancel := context.WithTimeout(ctx, commandTimeout)
+	defer cancel()
+
+	cmd := exec.CommandContext(ctx, name, args...)
+	var out bytes.Buffer
+	cmd.Stdout = &out
+	if stdin != nil {
+		cmd.Stdin = stdin
+	}
+	if err := cmd.Run(); err != nil {
+		return "", fmt.Errorf("run %s: %w", name, err)
+	}
+	return strings.TrimSpace(out.String()), nil
 }
 
 // getActiveProfile fetches the live profile using AppleScript, with a plist fallback
-func getActiveProfile() string {
+func getActiveProfile(ctx context.Context) (string, error) {
 	// 1. Attempt live check via AppleScript
-	cmd := exec.Command("osascript", "-e", `tell application "Terminal" to get name of current settings of tab 1 of window 1`)
-	var out bytes.Buffer
-	cmd.Stdout = &out
-
-	if err := cmd.Run(); err == nil {
-		profile := strings.TrimSpace(out.String())
-		if profile != "" {
-			return profile
-		}
+	profile, err := output(ctx, nil, "osascript", "-e",
+		`tell application "Terminal" to get name of current settings of tab 1 of window 1`)
+	if err == nil && profile != "" {
+		return profile, nil
 	}
 
 	// 2. Fallback to global default if AppleScript fails/is blocked
-	cmdFallback := exec.Command("defaults", "read", "com.apple.Terminal", "Default Window Settings")
-	out.Reset()
-	cmdFallback.Stdout = &out
-
-	if err := cmdFallback.Run(); err == nil {
-		return strings.TrimSpace(out.String())
+	profile, err = output(ctx, nil, "defaults", "read", "com.apple.Terminal", "Default Window Settings")
+	if err != nil {
+		return "", fmt.Errorf("read default terminal profile: %w", err)
 	}
-
-	return "Basic" // Standard system fallback
+	return profile, nil
 }
 
 // isMetaKeyEnabled parses the nested plist structure using plutil
-func isMetaKeyEnabled(profile string) bool {
-	// Construct the command pipeline equivalent to:
+func isMetaKeyEnabled(ctx context.Context, profile string) (bool, error) {
+	// Equivalent to:
 	// defaults read com.apple.Terminal "Window Settings" | plutil -extract "ProfileName.useOptionAsMetaKey" raw -
-	defaultsCmd := exec.Command("defaults", "read", "com.apple.Terminal", "Window Settings")
-	plutilCmd := exec.Command("plutil", "-extract", profile+".useOptionAsMetaKey", "raw", "-")
-
-	// Pipe the output of defaults into plutil
-	var defaultsOut bytes.Buffer
-	defaultsCmd.Stdout = &defaultsOut
-
-	if err := defaultsCmd.Run(); err != nil {
-		return false
+	settings, err := output(ctx, nil, "defaults", "read", "com.apple.Terminal", "Window Settings")
+	if err != nil {
+		return false, fmt.Errorf("read terminal window settings: %w", err)
 	}
 
-	var plutilOut bytes.Buffer
-	plutilCmd.Stdin = &defaultsOut
-	plutilCmd.Stdout = &plutilOut
-
-	if err := plutilCmd.Run(); err != nil {
-		return false
+	// A profile without the key set is treated as disabled
+	result, err := output(ctx, bytes.NewBufferString(settings), "plutil", "-extract",
+		profile+".useOptionAsMetaKey", "raw", "-")
+	if err != nil {
+		return false, nil
 	}
-
-	result := strings.TrimSpace(plutilOut.String())
-	return result == "1"
+	return result == "1", nil
 }
 
 func main() {
-	info := CheckTerminalSession()
+	ctx := context.Background()
+
+	info, err := CheckTerminalSession(ctx)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "check terminal session: %v\n", err)
+		os.Exit(1)
+	}
 
 	fmt.Printf("Terminal Detected: %s\n", info.Emulator)
 

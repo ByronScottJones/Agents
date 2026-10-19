@@ -17,7 +17,7 @@
 - shell/checkOptionasMetaKey.sh
   - checks if the current terminal session supports using the Option key as a Meta/Alt key.
 - shell/toggle-useOptionAsMetaKey.sh
-  - toggles the value of the Terminal Configuration Flag useOptionAsKMetaKey for the current profile.
+  - toggles the value of the Terminal Configuration Flag useOptionAsMetaKey for the current profile.
 
 ## Go (`go/`)
 
@@ -48,12 +48,15 @@ target repository at the location noted, and rename it where indicated.
 - rust/githook_precommits_rust
   - Git pre-commit hook that runs `cargo fmt`, Clippy, `cargo deny` (if installed), and tests when Rust or Cargo files are staged. Copy to `.git/hooks/pre-commit` and make it executable.
 - rust/github_workflows_ci.yml
-  - GitHub Actions CI workflow that checks formatting, runs Clippy, and runs unit, integration, and doc tests. Copy to `.github/workflows/ci.yml`.
+  - GitHub Actions CI workflow with SHA-pinned actions that checks formatting, runs Clippy, runs unit, integration, and doc tests, and runs `cargo deny check`. Runs manually by default (`workflow_dispatch`); automatic triggers are defined but their jobs run only when the repository variable `AUTO_CI` is `true`. Copy to `.github/workflows/ci.yml`.
 
 ## C# / Terminal.Gui (`terminal_gui_themes/`)
 
-A Terminal.Gui theme-switching example. The three files work together and
-require the `Terminal.Gui` NuGet package and .NET `System.Text.Json`.
+A Terminal.Gui theme-switching example. The first three files work together and
+require the `Terminal.Gui` NuGet package, .NET `System.Text.Json`, and a project
+with `<Nullable>enable</Nullable>` and `<ImplicitUsings>enable</ImplicitUsings>`.
+The code was written against the Terminal.Gui v1-style API and has not been
+compiled against a specific release; verify it against the version you pin.
 
 - terminal_gui_themes/program.cs
   - example application that loads the themes and lets the user switch the active color scheme from a `ComboBox`.
@@ -61,3 +64,5 @@ require the `Terminal.Gui` NuGet package and .NET `System.Text.Json`.
   - `ThemeLoader` that reads `themes.json`, builds Terminal.Gui color schemes, and falls back to the nearest 16-color ANSI value when TrueColor is unavailable.
 - terminal_gui_themes/themes.json
   - theme definitions (for example One Dark Pro, Dracula, Tokyo Night, Catppuccin Mocha) with per-component normal, focus, and hot colors.
+- terminal_gui_themes/popular_color_themes.json
+  - reference token dictionary of popular palettes with hex, ANSI 16/256, and closest CSS color values; not read by `ThemeLoader`.
