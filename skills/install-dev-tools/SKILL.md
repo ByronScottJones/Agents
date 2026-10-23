@@ -96,6 +96,28 @@ directory; this file is the workflow. Topic files remain the source of policy:
 - Check that a command really succeeded: piping through `tail` hides the exit
   status, so use `${PIPESTATUS[0]}` or re-run the tool's `check`.
 
+## Sandbox network allowlist
+
+Installs that run inside the Claude Code sandbox need their download hosts in
+`sandbox.network.allowedDomains` in the user's `settings.json` (or via the
+`/sandbox` command). This skill never edits that setting; suggest the hosts and
+let the user decide. Homebrew is deliberately left out, because it also needs
+write access to `/opt/homebrew`, which the sandbox does not grant.
+
+| Needed for | Hosts |
+| --- | --- |
+| `cargo install` | `crates.io`, `index.crates.io`, `static.crates.io` |
+| `go install` | `proxy.golang.org`, `sum.golang.org` |
+| Go toolchain downloads (optional) | `go.dev`, `dl.google.com` |
+| Release binaries from GitHub, such as tflint | `*.githubusercontent.com` (GitHub redirects downloads there; `*.github.com` does not cover it) |
+| Python packages (optional) | `pypi.org`, `files.pythonhosted.org` |
+| PowerShell modules (optional, not verified) | `www.powershellgallery.com` |
+
+GitHub and npm hosts are normally already allowed. Allowing a package registry
+lets builds run inside the sandbox fetch and execute third-party code such as
+Rust build scripts; the sandbox's filesystem limits contain it, but tell the
+user that trade-off.
+
 ## Maintaining the catalog
 
 - Add or change tools in `tools.toml` only; keep the field documentation at the
