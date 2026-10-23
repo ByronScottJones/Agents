@@ -50,7 +50,10 @@ directory; this file is the workflow. Topic files remain the source of policy:
    4. Run the commands in `requires` order, one tool at a time. If a command
       fails, stop that group, show the error, and ask whether to skip, retry, or
       abort. Do not try alternative install methods on your own.
-   5. Re-run each tool's `check` and report the new status.
+   5. Re-run each tool's `check` and report the new status. If a tool installed
+      but its check still fails, look for a PATH problem (for example
+      `~/go/bin` or `~/.local/bin`) and offer the profile change shown in the
+      tool's `note`.
 7. **Corporate TLS.** Only when a download or install failed with a certificate
    error, or the user asks, run the `[tls]` test. If it fails and
    `~/.ssh/zscaler/zscaler.pem` exists, follow `ssl-tls.md` and the `[tls]`
@@ -84,7 +87,14 @@ directory; this file is the workflow. Topic files remain the source of policy:
   say you did.
 - Installation needs network access and writes outside the project. Expect
   permission prompts, and ask the user before running any command outside the
-  sandbox.
+  sandbox. The default sandbox network allowlist covers GitHub and npm only;
+  Homebrew, crates.io, and the Go module proxy are blocked, so those installs
+  fail inside it. A 403 "CONNECT tunnel failed" or a read-only `/opt/homebrew`
+  means the sandbox blocked the command, not that the system is broken: retry
+  outside the sandbox with the user's confirmation, and never run the
+  `sudo chown` that Homebrew suggests in that case.
+- Check that a command really succeeded: piping through `tail` hides the exit
+  status, so use `${PIPESTATUS[0]}` or re-run the tool's `check`.
 
 ## Maintaining the catalog
 
