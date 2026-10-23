@@ -1,0 +1,503 @@
+# Tool catalog for the install-dev-tools skill.
+#
+# Each [[group]] maps to a guidance file in ~/.agents. Each [[tool]] belongs to
+# one group. To add a tool, append a [[tool]] entry; no other file changes.
+#
+# [[tool]] fields:
+#   id             unique key; other tools list it in `requires`
+#   group          id of a [[group]]
+#   name           human-readable name
+#   check          command that prints a version and exits 0 when installed;
+#                  run in bash (macOS/Ubuntu) or PowerShell (Windows)
+#   check_<os>     optional override of `check` for one OS
+#   min_version    optional minimum; below it the tool is reported as outdated
+#   macos          install command(s) for macOS (Homebrew)
+#   windows        install command(s) for Windows (winget, run in PowerShell)
+#   ubuntu         install command(s) for Ubuntu/Debian (apt)
+#   remote_script  OS keys whose command downloads and runs a remote script
+#   requires       tool ids that must be present first
+#   note           caveats shown to the user before installing
+#
+# Omit an OS key when there is no supported automated install on that OS; the
+# skill then reports the tool as manual and shows `note`.
+
+[meta]
+schema = 1
+winget_flags = "--exact --accept-source-agreements --accept-package-agreements"
+
+# ---------------------------------------------------------------- groups
+
+[[group]]
+id = "core"
+title = "Core: git, GitHub CLI, build tools"
+guidance = "git.md, makefile.md, cmake_make.md"
+
+[[group]]
+id = "docs"
+title = "Markdown and documentation tooling"
+guidance = "markdown.md"
+
+[[group]]
+id = "rust"
+title = "Rust"
+guidance = "rust.md, rust_style_guide.md"
+
+[[group]]
+id = "tauri"
+title = "Tauri desktop apps"
+guidance = "tauri.md"
+
+[[group]]
+id = "go"
+title = "Go"
+guidance = "go.md"
+
+[[group]]
+id = "dotnet"
+title = "C# and .NET"
+guidance = "dotnet.md"
+
+[[group]]
+id = "node"
+title = "JavaScript, TypeScript, and HTML"
+guidance = "typescript.md, html.md"
+
+[[group]]
+id = "python"
+title = "Python"
+guidance = "coding.md (PEP 8)"
+
+[[group]]
+id = "shell"
+title = "Bash and Zsh"
+guidance = "shell.md"
+
+[[group]]
+id = "powershell"
+title = "PowerShell"
+guidance = "powershell.md"
+
+[[group]]
+id = "terraform"
+title = "Terraform"
+guidance = "terraform.md"
+
+[[group]]
+id = "containers"
+title = "Containers and Kubernetes"
+guidance = "containers.md, kubernetes.md"
+
+[[group]]
+id = "lmstudio"
+title = "LM Studio local models"
+guidance = "lmstudio-subagents.md"
+
+# ----------------------------------------------------------------- core
+
+[[tool]]
+id = "build-tools"
+group = "core"
+name = "C compiler and linker"
+check = "cc --version"
+check_windows = '& "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath'
+macos = "xcode-select --install"
+windows = "winget install --id Microsoft.VisualStudio.2022.BuildTools {winget_flags} --override \"--quiet --wait --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended\""
+ubuntu = "sudo apt-get install -y build-essential pkg-config"
+note = "macOS opens a GUI installer for the Xcode Command Line Tools. Windows downloads several GB of Visual Studio Build Tools."
+
+[[tool]]
+id = "git"
+group = "core"
+name = "Git"
+check = "git --version"
+macos = "brew install git"
+windows = "winget install --id Git.Git {winget_flags}"
+ubuntu = "sudo apt-get install -y git"
+note = "On Windows this also installs Git Bash, which the shell scripts in these projects need."
+
+[[tool]]
+id = "gh"
+group = "core"
+name = "GitHub CLI"
+check = "gh --version"
+macos = "brew install gh"
+windows = "winget install --id GitHub.cli {winget_flags}"
+ubuntu = "sudo apt-get install -y gh"
+note = "The Ubuntu package can be old. For the current release use the GitHub apt repository: https://github.com/cli/cli/blob/trunk/docs/install_linux.md. After installing, run 'gh auth login' yourself and confirm which account (work or personal) it uses."
+
+[[tool]]
+id = "make"
+group = "core"
+name = "GNU Make"
+check = "make --version"
+macos = "brew install make"
+windows = "winget install --id ezwinports.make {winget_flags}"
+ubuntu = "sudo apt-get install -y make"
+note = "Homebrew installs GNU Make as 'gmake'; macOS already ships a usable 'make' with the Command Line Tools, so skip this if 'make --version' works."
+
+[[tool]]
+id = "cmake"
+group = "core"
+name = "CMake"
+check = "cmake --version"
+macos = "brew install cmake"
+windows = "winget install --id Kitware.CMake {winget_flags}"
+ubuntu = "sudo apt-get install -y cmake"
+
+[[tool]]
+id = "ninja"
+group = "core"
+name = "Ninja"
+check = "ninja --version"
+macos = "brew install ninja"
+windows = "winget install --id Ninja-build.Ninja {winget_flags}"
+ubuntu = "sudo apt-get install -y ninja-build"
+
+# ------------------------------------------------------------------ docs
+
+[[tool]]
+id = "markdownlint-cli2"
+group = "docs"
+name = "markdownlint-cli2"
+check = "markdownlint-cli2 --help"
+requires = ["node"]
+macos = "npm install --global markdownlint-cli2"
+windows = "npm install --global markdownlint-cli2"
+ubuntu = "npm install --global markdownlint-cli2"
+note = "If 'npm install --global' fails with EACCES or EPERM, fix the npm prefix or cache ownership; do not use sudo npm."
+
+# ------------------------------------------------------------------ rust
+
+[[tool]]
+id = "rustup"
+group = "rust"
+name = "Rust toolchain (rustup, rustc, cargo)"
+check = "rustc --version"
+min_version = "1.85"
+requires = ["build-tools"]
+macos = "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o \"$TMPDIR/rustup-init.sh\" && sh \"$TMPDIR/rustup-init.sh\" -y --profile default"
+windows = "winget install --id Rustlang.Rustup {winget_flags}"
+ubuntu = "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o \"${TMPDIR:-/tmp}/rustup-init.sh\" && sh \"${TMPDIR:-/tmp}/rustup-init.sh\" -y --profile default"
+remote_script = ["macos", "ubuntu"]
+note = "Rust 1.85 or newer is required for edition 2024. rustup edits your shell profile to add ~/.cargo/bin; open a new shell afterwards."
+
+[[tool]]
+id = "rustfmt"
+group = "rust"
+name = "rustfmt"
+check = "rustfmt --version"
+requires = ["rustup"]
+macos = "rustup component add rustfmt"
+windows = "rustup component add rustfmt"
+ubuntu = "rustup component add rustfmt"
+
+[[tool]]
+id = "clippy"
+group = "rust"
+name = "Clippy"
+check = "cargo clippy --version"
+requires = ["rustup"]
+macos = "rustup component add clippy"
+windows = "rustup component add clippy"
+ubuntu = "rustup component add clippy"
+
+[[tool]]
+id = "cargo-deny"
+group = "rust"
+name = "cargo-deny"
+check = "cargo deny --version"
+requires = ["rustup"]
+macos = "cargo install cargo-deny --locked"
+windows = "cargo install cargo-deny --locked"
+ubuntu = "cargo install cargo-deny --locked"
+note = "Required by the Rust pre-commit hook. Compiles from source and takes a few minutes."
+
+[[tool]]
+id = "cargo-audit"
+group = "rust"
+name = "cargo-audit"
+check = "cargo audit --version"
+requires = ["rustup"]
+macos = "cargo install cargo-audit --locked"
+windows = "cargo install cargo-audit --locked"
+ubuntu = "cargo install cargo-audit --locked"
+note = "Optional; rust.md allows the project's established scanner instead. Compiles from source."
+
+# ----------------------------------------------------------------- tauri
+
+[[tool]]
+id = "tauri-system-deps"
+group = "tauri"
+name = "Tauri system dependencies"
+check = "pkg-config --exists webkit2gtk-4.1 && echo webkit2gtk-4.1 present"
+check_macos = "xcode-select -p"
+check_windows = 'Get-ItemProperty "HKLM:\SOFTWARE\WOW6432Node\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}" | Select-Object -ExpandProperty pv'
+requires = ["build-tools"]
+macos = "xcode-select --install"
+windows = "winget install --id Microsoft.EdgeWebView2Runtime {winget_flags}"
+ubuntu = "sudo apt-get install -y libwebkit2gtk-4.1-dev libxdo-dev libssl-dev libayatana-appindicator3-dev librsvg2-dev curl wget file"
+note = "Tauri v2 prerequisites. WebView2 is preinstalled on Windows 11. Verify against https://v2.tauri.app/start/prerequisites/ if the build fails."
+
+[[tool]]
+id = "tauri-cli"
+group = "tauri"
+name = "Tauri CLI"
+check = "cargo tauri --version"
+requires = ["rustup", "node", "tauri-system-deps"]
+macos = "cargo install tauri-cli --locked"
+windows = "cargo install tauri-cli --locked"
+ubuntu = "cargo install tauri-cli --locked"
+note = "Optional: projects can use the @tauri-apps/cli npm package instead. Compiles from source."
+
+# -------------------------------------------------------------------- go
+
+[[tool]]
+id = "go"
+group = "go"
+name = "Go"
+check = "go version"
+min_version = "1.21"
+macos = "brew install go"
+windows = "winget install --id GoLang.Go {winget_flags}"
+ubuntu = "sudo apt-get install -y golang-go"
+note = "The Ubuntu apt package is often older than 1.21 (needed for slog). If 'go version' is too old after installing, use 'sudo snap install go --classic' or the tarball from https://go.dev/dl/."
+
+[[tool]]
+id = "golangci-lint"
+group = "go"
+name = "golangci-lint"
+check = "golangci-lint --version"
+requires = ["go"]
+macos = "brew install golangci-lint"
+windows = "winget install --id GolangCI.golangci-lint {winget_flags}"
+ubuntu = "go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest"
+note = "Ubuntu uses go install, which installs to ~/go/bin; ensure it is on PATH. Pin the version in each project."
+
+[[tool]]
+id = "goimports"
+group = "go"
+name = "goimports"
+check = "goimports -h"
+requires = ["go"]
+macos = "go install golang.org/x/tools/cmd/goimports@latest"
+windows = "go install golang.org/x/tools/cmd/goimports@latest"
+ubuntu = "go install golang.org/x/tools/cmd/goimports@latest"
+note = "Installs to ~/go/bin (or %USERPROFILE%\\go\\bin); ensure it is on PATH."
+
+[[tool]]
+id = "govulncheck"
+group = "go"
+name = "govulncheck"
+check = "govulncheck -version"
+requires = ["go"]
+macos = "go install golang.org/x/vuln/cmd/govulncheck@latest"
+windows = "go install golang.org/x/vuln/cmd/govulncheck@latest"
+ubuntu = "go install golang.org/x/vuln/cmd/govulncheck@latest"
+note = "Installs to ~/go/bin (or %USERPROFILE%\\go\\bin); ensure it is on PATH."
+
+# ---------------------------------------------------------------- dotnet
+
+[[tool]]
+id = "dotnet"
+group = "dotnet"
+name = ".NET SDK (includes dotnet format)"
+check = "dotnet --version"
+min_version = "10.0"
+macos = "brew install --cask dotnet-sdk"
+windows = "winget install --id Microsoft.DotNet.SDK.10 {winget_flags}"
+ubuntu = "sudo apt-get install -y dotnet-sdk-10.0"
+note = "dotnet.md targets the latest LTS, currently net10.0. If apt cannot find dotnet-sdk-10.0, use the Microsoft package feed: https://learn.microsoft.com/dotnet/core/install/linux-ubuntu. Roslyn analyzers ship with the SDK."
+
+# ------------------------------------------------------------------ node
+
+[[tool]]
+id = "node"
+group = "node"
+name = "Node.js and npm"
+check = "node --version"
+min_version = "20"
+macos = "brew install node"
+windows = "winget install --id OpenJS.NodeJS.LTS {winget_flags}"
+ubuntu = "sudo apt-get install -y nodejs npm"
+note = "The Ubuntu apt package is often older than Node 20. If too old, install via nvm (https://github.com/nvm-sh/nvm) or the NodeSource repository. TypeScript, ESLint, and test runners are per-project devDependencies and are not installed globally."
+
+[[tool]]
+id = "prettier"
+group = "node"
+name = "Prettier"
+check = "prettier --version"
+requires = ["node"]
+macos = "npm install --global prettier"
+windows = "npm install --global prettier"
+ubuntu = "npm install --global prettier"
+note = "Global copy is for HTML and standalone files; projects should still pin their own version."
+
+# ---------------------------------------------------------------- python
+
+[[tool]]
+id = "python"
+group = "python"
+name = "Python 3"
+check = "python3 --version"
+check_windows = "python --version"
+min_version = "3.10"
+macos = "brew install python"
+windows = "winget install --id Python.Python.3.13 {winget_flags}"
+ubuntu = "sudo apt-get install -y python3 python3-venv python3-pip"
+note = "There is no python.md yet, so no formatter or linter is installed. Use the project's configured tools inside a virtual environment."
+
+# ----------------------------------------------------------------- shell
+
+[[tool]]
+id = "shfmt"
+group = "shell"
+name = "shfmt"
+check = "shfmt --version"
+macos = "brew install shfmt"
+windows = "winget install --id mvdan.shfmt {winget_flags}"
+ubuntu = "sudo apt-get install -y shfmt"
+
+[[tool]]
+id = "shellcheck"
+group = "shell"
+name = "ShellCheck"
+check = "shellcheck --version"
+macos = "brew install shellcheck"
+windows = "winget install --id koalaman.shellcheck {winget_flags}"
+ubuntu = "sudo apt-get install -y shellcheck"
+
+[[tool]]
+id = "bats"
+group = "shell"
+name = "bats-core"
+check = "bats --version"
+macos = "brew install bats-core"
+windows = "npm install --global bats"
+ubuntu = "sudo apt-get install -y bats"
+note = "On Windows bats is installed through npm and needs Node.js and Git Bash."
+
+# ------------------------------------------------------------ powershell
+
+[[tool]]
+id = "pwsh"
+group = "powershell"
+name = "PowerShell 7"
+check = "pwsh --version"
+macos = "brew install --cask powershell"
+windows = "winget install --id Microsoft.PowerShell {winget_flags}"
+ubuntu = "sudo snap install powershell --classic"
+note = "Ubuntu uses snap. For the Microsoft apt repository see https://learn.microsoft.com/powershell/scripting/install/install-ubuntu."
+
+[[tool]]
+id = "psscriptanalyzer"
+group = "powershell"
+name = "PSScriptAnalyzer"
+check = "pwsh -NoProfile -Command \"(Get-Module -ListAvailable PSScriptAnalyzer | Select-Object -First 1).Version.ToString()\""
+requires = ["pwsh"]
+macos = "pwsh -NoProfile -Command \"Install-Module PSScriptAnalyzer -Scope CurrentUser -Force\""
+windows = "pwsh -NoProfile -Command \"Install-Module PSScriptAnalyzer -Scope CurrentUser -Force\""
+ubuntu = "pwsh -NoProfile -Command \"Install-Module PSScriptAnalyzer -Scope CurrentUser -Force\""
+note = "Installs from the PowerShell Gallery for the current user and may prompt to trust the repository."
+
+[[tool]]
+id = "pester"
+group = "powershell"
+name = "Pester"
+check = "pwsh -NoProfile -Command \"(Get-Module -ListAvailable Pester | Sort-Object Version -Descending | Select-Object -First 1).Version.ToString()\""
+min_version = "5.0"
+requires = ["pwsh"]
+macos = "pwsh -NoProfile -Command \"Install-Module Pester -Scope CurrentUser -Force -SkipPublisherCheck\""
+windows = "pwsh -NoProfile -Command \"Install-Module Pester -Scope CurrentUser -Force -SkipPublisherCheck\""
+ubuntu = "pwsh -NoProfile -Command \"Install-Module Pester -Scope CurrentUser -Force -SkipPublisherCheck\""
+note = "Windows ships Pester 3.x; this installs a current side-by-side copy for the current user."
+
+# ------------------------------------------------------------- terraform
+
+[[tool]]
+id = "terraform"
+group = "terraform"
+name = "Terraform"
+check = "terraform version"
+macos = "brew tap hashicorp/tap && brew install hashicorp/tap/terraform"
+windows = "winget install --id Hashicorp.Terraform {winget_flags}"
+note = "Ubuntu has no automated step: add the HashiCorp apt repository by following https://developer.hashicorp.com/terraform/install#linux, then 'sudo apt-get install terraform'. The Homebrew core formula is frozen at an old version, so use the HashiCorp tap. If 'terraform' is a tfenv shim, the check fails until a version is selected: run 'tfenv install' then 'tfenv use <version>' instead of installing again."
+
+[[tool]]
+id = "tflint"
+group = "terraform"
+name = "TFLint"
+check = "tflint --version"
+macos = "brew install tflint"
+windows = "winget install --id TerraformLinters.tflint {winget_flags}"
+note = "Ubuntu has no automated step: download the release binary from https://github.com/terraform-linters/tflint/releases and place it on PATH."
+
+# ------------------------------------------------------------ containers
+
+[[tool]]
+id = "docker"
+group = "containers"
+name = "Docker"
+check = "docker --version"
+macos = "brew install --cask docker"
+windows = "winget install --id Docker.DockerDesktop {winget_flags}"
+ubuntu = "sudo apt-get install -y docker.io"
+note = "Docker Desktop needs a first launch and license acceptance. On Ubuntu, adding yourself to the docker group is a separate, security-relevant change that this skill will not make."
+
+[[tool]]
+id = "kubectl"
+group = "containers"
+name = "kubectl"
+check = "kubectl version --client"
+macos = "brew install kubectl"
+windows = "winget install --id Kubernetes.kubectl {winget_flags}"
+ubuntu = "sudo snap install kubectl --classic"
+
+# -------------------------------------------------------------- lmstudio
+
+[[tool]]
+id = "lmstudio"
+group = "lmstudio"
+name = "LM Studio and the lms CLI"
+check = "lms --version"
+macos = "brew install --cask lm-studio"
+windows = "winget install --id ElementLabs.LMStudio {winget_flags}"
+note = "Launch LM Studio once so it can create the lms CLI (run 'lms bootstrap' if 'lms' is not on PATH). On Ubuntu download the AppImage from https://lmstudio.ai. Building the lmstudio-rs-mcp server is a project step, see lmstudio-subagents.md."
+
+# ------------------------------------------------------------------- tls
+
+# Corporate TLS inspection (Zscaler). Configuration, not installation; applied
+# only after the test command fails. See ssl-tls.md.
+[tls]
+ca_file = "~/.ssh/zscaler/zscaler.pem"
+bundle_file = "~/.ssh/zscaler/ca-bundle.pem"
+test = "curl -sSI https://registry.npmjs.org"
+
+[tls.bundle]
+macos = "security find-certificate -a -p /System/Library/Keychains/SystemRootCertificates.keychain /Library/Keychains/System.keychain > ~/.ssh/zscaler/ca-bundle.pem && cat ~/.ssh/zscaler/zscaler.pem >> ~/.ssh/zscaler/ca-bundle.pem"
+ubuntu = "cat /etc/ssl/certs/ca-certificates.crt ~/.ssh/zscaler/zscaler.pem > ~/.ssh/zscaler/ca-bundle.pem"
+windows = "Not needed: Windows tools use the Windows certificate store, which already trusts the Zscaler root on managed machines."
+
+[[tls.setting]]
+tool = "node and npm"
+mode = "adds"
+apply = "export NODE_EXTRA_CA_CERTS=~/.ssh/zscaler/zscaler.pem"
+
+[[tls.setting]]
+tool = "git"
+mode = "replaces"
+apply = "git config --global http.sslCAInfo ~/.ssh/zscaler/ca-bundle.pem"
+
+[[tls.setting]]
+tool = "cargo"
+mode = "replaces"
+apply = "export CARGO_HTTP_CAINFO=~/.ssh/zscaler/ca-bundle.pem"
+
+[[tls.setting]]
+tool = "pip and Python requests"
+mode = "replaces"
+apply = "export REQUESTS_CA_BUNDLE=~/.ssh/zscaler/ca-bundle.pem"
+
+[[tls.setting]]
+tool = "Go tools and gh"
+mode = "replaces"
+apply = "export SSL_CERT_FILE=~/.ssh/zscaler/ca-bundle.pem"

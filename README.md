@@ -294,6 +294,7 @@ the skill provides the execution workflow.
 | `address-pr-comments` | Implement and validate pull request feedback. |
 | `build-and-scan-container-image` | Build, scan, and generate SBOMs for images. |
 | `execute-database-migration` | Plan, test, and execute schema migrations. |
+| `install-dev-tools` | Audit and install the coding tools the guidance requires (macOS, Windows, Ubuntu). |
 | `get-pr-comments` | Retrieve pull request review feedback. |
 | `remediate-dependency-vulnerabilities` | Scan and remediate vulnerable dependencies. |
 | `validate-and-deploy-iac` | Validate, plan, and safely apply infrastructure as code. |
