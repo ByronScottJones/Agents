@@ -1,3 +1,8 @@
+---
+title: "LM Studio Subagents"
+description: "Load this file when delegating work to a local LM Studio model through the lmstudio-rs-mcp server, or when configuring that server."
+---
+
 # LM Studio Subagents
 
 Load this file when delegating work to a local model through the

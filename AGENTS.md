@@ -47,6 +47,8 @@ Load the matching file before making decisions or edits in that topic:
 | JavaScript or TypeScript | [`typescript.md`](typescript.md) |
 | HTML | [`html.md`](html.md) |
 | Rust | [`rust.md`](rust.md) |
+| Rust style, API, and lint conventions | [`rust_style_guide.md`](rust_style_guide.md) |
+| SSL/TLS connections or corporate proxy certificates | [`ssl-tls.md`](ssl-tls.md) |
 | Terraform | [`terraform.md`](terraform.md) |
 | Tauri applications | [`tauri.md`](tauri.md) |
 | Delegating work to local LM Studio models, or the `lmstudio-rs-mcp` server | [`lmstudio-subagents.md`](lmstudio-subagents.md) |
@@ -54,20 +56,33 @@ Load the matching file before making decisions or edits in that topic:
 | Common User Access TUI specification | [`CUA_TUI_Specification.md`](CUA_TUI_Specification.md) |
 | Twelve-Factor application design | [`twelvefactors.md`](twelvefactors.md) |
 | GUI automation for macOS, Windows, or Linux | [`gui_automation.md`](gui_automation.md) |
+| Terminal.Gui theme subsystem (C#) | [`terminal_gui_themes.md`](terminal_gui_themes.md) |
 | Code snippets | [`snippets/SNIPPETS.md`](snippets/SNIPPETS.md) |
+| Skills (on-demand workflows) | `skills/<name>/SKILL.md`; see the Skills section of [`README.md`](README.md) |
 
 Load more than one file when a task spans topics. For example, a Tauri
 application with a Rust backend and Terraform deployment requires
 `tauri.md`, `rust.md`, and `terraform.md`.
 
-Language files supplement this file; they do not replace the rules below.
-
 ## Guidance Precedence
 
 Apply this file to every task. Load every matching topic file before making
-decisions or edits. More specific topic guidance supplements general guidance;
-when two files conflict, the more specific file wins unless this file states
-otherwise.
+decisions or edits.
+
+When two files conflict, the more specific file wins. From highest to lowest:
+
+1. Language files (`rust.md`, `go.md`, and so on) and framework files
+2. `coding.md`
+3. Other topic files
+4. The general guidance in this file
+
+Exceptions:
+
+- General Behavior and Tool Calling below govern the agent's own conduct and
+  are never overridden by a topic file.
+- `CUA_TUI_Specification.md` overrides `tui.md` when it applies.
+- A project's own conventions override defaults in any file, as stated in
+  `coding.md`.
 
 Load `CUA_TUI_Specification.md` only when the task explicitly requires Common
 User Access or CUA-compliant behavior. Otherwise, use `tui.md` for terminal UI
@@ -91,5 +106,8 @@ guidance.
 ## Tool Calling
 
 - When calling command line tools, add a comment at the end of the command line explaining the purpose of the command.
-  When calling multi-line scripts, including custom executables that you have created, each script should have detailed comments,
-  including a comment block at the beginning explaining the purpose of the script, and each line or group of commands should have a comment.
+- Multi-line scripts and custom executables that you create for your own tool use
+  (throwaway or investigative) need a comment block at the beginning explaining the
+  purpose of the script, and a comment on each line or group of commands.
+- Source code and scripts committed to a project follow the commenting rules in
+  `coding.md` and the surrounding code's conventions instead.

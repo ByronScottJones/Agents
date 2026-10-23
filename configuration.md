@@ -17,7 +17,7 @@ unrelated dotfiles to the user's home directory.
 | --- | --- | --- |
 | Linux | `~/.config/<app-name>/` | `/etc/<app-name>/` |
 | macOS | `~/Library/Application Support/<app-name>/` | `/Library/Application Support/<app-name>/` |
-| Windows | `%APPDATA%\\<app-name>\\` or `%LOCALAPPDATA%\\<app-name>\\` | `%PROGRAMDATA%\\<app-name>\\` |
+| Windows | `%APPDATA%\<app-name>\` or `%LOCALAPPDATA%\<app-name>\` | `%PROGRAMDATA%\<app-name>\` |
 
 `XDG_CONFIG_HOME`, `XDG_DATA_HOME`, and equivalent platform variables may
 override the default user directories. Some command-line tools on macOS
@@ -34,17 +34,21 @@ intentionally use XDG paths.
 
 ## Precedence
 
-Apply configuration from highest to lowest priority:
+All applications and services, including those following `twelvefactors.md`,
+use composable configuration. Apply configuration from highest to lowest
+priority:
 
-This is the default application policy. Frameworks and deployment platforms may
-define a different order; document that order in the owning topic file.
-
-1. Command-line arguments
+1. Runtime command-line arguments
 2. Environment variables
-3. Project or current-directory configuration
-4. User-level configuration
-5. System-level configuration
+3. Local config file in the application directory (development override, not
+   committed)
+4. Environment-specific config file (`config.dev.toml`, `config.prod.toml`)
+5. Global config file (`config.toml`)
 6. Application defaults
+
+Where the files live follows the Locations table above. Frameworks and
+deployment platforms may define a different order; document that order in the
+owning topic file.
 
 ## Secrets
 

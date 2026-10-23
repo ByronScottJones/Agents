@@ -61,7 +61,7 @@ Terminal.Gui v1 code uses a different API (`Application.Init()`, `ColorScheme`,
 `ComboBox`); verify against the version you pin before upgrading.
 
 - terminal_gui_themes/program.cs
-  - example application that loads the themes and lets the user switch the active color scheme from a `ComboBox`.
+  - example application that loads the themes and lets the user switch the active color scheme from a `DropDownList`.
 - terminal_gui_themes/themeloader.cs
   - `ThemeLoader` that reads `themes.json`, builds Terminal.Gui color schemes, and falls back to the nearest 16-color ANSI value when TrueColor is unavailable.
 - terminal_gui_themes/themes.json

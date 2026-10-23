@@ -61,6 +61,8 @@ Every CLI or TUI application must provide:
 - Enter should confirm an action, select a highlighted item, or execute a command.
    This does NOT apply in a multiline text field. In such a field, Enter should
    result in a New Line. In this case, Ctrl-Enter should confirm an action, etc.
+   Most terminals cannot tell Ctrl-Enter from Enter without the Kitty keyboard
+   protocol; where that is unavailable, also offer Tab to a Submit button.
 - Esc should close a popup, cancel an action, or back out of a submenu or screen.
 - Ctrl-C should ask the user if they want to close the application.
    Pressing it a second time should close the application.
@@ -70,7 +72,7 @@ Every CLI or TUI application must provide:
 - F5 should refresh the screen if relevant, If information is displayed from an API, refetch if relevant.
 - F7 / Page Up / Shift Up Arrow - Scroll up a page
 - F8 / Page Down / Shift Down Arrow - Scroll down a page
-- ? should display a search dialog, if relevant
+- ? should display a search dialog, if relevant, only when no text entry field has focus
 - Delete should delete the last character typed, Shift-Delete the last word. Ctrl-D the last sentence.
 - When a checkbox is the active field, the spacebar should toggle the value.
 - All Custom Commands should use Alt-A...Alt-Z
@@ -79,7 +81,8 @@ Every CLI or TUI application must provide:
   - IsKittyKeyboardAvailable
   - EnableAltKeys
   - DisableAltKeys
-- Clipboard Operations: Ctrl-Insert Copy, Shift-Insert Paste, Shift-Delete Cut
+- Clipboard Operations: Ctrl-Insert Copy, Shift-Insert Paste, Ctrl-X Cut.
+  Shift-Delete is reserved for delete-last-word and is not Cut.
 - Support non-interactive operation when input or output is redirected.
 - Respect `NO_COLOR` and degrade gracefully when color, mouse events, alternate
   screens, Unicode, or terminal capability queries are unavailable.

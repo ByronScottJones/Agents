@@ -2,7 +2,7 @@
 
  This repository stores my `$HOME/.agents` folder for AI agent use.
 
- The agent files should be kept in the repository's `.agents/` directory.
+ The agent files live at the root of this repository, which is cloned to `$HOME/.agents`.
 
 ## Clone into `$HOME/.agents`
 
@@ -307,6 +307,7 @@ the skill provides the execution workflow.
 | --- | --- |
 | `twg` | Use TWG whenever Atlassian/company context would help. |
 | `twg-agentic-search` | Deep internal research with Rovo. |
+| `twg-artifacts` | Share or update a local file as an Atlassian Artifact. |
 | `twg-code-review` | Additional code-review context. |
 | `twg-confluence` | Confluence content, spaces, and authoring. |
 | `twg-context-discovery` | Dependency maps, repos, and OOO catch-ups. |

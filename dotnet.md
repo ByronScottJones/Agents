@@ -35,7 +35,7 @@ Open this file only when writing or modifying C#, Dotnet, .Net, code. General ru
 
 - File-scoped namespaces (`namespace Foo;`).
 - Prefer records for immutable DTOs.
-- Target `net8.0` or latest LTS unless constrained.
+- Target the latest LTS (currently `net10.0`) unless constrained.
 - Use `ILogger<T>` — never `Console.WriteLine` in production code.
 
 ## Code Generation Defaults
