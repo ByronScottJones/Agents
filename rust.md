@@ -87,6 +87,7 @@ force_explicit_abi = true
 - A pre-commit hook and CI workflow that run this pipeline are in `snippets/rust/`; see `snippets/SNIPPETS.md`.
 
 ## Standard `deny.toml`
+
 ```toml
 [graph]
 all-features = true
