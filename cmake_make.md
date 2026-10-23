@@ -1,16 +1,16 @@
 ---
-title: "Build System Selection & Makefile Best Practices"
-description: "Load this file when generating, managing, or evaluating build systems, task runners, or Makefiles."
-applies_to: ["Makefile", "CMakeLists.txt", "*.mk"]
+title: "Build System Selection"
+description: "Load this file when choosing between CMake and GNU Make for a project. For writing a Makefile, load makefile.md."
+applies_to: ["CMakeLists.txt"]
 ---
 
-# 🤖 SYSTEM INSTRUCTIONS: BUILD SYSTEM SELECTION & MAKEFILE BEST PRACTICES
+# Build System Selection: CMake vs. GNU Make
 
-**Context & Objective:** You are an automated agent responsible for generating, managing, and evaluating build systems and task runners. Before generating a build file, you MUST evaluate whether CMake or GNU Make is the correct tool. When generating GNU Makefiles, you MUST strictly adhere to the architecture and syntax rules defined by the [Cloud Posse Makefile Best Practices](https://docs.cloudposse.com/best-practices/developer/makefile/).
+**Context & Objective:** Before generating a build file, evaluate whether CMake
+or GNU Make is the correct tool. When GNU Make is selected, follow
+`makefile.md`.
 
----
-
-## 0. Build System Selection: CMake vs. GNU Make
+## Build System Selection
 
 Before drafting a build configuration, assess the project scope to determine the appropriate tool.
 
@@ -32,5 +32,3 @@ Before drafting a build configuration, assess the project scope to determine the
 
 When CMake is selected, prefer Ninja or the project's established generator
 when it provides faster or more portable builds than GNU Make.
-
-## 1. Target Naming & Namespacing

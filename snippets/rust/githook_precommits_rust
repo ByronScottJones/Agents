@@ -12,20 +12,29 @@ export CARGO_TERM_COLOR=always
 export RUSTFLAGS="-Dwarnings"
 export RUSTDOCFLAGS="-Dwarnings"
 
-echo "==> [1/4] Checking formatting (cargo fmt)..."
+echo "==> [1/5] Checking formatting (cargo fmt)..."
 cargo fmt --all -- --check
 
-echo "==> [2/4] Linting with Clippy (cargo clippy)..."
+echo "==> [2/5] Linting with Clippy (cargo clippy)..."
 cargo clippy --workspace --all-targets --all-features -- -D warnings
 
-if command -v cargo-deny >/dev/null 2>&1; then
-    echo "==> [3/4] Auditing dependencies (cargo deny)..."
-    cargo deny check
-else
-    echo "==> [3/4] Skipping cargo-deny (not installed; run 'cargo install cargo-deny --locked')"
+# cargo-deny is mandatory: rust.md requires 'cargo deny check' to pass
+if ! command -v cargo-deny >/dev/null 2>&1; then
+    echo "error: cargo-deny is not installed; run 'cargo install cargo-deny --locked'" >&2
+    exit 1
 fi
+echo "==> [3/5] Auditing dependencies (cargo deny)..."
+cargo deny check
 
-echo "==> [4/4] Running tests (cargo test)..."
+echo "==> [4/5] Running tests (cargo test)..."
 cargo test --workspace --all-targets --all-features
+
+# Doc tests need a library target; binary-only projects fail with "no library targets found"
+if [[ -n "$(find . -path ./target -prune -o -path '*/src/lib.rs' -print -quit)" ]]; then
+    echo "==> [5/5] Running doc tests (cargo test --doc)..."
+    cargo test --workspace --doc --all-features
+else
+    echo "==> [5/5] Skipping doc tests (no library target found)"
+fi
 
 echo "==> All pre-commit checks passed!"

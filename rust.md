@@ -18,7 +18,7 @@ Open this file only when writing or modifying Rust code. General rules stay in t
 
 - Formatter: `rustfmt` (authoritative — never suggest conflicting style).
 - Linter: `clippy`.
-- Validate with `cargo fmt --check`, `cargo clippy --all-targets --all-features -- -D warnings`, and `cargo test`.
+- Validate with the commands in "Required Verification Pipeline" below.
 - Use `cargo audit` or the project's established dependency scanner when appropriate.
 
 ## Error Handling
@@ -33,24 +33,24 @@ Open this file only when writing or modifying Rust code. General rules stay in t
 - Unit tests in the same file under `#[cfg(test)]`.
 - Integration tests in `tests/` directory.
 - Use `rstest` for parameterized tests.
-- Prefer `assert_eq!` / `assert_matches!` over raw `assert!` for readable failures.
+- Prefer `assert_eq!` / `assert_ne!` over raw `assert!` for readable failures. Use `assert!(matches!(..))` for patterns; `std::assert_matches!` is unstable, so use the `assert_matches` crate only if the project already depends on it.
 
 ## Conventions
 
 - Derive `Debug` on all public types.
 - Use `tracing` for structured logging/instrumentation.
 - Avoid `unsafe` — if required, isolate it and document the invariants.
-- Test public documentation with `cargo test --doc` when the project publishes a library.
+- Test public documentation with `cargo test --doc` whenever the workspace has a library target. Skip it for binary-only projects, where it fails with "no library targets found".
 
 ## Code Generation Defaults
 
 - Explicit `use` imports — no wildcard imports except in tests.
 
-## Formatting Config (`rustfmt.toml`) & Verification Commands
-
-Always run verification commands before finalizing changes. All warnings are treated as errors (`-D warnings`).
-
 ## Required Verification Pipeline
+
+Always run these commands before finalizing changes. All warnings are treated as
+errors (`-D warnings`). Run the last command only when the workspace has a
+library target.
 
 ```bash
 cargo fmt --all -- --check
@@ -78,12 +78,13 @@ use_field_init_shorthand = true
 force_explicit_abi = true
 ```
 
-## Dependency Auditing (`deny.toml`) & Git Hooks
+## Dependency Auditing (`deny.toml`)
 
 - **Dependency Hygiene:**
   - Never use wildcard versions (`*`) in `Cargo.toml`.
   - Prefer pure-Rust dependencies (e.g., `rustls` over `openssl-sys`) to simplify cross-compilation and auditing.
-  - All added crates must use permissive SPDX licenses (`MIT`, `Apache-2.0`, `BSD-3-Clause`, `ISC`, `Zlib`, `MPL-2.0`, `Unicode-3.0`) and pass `cargo deny check` with zero advisories or yanked versions.
+  - All added crates must use a license on the `allow` list in the standard `deny.toml` below, which is the single source of truth for permitted licenses, and pass `cargo deny check` with zero advisories or yanked versions.
+- A pre-commit hook and CI workflow that run this pipeline are in `snippets/rust/`; see `snippets/SNIPPETS.md`.
 
 ## Standard `deny.toml`
 ```toml

@@ -12,6 +12,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   CARGO_TERM_COLOR: always
   RUSTFLAGS: "-Dwarnings"
@@ -22,6 +26,7 @@ jobs:
     name: Format, Clippy & Test
     if: github.event_name == 'workflow_dispatch' || vars.AUTO_CI == 'true'
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: Checkout repository
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -47,13 +52,16 @@ jobs:
       - name: Run unit and integration tests
         run: cargo test --workspace --all-targets --all-features
 
+      # Doc tests need a library target; skip them for binary-only projects.
       - name: Run doc tests
+        if: hashFiles('**/src/lib.rs') != ''
         run: cargo test --workspace --doc --all-features
 
   deny:
     name: Dependency audit (cargo deny)
     if: github.event_name == 'workflow_dispatch' || vars.AUTO_CI == 'true'
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout repository
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4

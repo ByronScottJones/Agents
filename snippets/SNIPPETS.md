@@ -46,7 +46,7 @@ target repository at the location noted, and rename it where indicated.
 - rust/cargo_deny.toml
   - `cargo-deny` settings for advisories, licenses, and sources. Copy to the repository root as `deny.toml`; run with `cargo deny check`.
 - rust/githook_precommits_rust
-  - Git pre-commit hook that runs `cargo fmt`, Clippy, `cargo deny` (if installed), and tests when Rust or Cargo files are staged. Copy to `.git/hooks/pre-commit` and make it executable.
+  - Git pre-commit hook that runs `cargo fmt`, Clippy, `cargo deny` (required; the hook fails if it is not installed), tests, and doc tests (only when a library target exists) when Rust or Cargo files are staged. Copy to `.git/hooks/pre-commit` and make it executable.
 - rust/github_workflows_ci.yml
   - GitHub Actions CI workflow with SHA-pinned actions that checks formatting, runs Clippy, runs unit, integration, and doc tests, and runs `cargo deny check`. Runs manually by default (`workflow_dispatch`); automatic triggers are defined but their jobs run only when the repository variable `AUTO_CI` is `true`. Copy to `.github/workflows/ci.yml`.
 
@@ -61,7 +61,7 @@ Terminal.Gui v1 code uses a different API (`Application.Init()`, `ColorScheme`,
 `ComboBox`); verify against the version you pin before upgrading.
 
 - terminal_gui_themes/program.cs
-  - example application that loads the themes and lets the user switch the active color scheme from a `ComboBox`.
+  - example application that loads the themes and lets the user switch the active color scheme from a `DropDownList`.
 - terminal_gui_themes/themeloader.cs
   - `ThemeLoader` that reads `themes.json`, builds Terminal.Gui color schemes, and falls back to the nearest 16-color ANSI value when TrueColor is unavailable.
 - terminal_gui_themes/themes.json

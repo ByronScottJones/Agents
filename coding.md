@@ -22,15 +22,27 @@ those tools as authoritative and do not recommend conflicting style changes.
 - Avoid restating what the code already says.
 - Keep comments accurate and update or remove them when the code changes.
 - Use language-appropriate comment styles and follow the repository’s existing conventions.
+- These rules govern code committed to a project. Throwaway scripts written for the agent's own tool use follow the Tool Calling rules in `AGENTS.md`.
 
 ## Project Level AGENTS.md Replication
 
-Each Application project should have:
+An application project is a repository that builds a deliverable program or
+service, as opposed to a notes, configuration, or guidance repository.
 
-- AGENTS.md file in the root
-- agents folder for subfiles, skills, etc
+Each application project should have:
 
-For each subfile that you load, if it is relevant to the project, copy it to the project level agents folder, and update AGENTS.md "Topic Routing" table, linking it to the subfile.
+- `AGENTS.md` file in the root
+- `agents` folder for subfiles, skills, etc
+
+For each subfile that you load, if it is relevant to the project, copy it to the
+project level agents folder, and update the `AGENTS.md` "Topic Routing" table,
+linking it to the subfile.
+
+Project copies are snapshots of the files in `~/.agents`. The project's own
+`AGENTS.md` is authoritative for that project, and `agents/AGENTS.md` in a
+project refers to the project copy, not the global one. Refresh a copy from
+`~/.agents` when the source changes, and record in the project `AGENTS.md` where
+a copy was deliberately modified.
 
 ## Project Specification, Handoff, and Changelog
 
@@ -46,7 +58,10 @@ seen the code understand the project, rebuild it, and continue the work.
 
 Link all three from `README.md` and `AGENTS.md`.
 
-** All Entries in HANDOFF.md and CHANGELOG.md MUST have ISO8601 timestamps. **
+**All entries in `HANDOFF.md` and `CHANGELOG.md` MUST have an ISO 8601 UTC
+timestamp recording when the entry was written or last updated.** This is the
+authoring time, never a git commit or merge time (see "Facts that come from git"
+below).
 
 ### Precedence and reading order
 
@@ -78,8 +93,9 @@ it is now; history belongs in `CHANGELOG.md` and unfinished work in
 - Be exact. Where behavior is non-trivial, give the rules step by step,
   including edge cases, ordering, tie-breaks, limits, defaults, and exact
   user-visible strings, plus at least one worked example.
-- Start with a header recording the status and the date and commit it was last
-  reviewed against the code.
+- Start with a header recording the status, the date (ISO 8601, UTC) it was last
+  reviewed against the code, and the base branch. Do not record a commit id: a
+  commit cannot name itself, and git history identifies the revision.
 
 Required sections:
 
@@ -129,20 +145,27 @@ for the next session, whether by the same person or someone else. It holds only
 open items. Remove an item in the pull request that finishes it, and record the
 work in `CHANGELOG.md`; describe the state as it will be once that pull request
 merges. Keep it short and current: a stale item is worse than none. Name the
-owner of every item. Do not record commit ids, pull request numbers, or merge
-times; they go stale at the merge, and git has them.
+owner of every item.
 
-- Write for the merged state. HANDOFF describes the project as it will be after the branch merges, not as it is during review.
-- Never mention PR state. No PR numbers, "awaiting review", "pending merge" or "in flight: PR". This is the same ban the CHANGELOG already has.
-- Don't track review or merge as work. Don't create an item like "review and merge PR". That is the process, not the project.
-- "In flight" is for unfinished work only. Use "none" when the branch completes its task.
-- Say when a status was last verified. Test counts and similar facts go stale, so record the date, or leave out numbers that change every commit.
-- Add a pre-PR check. Before opening a PR, re-read HANDOFF and ask whether every line is still true the moment the PR merges.
+- Write for the merged state. HANDOFF describes the project as it will be after
+  the branch merges, not as it is during review.
+- Never record commit ids, pull request numbers, merge times, or pull request
+  state such as "awaiting review", "pending merge", or "in flight: PR". They go
+  stale at the merge, and git has them. `CHANGELOG.md` has the same ban.
+- Do not track review or merge as work. An item like "review and merge PR" is the
+  process, not the project.
+- "In flight" is for unfinished work only. Use "none" when the branch completes
+  its task.
+- Say when a status was last verified. Test counts and similar facts go stale, so
+  record the date, or leave out numbers that change every commit.
+- Pre-PR check: before opening a PR, re-read HANDOFF and ask whether every line is
+  still true the moment the PR merges.
 
 Required sections:
 
 1. Status: the date it was last updated, what work is in flight (by branch
-   name), and whether the build, tests, and CI were passing.
+   name), and the build, test, and CI results as of the date they were last
+   verified.
 2. Resume here: the exact next step and the commands to run first.
 3. In progress: for each branch in flight other than the one this update ships
    with, its state, uncommitted or unpublished changes, and what is left.
@@ -163,8 +186,10 @@ that predates the file; when adopting this standard, backfill from the repositor
 history. Keep abandoned and superseded work listed with its outcome. Use one
 entry per branch, even when branches are stacked.
 
-Write the entry in the branch, in the same pull request as the work. Use this
-template:
+Write the entry in the branch, in the same pull request as the work. For
+abandoned or superseded work that will not merge, record the entry on the default
+branch through a small docs-only branch and pull request (or the next pull
+request), with `Outcome` filled in. Use this template:
 
 ```markdown
 ---
@@ -254,10 +279,10 @@ free-form input or invent validation rules.
 
 - Match the existing project conventions before applying defaults.
 - For languages that have a language-wide coding style, use that.
-  - Go: Unified Language Design
+  - Go: [Effective Go](https://go.dev/doc/effective_go), formatted with `gofmt`
   - C#: C# [Coding Conventions](https://github.com/ktaranov/naming-convention/blob/master/C%23%20Coding%20Standards%20and%20Naming%20Conventions.md)
-  - Rust: Rust Style Guide
-  - Python: [Pep8](https://peps.python.org/pep-0008/) 
+  - Rust: `rust_style_guide.md`
+  - Python: [PEP 8](https://peps.python.org/pep-0008/); there is no `python.md`, so use the project's configured formatter and linter
 - Include the standard header or preamble required by the language file.
 - Use existing snippets and helpers when they solve the same problem.
 - Distinguish project conventions and code structure from formatting rules; defer formatting to the project’s formatter and linter.

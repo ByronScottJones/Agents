@@ -6,8 +6,11 @@ applies_to: ["Makefile", "*.mk"]
 
 # GNU Makefile Guidance
 
-Load this file when generating, editing, or evaluating a GNU Makefile. Adapt
-these recommendations to the project's existing conventions and constraints.
+Load this file when generating, editing, or evaluating a GNU Makefile. These
+rules follow the [Cloud Posse Makefile Best Practices](https://docs.cloudposse.com/best-practices/developer/makefile/)
+and are the default for new Makefiles. For an existing Makefile, adapt them to
+the project's existing conventions and constraints. Use `cmake_make.md` only to
+choose between CMake and GNU Make.
 
 ## 1. Target Naming & Namespacing
 
@@ -35,7 +38,7 @@ these recommendations to the project's existing conventions and constraints.
 
 ## 5. Root Makefile Standards
 
-* **Standard Targets:** Define `deps`, `build`, `install`, `default`, and `all` when they match the project workflow.
+* **Standard Targets:** Define `deps`, `build`, `install`, and `all` when they match the project workflow. Do not define a separate `default` target; the default goal is `help` (see below).
 * **Strict Tabbing:** All leading whitespace for commands MUST be tabbed (`^T`), never spaces.
 * **Default Target:** Make help the default target, for example with `.DEFAULT_GOAL := help`.
 
@@ -58,16 +61,16 @@ these recommendations to the project's existing conventions and constraints.
 ## This help screen
 help:
 	@printf "Available targets:\n\n"
-	@awk '/^[a-zA-Z\-_0-9%:\\]+/ { \\
-		helpMessage = match(lastLine, /^## (.*)/); \\
-		if (helpMessage) { \\
-			helpCommand = $$1; \\
-			helpMessage = substr(lastLine, RSTART + 3, RLENGTH); \\
-			gsub("\\\\", "", helpCommand); \\
-			gsub(":+$$", "", helpCommand); \\
-			printf "  \x1b[32;01m\%-35s\x1b[0m \%s\n", helpCommand, helpMessage; \\
-		} \\
-	} \\
+	@awk '/^[a-zA-Z\-_0-9%:\\]+/ { \
+		helpMessage = match(lastLine, /^## (.*)/); \
+		if (helpMessage) { \
+			helpCommand = $$1; \
+			helpMessage = substr(lastLine, RSTART + 3, RLENGTH); \
+			gsub("\\\\", "", helpCommand); \
+			gsub(":+$$", "", helpCommand); \
+			printf "  \x1b[32;01m%-35s\x1b[0m %s\n", helpCommand, helpMessage; \
+		} \
+	} \
 	{ lastLine = $$0 }' $(MAKEFILE_LIST) | sort -u
 	@printf "\n"
 ```

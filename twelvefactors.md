@@ -36,7 +36,7 @@ following 12 factors as recommendations where they apply.
 ### III. Config
 
 * **Rule:** Store config in the environment.
-* **Agent Action:** **Never** hardcode credentials, API keys, or environment-specific configuration (like database URIs or hostnames) in the code. All configuration must be read from environment variables at runtime (e.g., `os.environ`, `process.env`). Create a `.env.example` to document required variables, but do not commit actual `.env` files.
+* **Agent Action:** **Never** hardcode credentials, API keys, or environment-specific configuration (like database URIs or hostnames) in the code. Read configuration at runtime using the composable precedence defined in `configuration.md`, in which environment variables override config files. Credentials, API keys, and deployment-specific values MUST be supplied through environment variables or a secret manager, never config files in the repository (e.g., `os.environ`, `process.env`). Create a `.env.example` to document required variables, but do not commit actual `.env` files.
 
 ### IV. Backing Services
 

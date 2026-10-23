@@ -8,8 +8,8 @@ applies_to: [".github/workflows/*.yml", ".github/workflows/*.yaml"]
 
 ## Workflow Structure & Execution
 
-* **Manual by Default:** Create requested workflows, but trigger them with `workflow_dispatch` only. Define automatic triggers (`push`, `pull_request`, `schedule`) only when requested, and keep them disabled by gating every job with `if: github.event_name == 'workflow_dispatch' || vars.AUTO_CI == 'true'`. Setting the `AUTO_CI` repository variable to `true` enables them without editing the workflow.
-* **Granular Triggers:** Use descriptive workflow names and explicit, granular triggers (e.g., path or branch-specific `push` or `pull_request` events) when automatic triggers are requested.
+* **Manual by Default:** CI workflows MUST run only manually unless the user explicitly requests automatic runs. Always include `workflow_dispatch`. Also define the automatic triggers (`push`, `pull_request`, `schedule`) as appropriate, but keep them disabled by gating every job with `if: github.event_name == 'workflow_dispatch' || vars.AUTO_CI == 'true'`. The `AUTO_CI` repository variable is unset by default, so only manual runs execute. Never set `AUTO_CI` to `true` (or remove the gate) unless the user requests automatic runs; setting it to `true` enables them without editing the workflow.
+* **Granular Triggers:** Use descriptive workflow names and explicit, granular triggers (e.g., path or branch-specific `push` or `pull_request` events) for the gated automatic triggers.
 * **Modular Jobs:** Define distinct, independent jobs. Control execution flow and dependencies using `needs`, `outputs`, and `if` conditions.
 * **Artifact Passing:** Transfer build outputs between jobs or workflows securely using `actions/upload-artifact` and `actions/download-artifact`.
 * **Concurrency:** Cancel stale runs for the same branch or pull request unless a workflow must finish every run.
