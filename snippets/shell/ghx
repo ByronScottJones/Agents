@@ -1,0 +1,133 @@
+#!/usr/bin/env bash
+# ghx: run the GitHub CLI (gh) as the account that owns the target repository.
+#
+# The token is read from the secrets file at the moment of the call and is
+# given only to that one gh process. It is never exported into the calling
+# shell, never printed, and never put on a command line. A stale GITHUB_TOKEN in
+# the caller's environment is ignored.
+#
+# Token lookup: group "github.com" (override with GHX_SECRETS_GROUP), key
+# "<owner>_GHTOKEN" with the owner in lowercase, in ~/.secrets/secrets.json
+# (override with GHX_SECRETS_FILE). Example key: byronscottjones_GHTOKEN.
+#
+# Owner resolution, first match wins:
+#   1. --owner OWNER given before the gh arguments
+#   2. -R/--repo OWNER/REPO (or --repo=OWNER/REPO) among the gh arguments
+#   3. GH_REPO=OWNER/REPO in the environment
+#   4. the owner in the URL of the "origin" remote of the current repository
+#
+# Usage:
+#   ghx [--owner OWNER] <gh arguments...>   run gh as OWNER
+#   ghx [--owner OWNER] whoami              print the login the token belongs to
+#                                           and fail if it is not OWNER
+
+set -euo pipefail
+
+SECRETS_FILE="${GHX_SECRETS_FILE:-${HOME}/.secrets/secrets.json}"
+SECRETS_GROUP="${GHX_SECRETS_GROUP:-github.com}"
+
+# Prints an error message to stderr and exits non-zero.
+die() {
+  printf 'ghx: %s\n' "$*" >&2
+  exit 1
+}
+
+# Prints the usage text.
+usage() {
+  sed -n '/^# Usage:/,/^$/p' "$0" | sed 's/^# \{0,1\}//'
+}
+
+# Extracts the owner from a GitHub repository URL (https or ssh form).
+owner_from_url() {
+  local url="$1"
+  url="${url#*github.com[:/]}"
+  printf '%s\n' "${url%%/*}"
+}
+
+# Finds the owner named by -R/--repo/--repo= in the remaining arguments.
+owner_from_args() {
+  local previous="" arg repo=""
+  for arg in "$@"; do
+    case "${previous}" in
+      -R | --repo) repo="${arg}" ;;
+    esac
+    case "${arg}" in
+      --repo=*) repo="${arg#--repo=}" ;;
+    esac
+    previous="${arg}"
+  done
+  if [[ -n "${repo}" && "${repo}" == */* ]]; then
+    printf '%s\n' "${repo%%/*}"
+  fi
+}
+
+# Resolves the owner using the documented order; arguments are the gh arguments.
+resolve_owner() {
+  local owner url
+  owner="$(owner_from_args "$@")"
+  if [[ -z "${owner}" && -n "${GH_REPO:-}" && "${GH_REPO}" == */* ]]; then
+    owner="${GH_REPO%%/*}"
+  fi
+  if [[ -z "${owner}" ]] && url="$(git remote get-url origin 2>/dev/null)"; then
+    owner="$(owner_from_url "${url}")"
+  fi
+  printf '%s\n' "${owner}"
+}
+
+# Warns when the secrets file can be read by other users.
+check_permissions() {
+  local mode
+  mode="$(stat -c '%a' "${SECRETS_FILE}" 2>/dev/null || stat -f '%Lp' "${SECRETS_FILE}" 2>/dev/null || true)"
+  if [[ -n "${mode}" && "${mode}" != "600" && "${mode}" != "400" ]]; then
+    printf 'ghx: warning: %s has mode %s; run chmod 600 on it\n' "${SECRETS_FILE}" "${mode}" >&2
+  fi
+}
+
+# Prints the token for a lowercase owner, or nothing when it is not stored.
+fetch_token() {
+  local owner="$1"
+  jq -r --arg group "${SECRETS_GROUP}" --arg key "${owner}_GHTOKEN" \
+    '.[$group][$key] // empty' "${SECRETS_FILE}" 2>/dev/null || true
+}
+
+main() {
+  local owner="" token login
+
+  if [[ "${1:-}" == "--owner" ]]; then
+    [[ -n "${2:-}" ]] || die "--owner needs a value"
+    owner="$2"
+    shift 2
+  fi
+  [[ $# -gt 0 ]] || {
+    usage
+    exit 2
+  }
+
+  [[ -n "${owner}" ]] || owner="$(resolve_owner "$@")"
+  [[ -n "${owner}" ]] || die "cannot tell which account to use; pass --owner OWNER"
+  [[ "${owner}" =~ ^[A-Za-z0-9-]+$ ]] || die "invalid owner name"
+  owner="$(printf '%s' "${owner}" | tr '[:upper:]' '[:lower:]')"
+
+  [[ -f "${SECRETS_FILE}" ]] || die "secrets file not found: ${SECRETS_FILE}"
+  command -v jq >/dev/null 2>&1 || die "jq is required"
+  command -v gh >/dev/null 2>&1 || die "gh is required"
+  check_permissions
+
+  token="$(fetch_token "${owner}")"
+  [[ -n "${token}" ]] ||
+    die "no token for '${owner}': add key '${owner}_GHTOKEN' to group '${SECRETS_GROUP}' in ${SECRETS_FILE}"
+
+  if [[ "$1" == "whoami" ]]; then
+    login="$(env -u GITHUB_TOKEN GH_TOKEN="${token}" gh api user --jq .login)" ||
+      die "gh could not use the stored token for '${owner}' (invalid or expired?)"
+    printf '%s\n' "${login}"
+    [[ "$(printf '%s' "${login}" | tr '[:upper:]' '[:lower:]')" == "${owner}" ]] ||
+      die "token for '${owner}' belongs to '${login}'"
+    return 0
+  fi
+
+  # GH_TOKEN takes precedence over any inherited GITHUB_TOKEN, which is dropped.
+  exec env -u GITHUB_TOKEN GH_TOKEN="${token}" gh "$@"
+}
+
+main "$@"
