@@ -19,6 +19,16 @@
 - shell/toggle-useOptionAsMetaKey.sh
   - toggles the value of the Terminal Configuration Flag useOptionAsMetaKey for the current profile.
 
+The next two are standalone commands, not fragments. They need `jq` and `gh`,
+read tokens from `~/.secrets/secrets.json`, and are installed by symlinking them
+into a directory on `PATH` (for example `~/.local/bin`); see `git.md` for the
+setup and the secret naming convention.
+
+- shell/ghx
+  - runs `gh` as the GitHub account that owns the target repository, giving the token only to that one process.
+- shell/git-credential-ghx
+  - git credential helper that supplies the token of the account that owns the repository being accessed.
+
 ## Go (`go/`)
 
 The Go snippets require Go modules and any imports shown in their file. Format

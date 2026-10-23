@@ -12,8 +12,10 @@ Load this file for repository, branch, commit, or pull request work.
 - Check `git rev-parse --git-dir` before the first edit.
 - If no repository exists, ask whether to initialize one. Do not initialize a
   repository during a read-only task.
-- Account check: run `gh auth status` before creating a repo, and ask the user
-  to confirm the account is the one to create the project in.
+- Account check: before creating a repo, confirm the account with
+  `ghx --owner <owner> whoami` (or `gh auth status` where `ghx` is not
+  installed; see "GitHub Credentials"), and ask the user to confirm the account
+  is the one to create the project in.
 - Repo details: ask the user whether the project is work or personal, and never
   assume. Work goes to `byronjones-elsevier` and personal goes to
   `byronscottjones`.
@@ -28,6 +30,31 @@ Load this file for repository, branch, commit, or pull request work.
   creating an MCP service.
 - Keep standard project documentation current, including `README.md` and
   `AGENTS.md` when they exist.
+
+## GitHub Credentials
+
+Work and personal repositories use different GitHub accounts, so tokens are
+chosen by repository owner at the moment of use, never stored in the session
+environment.
+
+- Tokens live in `~/.secrets/secrets.json`, group `github.com`, key
+  `<owner>_GHTOKEN` with the owner in lowercase (for example
+  `byronscottjones_GHTOKEN`). Never print, log, commit, or paste a token, and
+  never read the secrets file directly; use the commands below.
+- Run GitHub CLI commands as `ghx <gh arguments>`. It finds the owner from
+  `-R/--repo`, `GH_REPO`, or the `origin` remote; use `ghx --owner <owner> ...`
+  for commands with no repository yet, such as `gh repo create`. Do not rely on
+  `GITHUB_TOKEN` or `GH_TOKEN` from the environment: `ghx` ignores them.
+- `git` over HTTPS uses `git-credential-ghx`, which needs
+  `credential.https://github.com.useHttpPath` set to `true` and `ghx` as the
+  only helper for `https://github.com`.
+- Setup: symlink `snippets/shell/ghx` and `snippets/shell/git-credential-ghx`
+  into a directory on `PATH`, add the tokens, and apply the git configuration
+  shown in the header of `git-credential-ghx`. Check with
+  `ghx --owner <owner> whoami`, which fails if the token belongs to another
+  account.
+- If `ghx` reports a missing key, tell the user which key to add rather than
+  trying another account's token.
 
 ## Changes and Branches
 
