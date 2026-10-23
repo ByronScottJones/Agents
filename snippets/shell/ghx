@@ -12,7 +12,8 @@
 #
 # Owner resolution, first match wins:
 #   1. --owner OWNER given before the gh arguments
-#   2. -R/--repo OWNER/REPO (or --repo=OWNER/REPO) among the gh arguments
+#   2. -R/--repo OWNER/REPO (or --repo=OWNER/REPO) among the gh arguments, or
+#      for "gh api", the owner in a repos/OWNER/... endpoint
 #   3. GH_REPO=OWNER/REPO in the environment
 #   4. the owner in the URL of the "origin" remote of the current repository
 #
@@ -44,9 +45,11 @@ owner_from_url() {
   printf '%s\n' "${url%%/*}"
 }
 
-# Finds the owner named by -R/--repo/--repo= in the remaining arguments.
+# Finds the owner named by -R/--repo/--repo= in the arguments or, for
+# "gh api", by a repos/OWNER/... endpoint path.
 owner_from_args() {
-  local previous="" arg repo=""
+  local previous="" arg repo="" first="${1:-}"
+  local endpoint_re='^/?repos/([A-Za-z0-9-]+)/'
   for arg in "$@"; do
     case "${previous}" in
       -R | --repo) repo="${arg}" ;;
@@ -58,7 +61,19 @@ owner_from_args() {
   done
   if [[ -n "${repo}" && "${repo}" == */* ]]; then
     printf '%s\n' "${repo%%/*}"
+    return 0
   fi
+  # The endpoint form applies only to "gh api"; graphql and user endpoints name
+  # no owner, so they still need --owner or a repository with an origin remote.
+  if [[ "${first}" == "api" ]]; then
+    for arg in "$@"; do
+      if [[ "${arg}" =~ ${endpoint_re} ]]; then
+        printf '%s\n' "${BASH_REMATCH[1]}"
+        return 0
+      fi
+    done
+  fi
+  return 0
 }
 
 # Resolves the owner using the documented order; arguments are the gh arguments.
