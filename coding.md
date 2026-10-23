@@ -46,6 +46,8 @@ seen the code understand the project, rebuild it, and continue the work.
 
 Link all three from `README.md` and `AGENTS.md`.
 
+** All Entries in HANDOFF.md and CHANGELOG.md MUST have ISO8601 timestamps. **
+
 ### Precedence and reading order
 
 - `ENGINEERING.md` is the source of truth for behavior and design. When the
@@ -129,6 +131,13 @@ work in `CHANGELOG.md`; describe the state as it will be once that pull request
 merges. Keep it short and current: a stale item is worse than none. Name the
 owner of every item. Do not record commit ids, pull request numbers, or merge
 times; they go stale at the merge, and git has them.
+
+- Write for the merged state. HANDOFF describes the project as it will be after the branch merges, not as it is during review.
+- Never mention PR state. No PR numbers, "awaiting review", "pending merge" or "in flight: PR". This is the same ban the CHANGELOG already has.
+- Don't track review or merge as work. Don't create an item like "review and merge PR". That is the process, not the project.
+- "In flight" is for unfinished work only. Use "none" when the branch completes its task.
+- Say when a status was last verified. Test counts and similar facts go stale, so record the date, or leave out numbers that change every commit.
+- Add a pre-PR check. Before opening a PR, re-read HANDOFF and ask whether every line is still true the moment the PR merges.
 
 Required sections:
 

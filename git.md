@@ -9,6 +9,11 @@ Load this file for repository, branch, commit, or pull request work.
 
 ## Repository Setup
 
+- Account check: run gh auth status before creating a repo, and ask the user to confirm the account is the one to create the project in.
+- Project start: run git init -b main, add a .gitignore, and make an initial commit on main with only that file. Then work on a feature branch.
+- Repo details: ask the user whether the project is work or personal, and never assume. Work goes to byronjones-elsevier and personal goes to byronscottjones. Repos are always private.
+- Commits: every completed change that compiles, and passes lint and tests where they exist, gets its own commit. The commit message ends with the attribution line.
+- Pull requests: one PR per major feature, such as a milestone in the Plan. Small fixes and updates to documentation should be commits grouped under larger PRs.
 - Check `git rev-parse --git-dir` before the first edit.
 - If no repository exists, ask whether to initialize one. If approved, add a suitable `.gitignore` and commit the existing files.
 - Keep standard project documentation current, including `README.md` and `AGENTS.md` when they exist.
