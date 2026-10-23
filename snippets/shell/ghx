@@ -78,7 +78,8 @@ resolve_owner() {
 check_permissions() {
   local mode
   mode="$(stat -c '%a' "${SECRETS_FILE}" 2>/dev/null || stat -f '%Lp' "${SECRETS_FILE}" 2>/dev/null || true)"
-  if [[ -n "${mode}" && "${mode}" != "600" && "${mode}" != "400" ]]; then
+  # Any group or other permission bit (the last two digits) exposes the file.
+  if [[ -n "${mode}" && "${mode: -2}" != "00" ]]; then
     printf 'ghx: warning: %s has mode %s; run chmod 600 on it\n' "${SECRETS_FILE}" "${mode}" >&2
   fi
 }
