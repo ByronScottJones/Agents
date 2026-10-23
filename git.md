@@ -55,6 +55,24 @@ environment.
   account.
 - If `ghx` reports a missing key, tell the user which key to add rather than
   trying another account's token.
+- `ghx` and `git-credential-ghx` can run outside the sandbox with the user's
+  tokens, so they are locked against silent changes: read-only, with the macOS
+  user-immutable flag on both scripts and on their symlinks in `~/.local/bin`
+  (`ls -lO` shows `uchg`). Do not edit, replace, or unlock them without the
+  user's explicit request.
+- To update the scripts, the user (or the agent at their request) unlocks them,
+  makes the change on a branch, and locks them again:
+
+  ```bash
+  chflags nouchg snippets/shell/ghx snippets/shell/git-credential-ghx
+  chmod u+w snippets/shell/ghx snippets/shell/git-credential-ghx
+  # edit or `git pull`, then lock again:
+  chmod a-w snippets/shell/ghx snippets/shell/git-credential-ghx
+  chflags uchg snippets/shell/ghx snippets/shell/git-credential-ghx
+  ```
+
+  While locked, `git pull` and `git checkout` fail on these two files when the
+  incoming change touches them; unlock first.
 
 ## Changes and Branches
 
