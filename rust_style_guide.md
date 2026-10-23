@@ -3,6 +3,7 @@
 Adhere strictly to the official Rust Style Guide (`rustfmt` defaults), Rust API Guidelines, and idiomatic `clippy` rules. All generated Rust code and `Cargo.toml` files must match these conventions.
 
 ## 1. Core Formatting & Whitespace
+
 - **Indentation:** 4 spaces per level (never tabs).
 - **Line Width:** Max 100 characters for code; max 80 characters for comments.
 - **Indent Style:** Always use **block indent** over visual indent.
@@ -11,6 +12,7 @@ Adhere strictly to the official Rust Style Guide (`rustfmt` defaults), Rust API 
 - **Sorting:** Use "version sorting" (numeric chunks compared by value, e.g., `u8` before `u16`; `_` before characters; `UpperCamelCase` before `snake_case`).
 
 ## 2. Naming & Idioms
+
 - **`UpperCamelCase`:** Types, traits, enum variants.
 - **`snake_case`:** Functions, methods, modules, local variables, struct fields, macros.
 - **`SCREAMING_SNAKE_CASE`:** `const` and immutable `static` items.
@@ -19,11 +21,13 @@ Adhere strictly to the official Rust Style Guide (`rustfmt` defaults), Rust API 
 - **Comparisons:** Prefer dereferencing over referencing (`*t == u` instead of `t == &u`).
 
 ## 3. Comments & Attributes
-- **Comments:** Prefer `// ` over `/* ... */`. Place on own line above code. Write complete sentences (capitalized, ending with `.`).
-- **Doc Comments:** Prefer outer `/// ` over `/** ... */`. Use inner `//! ` only for crate/module-level docs. **Always place doc comments *before* attributes.**
+
+- **Comments:** Prefer `//` over `/* ... */`. Place on own line above code. Write complete sentences (capitalized, ending with `.`).
+- **Doc Comments:** Prefer outer `///` over `/** ... */`. Use inner `//!` only for crate/module-level docs. **Always place doc comments *before* attributes.**
 - **Attributes:** One attribute per line, indented with the item. Combine derives into a single `#[derive(Foo, Bar)]` preserving order. Space around `=` (`#[foo = 42]`).
 
 ## 4. Module Ordering & Imports
+
 - **Top-of-File Order:** `extern crate` (alphabetical) -> `use` imports -> `mod foo;` declarations -> other items. Do not reorder `#[macro_use]` modules.
 - **Imports (`use`):**
   - Keep on one line if it fits; no spaces inside `{}` (`use a::b::{c, d};`).
@@ -33,6 +37,7 @@ Adhere strictly to the official Rust Style Guide (`rustfmt` defaults), Rust API 
   - If an import list contains any nested groups (`u::{...}`), format the outer brace block across multiple lines.
 
 ## 5. Items (`fn`, `struct`, `enum`, `trait`, `impl`)
+
 - **Functions:** `[pub] [unsafe] [extern "ABI"] fn name(arg1: T1, arg2: T2) -> Ret {`. Always specify the ABI string for `extern` items (`extern "C"`). If multi-line args, break after `(`, block-indent one per line with trailing comma, put `) -> Ret {` on its own line.
 - **Structs & Enums:**
   - Prefer unit structs (`struct Foo;`) over empty brace/tuple structs (`struct Foo {}` / `struct Foo();`).
@@ -45,6 +50,7 @@ Adhere strictly to the official Rust Style Guide (`rustfmt` defaults), Rust API 
   - When breaking multi-trait bounds (`+`), break *before* every `+` and block-indent.
 
 ## 6. Statements & Expressions
+
 - **`let` & `let-else`:**
   - `let pat: Type = expr;` (space after `:`, spaces around `=`). If multi-line, break after `=` first and block-indent.
   - Single-line `let-else` allowed if short and body is a single expression: `let Some(x) = opt else { return };`. Otherwise, put `else {` on the same line (or aligned with `let` if multi-line) and block-indent the diverging body.
@@ -52,6 +58,7 @@ Adhere strictly to the official Rust Style Guide (`rustfmt` defaults), Rust API 
 - **Calls & Combinable Expressions:**
   - Multi-line calls: break after `(`, one arg per line, trailing comma.
   - **Combinable rule:** If an outer call takes a single multi-line argument (closure, struct literal, array, inner call), keep the outer delimiter hugging the inner expression without double-indenting:
+
     ```rust
     foo(Bar {
         field: val,
@@ -61,6 +68,7 @@ Adhere strictly to the official Rust Style Guide (`rustfmt` defaults), Rust API 
         y * 2
     });
     ```
+
 - **Method Chains:** If multi-line, break before `.` and after `?`, placing each call on its own block-indented line.
 - **Operators & Ranges:**
   - No space after unary ops (`!x`, `*x`, `&x`), except space after `&mut x`.
@@ -73,12 +81,14 @@ Adhere strictly to the official Rust Style Guide (`rustfmt` defaults), Rust API 
   - `match` arms: never start a pattern with a leading `|`. Use a trailing comma on non-block arms. Prefer wrapping the right-hand side in `{ ... }` rather than line-breaking the left-hand pattern.
 
 ## 7. `Cargo.toml` Conventions
+
 - **Section Ordering:** `[package]` must be first. Within `[package]`, order keys as: `name`, `version`, [other keys version-sorted], `description` (last).
 - **Sorting & Spacing:** Version-sort keys in all other sections (`[dependencies]`, etc.). Put 1 blank line *between* sections, 0 blank lines inside a section. Spaces around `=` (`key = "val"`). Use bare keys (unquoted) unless required by TOML syntax.
 - **Tables & Arrays:** Keep inline dependency tables (`serde = { version = "1.0", features = ["derive"] }`) on a single line. If it exceeds 100 chars, convert to a `[dependencies.crate_name]` section or block-indent array items with a trailing comma.
 - **Metadata:** `license` must be a valid SPDX expression. Wrap `description` at 80 columns and do not start it with the crate's name.
 
 ## 8. Rust API Guidelines
+
 - **Conversion Prefixes (Cost & Ownership):**
   - `as_`: Free borrowed-to-borrowed view (`as_str()`, `as_bytes()`). Never allocates.
   - `to_`: Borrowed-to-owned conversion (`to_string()`, `to_vec()`) or expensive computation. May allocate.
@@ -102,6 +112,7 @@ Adhere strictly to the official Rust Style Guide (`rustfmt` defaults), Rust API 
   - Document fallible behavior under `# Errors` and `unsafe` preconditions under `# Safety`. Every `unsafe { ... }` block requires a preceding `// SAFETY: ...` comment explaining why the invariants hold.
 
 ## 9. Idiomatic Clippy Rules (`clippy::all`, `clippy::pedantic`)
+
 - **Attributes & Lints:**
   - Apply `#[must_use]` on pure functions, builder steps, and custom types whose return values should not be silently ignored.
   - Scope lint overrides narrowly using `#[expect(clippy::lint_name, reason = "...")]` (preferred over `#[allow(...)]` so stale suppressions warn automatically).
@@ -122,6 +133,7 @@ Adhere strictly to the official Rust Style Guide (`rustfmt` defaults), Rust API 
   - Inline variables directly into format strings: `println!("{foo}")` instead of `println!("{}", foo)` (`uninlined_format_args`).
 
 ## 10. Recommended `Cargo.toml` `[lints]` Configuration
+
 Include this baseline `[lints]` block in `Cargo.toml` (or `[workspace.lints]` with `lints.workspace = true` in member crates) to enforce these rules automatically:
 
 ```toml
