@@ -42,7 +42,7 @@ choose between CMake and GNU Make.
 * **Strict Tabbing:** All leading whitespace for commands MUST be tabbed (`^T`), never spaces.
 * **Default Target:** Make help the default target, for example with `.DEFAULT_GOAL := help`.
 
-## Reliability
+## 6. Reliability
 
 * Mark command targets `.PHONY` unless they intentionally create a file.
 * Validate required tools and variables before starting a destructive or remote operation.
@@ -50,7 +50,7 @@ choose between CMake and GNU Make.
 * Consider parallel execution when targets are independent; use `.NOTPARALLEL` only when ordering is required.
 * Test the help target and the main dependency paths after changing the Makefile.
 
-## 6. Self-Documenting Help System
+## 7. Self-Documenting Help System
 
 * **Comment Syntax:** Document all user-facing targets with a double-hash comment (`##`) on the preceding line.
 * **Help Implementation:** You MUST include the following `awk` script in the Makefile to auto-generate the help menu:
@@ -77,7 +77,7 @@ help:
 
 <!-- markdownlint-enable MD010 -->
 
-## 7. Dependency Inventory & SBOM Targets
+## 8. Dependency Inventory & SBOM Targets
 
 Every project Makefile that builds or ships code MUST provide these targets so
 dependencies are auditable the same way in every repo.
@@ -118,8 +118,7 @@ Pick the ecosystem's standard tooling rather than parsing files by hand:
 Verify each tool's flags against its `--help` before writing the script; do not
 rely on remembered options.
 
-* **Self-reporting binaries:** For a shipped CLI, prefer a `--libs-version`
-  option on the binary itself over inspecting the file from `make`. It reports
-  exactly what that build contains, including single-file or bundled
-  publishes, and keeps the Makefile free of binary-parsing logic. Do not add a
-  Makefile target that scrapes a compiled binary.
+* **Self-reporting binaries:**
+  All executables should have the following command line arguments:
+  - `--libs-version` returns the same format as make --libs-version.
+  - `--sbom` returns the bom.json.
