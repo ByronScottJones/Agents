@@ -76,3 +76,50 @@ help:
 ```
 
 <!-- markdownlint-enable MD010 -->
+
+## 7. Dependency Inventory & SBOM Targets
+
+Every project Makefile that builds or ships code MUST provide these targets so
+dependencies are auditable the same way in every repo.
+
+* **`libs-version`:** Print every direct and transitive library the shipped
+  artifact depends on, one `name  version` pair per line, aligned in columns,
+  sorted by name. Scope it to what ships (exclude test and dev-only projects).
+  Depend on `deps` so the lock/restore state is current.
+* **`sbom`:** Write a CycloneDX JSON SBOM to `$(SBOM_DIR)/bom.json`
+  (`SBOM_DIR ?= artifacts/sbom`). Depend on `deps`.
+* **`sbom/install`:** Install the SBOM tool once, pinned in a committed
+  manifest or lock file, so the tool version is reproducible. Once the
+  manifest is committed, restore from it (e.g. `dotnet tool restore`) rather
+  than installing the latest version, and invoke the tool by the exact,
+  case-sensitive command name the manifest declares. `sbom` MUST fail
+  with a clear "run `make sbom/install`" message when the tool is missing.
+* **Publish/release targets:** Also write the SBOM next to each published
+  artifact (`<publish dir>/bom.json`). A missing SBOM tool MUST only warn and
+  skip (e.g. `sbom.sh ... --skip-if-missing`) so publishing is not blocked;
+  genuine tool failures still fail the build. The standalone `sbom` target
+  stays strict.
+* **`clean`:** Remove `$(SBOM_DIR)`. Add `artifacts/` (or the build output
+  directory) to `.gitignore`.
+* **Scripts, not recipes:** Put the logic in `scripts/libs-version.sh` and
+  `scripts/sbom.sh` (see section 4); the Makefile only passes variables.
+  Mark all of these targets `.PHONY` and document them with `##` help text.
+
+Pick the ecosystem's standard tooling rather than parsing files by hand:
+
+| Ecosystem | `libs-version` | `sbom` |
+| --- | --- | --- |
+| .NET | `dotnet list <project> package --include-transitive` | `dotnet-CycloneDX` (local tool, `dotnet-tools.json`) |
+| Node | `npm ls --all --omit=dev` | `@cyclonedx/cyclonedx-npm` |
+| Python | `pip freeze` or `uv pip list` in the project venv | `cyclonedx-py` |
+| Go | `go list -m all` | `cyclonedx-gomod` |
+| Rust | `cargo tree --prefix none` | `cargo-cyclonedx` |
+
+Verify each tool's flags against its `--help` before writing the script; do not
+rely on remembered options.
+
+* **Self-reporting binaries:** For a shipped CLI, prefer a `--libs-version`
+  option on the binary itself over inspecting the file from `make`. It reports
+  exactly what that build contains, including single-file or bundled
+  publishes, and keeps the Makefile free of binary-parsing logic. Do not add a
+  Makefile target that scrapes a compiled binary.
