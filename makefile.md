@@ -39,6 +39,7 @@ choose between CMake and GNU Make.
 ## 5. Root Makefile Standards
 
 * **Standard Targets:** Define `deps`, `build`, `install`, and `all` when they match the project workflow. Do not define a separate `default` target; the default goal is `help` (see below).
+* **Display Artifact Paths** Always display the full path to generated artifacts. For Build steps, include instructions for running the application.
 * **Strict Tabbing:** All leading whitespace for commands MUST be tabbed (`^T`), never spaces.
 * **Default Target:** Make help the default target, for example with `.DEFAULT_GOAL := help`.
 
