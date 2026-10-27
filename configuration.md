@@ -35,20 +35,22 @@ intentionally use XDG paths.
 ## Precedence
 
 All applications and services, including those following `twelvefactors.md`,
-use composable configuration. Apply configuration from highest to lowest
-priority:
+use composable configuration. Load and apply sources in the order listed below,
+from lowest priority to highest priority. When two sources set the same key,
+the last source applied wins. A source that does not set a key leaves the value
+from the previously applied source unchanged.
 
-1. Runtime command-line arguments
-2. Environment variables
-3. Local config file in the application directory (development override, not
+1. Application defaults (lowest priority)
+2. Global config file ("<appname>_config.toml")
+3. Environment-specific config file ("<appname>_config_dev.toml", "<appname>_config_prod.toml")
+4. Local config file in the application directory (development override, not
    committed)
-4. Environment-specific config file (`config.dev.toml`, `config.prod.toml`)
-5. Global config file (`config.toml`)
-6. Application defaults
+5. Environment variables
+6. Runtime command-line arguments (highest priority)
 
 Where the files live follows the Locations table above. Frameworks and
 deployment platforms may define a different order; document that order in the
-owning topic file.
+owning topic file, including whether it replaces or extends this order.
 
 ## Secrets
 
@@ -56,8 +58,8 @@ owning topic file.
 - Use a secret manager or an environment variable for runtime secrets.
 - Treat variables exposed to browser or client bundles as public configuration,
   never as secrets.
-- Namespace environment variables to avoid collisions, such as `AGENT_API_KEY`
-  instead of `API_KEY`.
+- Namespace environment variables to avoid collisions, such as "<APPNAME>_API_KEY"
+  instead of "API_KEY".
 - Keep local `.env` files in `.gitignore`; commit a `.env.example` when useful.
 - Restrict permissions on local files that contain sensitive values.
 
