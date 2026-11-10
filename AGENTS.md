@@ -17,13 +17,12 @@ and commit each completed change after validation. If a session starts
 with uncommitted changes, inspect and preserve them; don’t assume they
 should be committed or discarded.
 
-Load more than one file when a task spans topics. For example, a Tauri
-application with a Rust backend and Terraform deployment requires
-`tauri.md`, `rust.md`, and `terraform.md`.
-
 ## Topic Routing
 
-Load the matching file before making decisions or edits in that topic:
+Load the matching file before making decisions or edits in that topic.
+Load more than one file when a task spans topics. For example, a Tauri
+application with a Rust backend and Terraform deployment requires
+`coding.md`, `git.md`, `tauri.md`, `rust.md`, and `terraform.md`.
 
 | Topic | File to load |
 | --- | --- |
