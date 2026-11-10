@@ -8,6 +8,19 @@ description: "Always active; routes to the topic files required by the current t
 This file is always active. Apply its rules to every task, then load only the
 topic files required by the task. Do not load every topic file by default.
 
+## Code Related Work
+
+Before any repository work — including inspection, editing, branching, or
+committing — read git.md and the project guidance below. Treat its
+branch and commit workflow as required: create a branch for each feature,
+and commit each completed change after validation. If a session starts
+with uncommitted changes, inspect and preserve them; don’t assume they
+should be committed or discarded.
+
+Load more than one file when a task spans topics. For example, a Tauri
+application with a Rust backend and Terraform deployment requires
+`tauri.md`, `rust.md`, and `terraform.md`.
+
 ## Topic Routing
 
 Load the matching file before making decisions or edits in that topic:
@@ -59,10 +72,6 @@ Load the matching file before making decisions or edits in that topic:
 | Terminal.Gui theme subsystem (C#) | [`terminal_gui_themes.md`](terminal_gui_themes.md) |
 | Code snippets | [`snippets/SNIPPETS.md`](snippets/SNIPPETS.md) |
 | Skills (on-demand workflows) | `skills/<name>/SKILL.md`; see the Skills section of [`README.md`](README.md) |
-
-Load more than one file when a task spans topics. For example, a Tauri
-application with a Rust backend and Terraform deployment requires
-`tauri.md`, `rust.md`, and `terraform.md`.
 
 ## Guidance Precedence
 
