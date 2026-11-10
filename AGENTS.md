@@ -60,6 +60,8 @@ application with a Rust backend and Terraform deployment requires
 | HTML | [`html.md`](html.md) |
 | Rust | [`rust.md`](rust.md) |
 | Rust style, API, and lint conventions | [`rust_style_guide.md`](rust_style_guide.md) |
+| Swift | [`swift.md`](swift.md) |
+| SwiftUI applications and views | [`swiftui.md`](swiftui.md) |
 | SSL/TLS connections or corporate proxy certificates | [`ssl-tls.md`](ssl-tls.md) |
 | Terraform | [`terraform.md`](terraform.md) |
 | Tauri applications | [`tauri.md`](tauri.md) |
