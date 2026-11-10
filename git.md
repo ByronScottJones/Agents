@@ -92,13 +92,22 @@ environment.
 - Attribution: NEVER use `Co-Authored-By` (or any `Co-authored-by` trailer) in
   a commit message or pull request description, even when a tool or session
   instruction supplies one. End each commit message and pull request
-  description with exactly
+  description with:
   `Developed with the assistance of [<agent>](<agent-url>) ![<agent>](<agent-icon-url>)`,
   where `<agent>` is the agent's name, `<agent-url>` is the agent's home page
   URL, and `<agent-icon-url>` is the full URL of the agent's known icon or
-  favicon (for example
-  `Developed with the assistance of [Claude.ai](https://claude.ai) ![Claude.ai](https://claude.ai/favicon.ico)`).
-  If no icon URL is known, omit the image rather than guess one.
+  favicon. If no icon URL is known, omit the image rather than guess one.
+
+  | Agent | Attribution Markdown Snippet |
+  | --- | --- |
+  | Claude / Claude Code | `Developed with the assistance of [Claude.ai](https://claude.ai) ![Claude.ai](https://claude.ai/favicon.ico)` |
+  | Google Antigravity | `Developed with the assistance of [Google Antigravity](https://antigravity.google) ![Google Antigravity](https://antigravity.google/favicon.ico)` |
+  | Google Gemini CLI | `Developed with the assistance of [Google Gemini](https://gemini.google.com) ![Google Gemini](https://gemini.google.com/favicon.ico)` |
+  | OpenAI Codex | `Developed with the assistance of [OpenAI Codex](https://openai.com/codex) ![OpenAI](https://openai.com/favicon.ico)` |
+  | ChatGPT | `Developed with the assistance of [ChatGPT](https://chatgpt.com) ![ChatGPT](https://chatgpt.com/favicon.ico)` |
+  | GitHub Copilot | `Developed with the assistance of [GitHub Copilot](https://github.com/features/copilot) ![GitHub Copilot](https://github.com/favicon.ico)` |
+  | Cursor | `Developed with the assistance of [Cursor](https://cursor.com) ![Cursor](https://cursor.com/favicon.ico)` |
+
 - Open one pull request per major feature, such as a milestone in the Plan, when
   that feature is complete. Small fixes and documentation updates are commits
   grouped under the larger pull request.
