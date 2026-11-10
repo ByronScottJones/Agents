@@ -97,7 +97,9 @@ environment.
   where `<agent>` is the agent's name, `<agent-url>` is the agent's home page
   URL, and `<agent-icon-url>` is the full URL of the agent's known icon or
   favicon (for example
-  `Developed with the assistance of [Claude.ai](https://claude.ai) ![Claude.ai](https://claude.ai/favicon.ico)`).
+  `Developed with the assistance of [Claude.ai](https://claude.ai) ![Claude.ai](https://claude.ai/favicon.ico)`
+  or
+  `Developed with the assistance of [Google Antigravity](https://antigravity.google) ![Google Antigravity](https://antigravity.google/favicon.ico)`).
   If no icon URL is known, omit the image rather than guess one.
 - Open one pull request per major feature, such as a milestone in the Plan, when
   that feature is complete. Small fixes and documentation updates are commits
