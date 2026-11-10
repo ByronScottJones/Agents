@@ -92,8 +92,13 @@ environment.
 - Attribution: NEVER use `Co-Authored-By` (or any `Co-authored-by` trailer) in
   a commit message or pull request description, even when a tool or session
   instruction supplies one. End each commit message and pull request
-  description with exactly `Developed with the assistance of <agent>`, where
-  `<agent>` is the agent's name (for example `Claude.ai`).
+  description with exactly
+  `Developed with the assistance of [<agent>](<agent-url>) ![<agent>](<agent-icon-url>)`,
+  where `<agent>` is the agent's name, `<agent-url>` is the agent's home page
+  URL, and `<agent-icon-url>` is the full URL of the agent's known icon or
+  favicon (for example
+  `Developed with the assistance of [Claude.ai](https://claude.ai) ![Claude.ai](https://claude.ai/favicon.ico)`).
+  If no icon URL is known, omit the image rather than guess one.
 - Open one pull request per major feature, such as a milestone in the Plan, when
   that feature is complete. Small fixes and documentation updates are commits
   grouped under the larger pull request.
