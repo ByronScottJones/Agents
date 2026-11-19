@@ -319,3 +319,66 @@ free-form input or invent validation rules.
 - Avoid race conditions by using the project’s established synchronization patterns.
 - Keep operations idempotent when they may be retried or run concurrently.
 - Document ordering assumptions when they matter to correctness.
+
+## CLI `--about` Flag Standard
+
+All applications MUST implement an `--about` flag that outputs structured project and build metadata.
+
+### Separation from `--version`
+
+* **`--version` (`-V`):** MUST remain lightweight and output a single line (`<name> <semver>`) for compatibility with version-checking scripts.
+* **`--about`:** MUST output comprehensive project, licensing, and build diagnostic metadata, then exit with status code `0`.
+
+### Output Format
+
+- MUST output valid **YAML** to `stdout`. YAML provides clean, human-readable `key: value` output in interactive terminals while remaining machine-parseable (e.g., via `yq`).
+
+### Required & Recommended Schema
+
+Implementations MUST include the **Core Metadata** fields and SHOULD include the **Build Diagnostics** fields injected at compile/build time:
+
+#### 1. Core Metadata (Required)
+* `name` (string): Binary or package name.
+* `version` (string): Semantic version (SemVer). **Must be quoted in YAML** if it could be parsed as a float (e.g., `"1.0"`).
+* `description` (string): Concise one-to-two sentence summary of the tool's purpose.
+* `repository` (string): Canonical source repository URL (e.g., GitHub URL).
+* `license` (string): Valid [SPDX License Identifier](https://spdx.org) (e.g., `MIT`, `Apache-2.0`).
+* `authors` (array of strings): Maintainer names, emails, or organization.
+
+#### 2. Build Diagnostics (Recommended)
+* `build.commit` (string): Short Git commit SHA of the build.
+* `build.dirty` (boolean): `true` if built with uncommitted working tree changes; otherwise `false`.
+* `build.timestamp` (string): ISO-8601 UTC build timestamp (`YYYY-MM-DDTHH:MM:SSZ`).
+* `build.target` (string): Target OS and architecture triple (e.g., `aarch64-apple-darwin`, `x86_64-unknown-linux-gnu`).
+* `build.compiler` (string): Compiler or runtime version used to build the binary.
+* `build.features` (array of strings, optional): Enabled compile-time feature flags.
+
+### YAML Serialization Rules (Agent Implementation Notes)
+
+A YAML Library should be used when already part of the project. 
+When implementing `--about` without a full YAML serialization library:
+1. **Quote ambiguous strings:** Always wrap string values in double quotes (`"..."`) if they contain `: `, `#`, leading/trailing whitespace, or look like numbers/booleans (such as `"1.0"` or `"yes"`).
+2. **Escape internal quotes:** Escape any double quotes (`\"`) and backslashes (`\\`) inside quoted strings.
+3. **Omit unavailable diagnostics:** If build metadata (like Git commit) is unavailable in a given build environment, omit the key or set it to `null` rather than emitting placeholder text.
+
+### Reference Output
+
+#### YAML (`mytool --about`)
+
+```yaml
+name: mytool
+version: "<semantic version number, same as provided by --version>"
+description: "A fast CLI utility for indexing local repositories."
+repository: "https://github.com/org/repo"
+license: MIT "<Provide a Link to the repo LICENSE.md>"
+authors:
+  - "Jane Doe <jane@example.com>"
+build:
+  commit: "<build hash>"
+  dirty: "<true|false>"
+  timestamp: "<ISO8601 Format>"
+  target: "<LLVM/GNU Target Triple>  -  (<arch>-<vendor>-<os>-<abi>) or equivalent>"
+  compiler: "<compiler-name version>  -  same as running 'compiler --version'"
+  features: "<build flags>"
+```
+
