@@ -1,0 +1,136 @@
+#!/usr/bin/env bash
+# Pre-commit hook for a public repository: blocks commits that add secrets or
+# sensitive information. Only added lines in the staged diff are scanned.
+#
+# Install once per clone:  git config core.hooksPath .github/hooks
+#
+# Rules cover credentials (tokens, private keys, secret assignments),
+# personal or corporate email addresses, and absolute home-directory paths.
+# Add private, never-committed patterns (employer or project names, internal
+# hostnames) to the file printed by:
+#   git rev-parse --git-path sensitive-denylist
+# One case-insensitive extended regular expression per line; '#' starts a
+# comment. That file lives inside .git, so it is never published.
+#
+# A reviewed false positive can be accepted by ending the line with
+# 'secret-scan: ignore'. Matched values are never printed.
+set -euo pipefail
+
+# Marker that exempts a reviewed line from every rule.
+readonly IGNORE_MARKER='secret-scan: ignore'
+
+usage() {
+  cat <<'EOF'
+Usage: pre-commit [-h | --help]
+
+Scan the staged changes for secrets and sensitive information.
+Exit codes: 0 clean, 1 findings, 2 invalid arguments.
+
+Install: git config core.hooksPath .github/hooks
+Local denylist: git rev-parse --git-path sensitive-denylist
+Exempt a reviewed line by ending it with: secret-scan: ignore
+EOF
+}
+
+# Handle arguments before touching the repository.
+case "${1:-}" in
+  -h | -H | --help | --HELP | '-?')
+    usage
+    exit 0
+    ;;
+  '') ;;
+  *)
+    echo "pre-commit: unknown argument: $1" >&2
+    usage >&2
+    exit 2
+    ;;
+esac
+
+# An explicit template makes macOS and Linux mktemp both honor TMPDIR.
+STREAM="$(mktemp "${TMPDIR:-/tmp}/pre-commit.XXXXXX")"
+trap 'rm -f "${STREAM}"' EXIT
+FOUND=0
+
+# Emit "path<TAB>line<TAB>content" for every added line in the staged diff.
+# Dependency lock files and vendored modules are skipped.
+collect_added_lines() {
+  git -c core.quotePath=false diff --cached --no-color --unified=0 --diff-filter=ACMR |
+    awk -v marker="${IGNORE_MARKER}" '
+      /^diff --git / { header = 1; next }
+      header && $0 == "+++ /dev/null" { skip = 1; next }
+      header && /^\+\+\+ / {
+        path = substr($0, 7)
+        skip = (path ~ /^node_modules\// || path ~ /(^|\/)package-lock\.json$/)
+        next
+      }
+      /^@@ / {
+        header = 0
+        match($0, /\+[0-9]+/)
+        line = substr($0, RSTART + 1, RLENGTH - 1) + 0
+        next
+      }
+      !header && /^\+/ {
+        if (!skip && index($0, marker) == 0) {
+          printf "%s\t%d\t%s\n", path, line, substr($0, 2)
+        }
+        line++
+      }
+    '
+}
+
+# check_rule NAME FLAGS REGEX [ALLOW]
+# Report each added line matching REGEX. FLAGS containing "i" makes the match
+# case-insensitive. When ALLOW is set, a line is reported only if it contains
+# a match that ALLOW does not accept. Prints path:line and the rule name, never
+# the matched value.
+check_rule() {
+  local name="$1" flags="$2" regex="$3" allow="${4:-}"
+  local -a grep_opts=(-E)
+  [[ "${flags}" == *i* ]] && grep_opts=(-iE)
+  local path line content
+  while IFS=$'\t' read -r path line content; do
+    if [[ -n "${allow}" ]]; then
+      # Skip the line when every match is on the allow list.
+      grep -oE -e "${regex}" <<<"${content}" | grep -vqE -e "${allow}" || continue
+    fi
+    echo "pre-commit: ${path}:${line}: ${name}" >&2
+    FOUND=$((FOUND + 1))
+  done < <(grep "${grep_opts[@]}" -e "${regex}" "${STREAM}" || true)
+}
+
+collect_added_lines >"${STREAM}"
+
+# Credentials and key material.
+check_rule aws-access-key - 'AKIA[0-9A-Z]{16}'
+check_rule github-token - '(gh[pousr]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{20,})'
+check_rule slack-token - 'xox[baprs]-[A-Za-z0-9-]{10,}'
+check_rule api-key - '(sk-[A-Za-z0-9]{20,}|AIza[0-9A-Za-z_-]{30,})'
+check_rule private-key - '-----BEGIN [A-Z ]*PRIVATE KEY-----'
+check_rule jwt - 'eyJ[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}'
+check_rule bearer-token - '[Bb]earer [A-Za-z0-9._-]{20,}'
+check_rule secret-assignment i "(password|passwd|secret|api[_-]?key|token)[A-Za-z_]*[\"']?[[:space:]]*[:=][[:space:]]*[\"'][^\"' <{(\$]{8,}"
+
+# Personal and corporate identifiers. Placeholder domains, GitHub noreply
+# addresses, and the SSH clone user are accepted.
+check_rule email - '[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}' \
+  '@(example\.(com|org|net)|users\.noreply\.github\.com)$|^noreply@|^git@github\.com$'
+check_rule home-path - '(/Users|/home)/[A-Za-z0-9._-]+' \
+  '^/(Users|home)/(you|user|username|name|runner|ubuntu|shared)$'
+
+# Private patterns kept inside .git so they are never published.
+DENYLIST="$(git rev-parse --git-path sensitive-denylist)"
+if [[ -f "${DENYLIST}" ]]; then
+  while IFS= read -r pattern || [[ -n "${pattern}" ]]; do
+    [[ -z "${pattern}" || "${pattern}" == \#* ]] && continue
+    check_rule local-denylist i "${pattern}"
+  done <"${DENYLIST}"
+fi
+
+if ((FOUND > 0)); then
+  cat >&2 <<EOF
+pre-commit: ${FOUND} finding(s). This repository is public, so commits are permanent.
+Remove the value, or end a reviewed false positive with: ${IGNORE_MARKER}
+If a real secret was staged, rotate it. Do not bypass with --no-verify.
+EOF
+  exit 1
+fi
