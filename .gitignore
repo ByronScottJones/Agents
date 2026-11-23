@@ -1,1 +1,10 @@
 .DS_Store
+
+# Secrets and local settings: never commit.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets.json
+.claude/settings.local.json
