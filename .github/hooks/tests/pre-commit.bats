@@ -131,6 +131,43 @@ stage() {
   [[ "${output}" == *"local-denylist"* ]]
 }
 
+@test "malformed denylist pattern fails closed without printing it" {
+  printf '[\n' >"$(git rev-parse --git-path sensitive-denylist)"
+  stage "plain text"
+  run "${HOOK}"
+  [ "${status}" -eq 2 ]
+  [[ "${output}" == *"local-denylist"* ]]
+  [[ "${output}" != *"["* ]]
+}
+
+@test "runs the repository's own hook and propagates its failure" {
+  mkdir -p .git/hooks
+  printf '#!/bin/sh\ntouch "%s/ran"\nexit 7\n' "${BATS_TEST_TMPDIR}" >.git/hooks/pre-commit
+  chmod +x .git/hooks/pre-commit
+  stage "plain text"
+  run "${HOOK}"
+  [ "${status}" -eq 7 ]
+  [ -e "${BATS_TEST_TMPDIR}/ran" ]
+}
+
+@test "does not run the repository's own hook when the scan fails" {
+  mkdir -p .git/hooks
+  printf '#!/bin/sh\ntouch "%s/ran"\n' "${BATS_TEST_TMPDIR}" >.git/hooks/pre-commit
+  chmod +x .git/hooks/pre-commit
+  stage "token ${FAKE_GITHUB_TOKEN}"
+  run "${HOOK}"
+  [ "${status}" -eq 1 ]
+  [ ! -e "${BATS_TEST_TMPDIR}/ran" ]
+}
+
+@test "installed as .git/hooks/pre-commit it does not run itself twice" {
+  mkdir -p .git/hooks
+  cp "${HOOK}" .git/hooks/pre-commit
+  stage "plain text"
+  run .git/hooks/pre-commit
+  [ "${status}" -eq 0 ]
+}
+
 @test "no denylist file means no local findings" {
   stage "acmecorp internal notes"
   run "${HOOK}"

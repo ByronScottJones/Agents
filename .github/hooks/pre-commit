@@ -3,6 +3,9 @@
 # sensitive information. Only added lines in the staged diff are scanned.
 #
 # Install once per clone:  git config core.hooksPath .github/hooks
+# The hook must exist at .github/hooks/pre-commit in the repository it guards.
+# After a clean scan it runs that repository's own .git/hooks/pre-commit, so
+# changing core.hooksPath does not disable existing hooks.
 #
 # Rules cover credentials (tokens, private keys, secret assignments),
 # personal or corporate email addresses, and absolute home-directory paths.
@@ -24,7 +27,8 @@ usage() {
 Usage: pre-commit [-h | --help]
 
 Scan the staged changes for secrets and sensitive information.
-Exit codes: 0 clean, 1 findings, 2 invalid arguments.
+Exit codes: 0 clean, 1 findings, 2 invalid arguments or a rule that failed to run.
+After a clean scan it also runs the repository's own .git/hooks/pre-commit.
 
 Install: git config core.hooksPath .github/hooks
 Local denylist: git rev-parse --git-path sensitive-denylist
@@ -87,7 +91,18 @@ check_rule() {
   local name="$1" flags="$2" regex="$3" allow="${4:-}"
   local -a grep_opts=(-E)
   [[ "${flags}" == *i* ]] && grep_opts=(-iE)
-  local path line content
+  local matches status=0 path line content
+  # grep status 1 means no match. Anything higher is a scanner failure, such as
+  # a malformed denylist pattern, and must block the commit rather than pass.
+  # grep's stderr is dropped because it can echo a private pattern.
+  matches="$(grep "${grep_opts[@]}" -e "${regex}" "${STREAM}" 2>/dev/null)" || status=$?
+  if ((status > 1)); then
+    echo "pre-commit: rule '${name}' failed to run (invalid pattern?); commit blocked" >&2
+    exit 2
+  fi
+  if [[ -z "${matches}" ]]; then
+    return 0
+  fi
   while IFS=$'\t' read -r path line content; do
     if [[ -n "${allow}" ]]; then
       # Skip the line when every match is on the allow list.
@@ -95,7 +110,7 @@ check_rule() {
     fi
     echo "pre-commit: ${path}:${line}: ${name}" >&2
     FOUND=$((FOUND + 1))
-  done < <(grep "${grep_opts[@]}" -e "${regex}" "${STREAM}" || true)
+  done <<<"${matches}"
 }
 
 collect_added_lines >"${STREAM}"
@@ -133,4 +148,11 @@ Remove the value, or end a reviewed false positive with: ${IGNORE_MARKER}
 If a real secret was staged, rotate it. Do not bypass with --no-verify.
 EOF
   exit 1
+fi
+
+# core.hooksPath hides the repository's own .git/hooks/pre-commit from Git, so
+# run it here after the scan passes. Skip it when it is this same file.
+REPO_HOOK="$(git rev-parse --git-common-dir)/hooks/pre-commit"
+if [[ -x "${REPO_HOOK}" && ! "${REPO_HOOK}" -ef "${BASH_SOURCE[0]}" ]]; then
+  "${REPO_HOOK}"
 fi

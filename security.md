@@ -44,10 +44,16 @@ The `~/.agents` guidance repository is public.
   cannot work without the exact name.
 - Set the commit author email to a GitHub noreply address before the first
   commit, and check `git config user.email` before committing.
-- Install the pre-commit guard in every clone:
-  `git config core.hooksPath .github/hooks`. Keep private patterns, such as
-  employer or project names, in the untracked file shown by
-  `git rev-parse --git-path sensitive-denylist`. Never bypass the guard with
+- Install the pre-commit guard in each public repository and each clone. The
+  guard is `.github/hooks/pre-commit` in the `~/.agents` repository;
+  `core.hooksPath` does not copy it. In another repository, copy that file
+  (executable) and its `tests/` directory to the same path, then run
+  `git config core.hooksPath .github/hooks`. After a clean scan the guard runs
+  the repository's own `.git/hooks/pre-commit`, so existing hooks, such as the
+  Rust hook in `snippets/SNIPPETS.md`, keep working.
+- Keep private patterns, such as employer or project names, in the untracked
+  file shown by `git rev-parse --git-path sensitive-denylist`. A pattern that
+  fails to compile blocks the commit. Never bypass the guard with
   `--no-verify`.
 - Never create a public repository or change visibility to public without the
   user's explicit confirmation. Before doing so, scan the tracked files and the
