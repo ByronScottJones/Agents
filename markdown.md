@@ -10,7 +10,8 @@ Load this file when creating, editing, or reviewing Markdown files.
 
 ## Structure
 
-- Start each document with one top-level `#` heading.
+- Start each document with one top-level `#` heading, placed immediately
+  after any YAML front matter.
 - Use headings in a logical hierarchy; do not skip levels for visual styling.
 - Keep each document focused on one topic and identify its intended audience.
 - Use short paragraphs and lists when they improve scanning.

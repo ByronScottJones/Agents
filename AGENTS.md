@@ -10,10 +10,12 @@ topic files required by the task. Do not load every topic file by default.
 
 ## Code Related Work
 
-Before any repository work — including inspection, editing, branching, or
-committing — read git.md and the project guidance below. Treat its
-branch and commit workflow as required: create a branch for each feature,
-and commit each completed change after validation. If a session starts
+Before any repository write operation — editing, branching, committing,
+pushing, or opening a pull request — read git.md and the project guidance
+below. Read-only inspection, such as `git status`, `git log`, and
+`git diff`, does not require loading git.md. Treat its branch and commit
+workflow as required: create a branch for each feature, and commit each
+completed change after validation. If a session starts
 with uncommitted changes, inspect and preserve them; don’t assume they
 should be committed or discarded.
 
