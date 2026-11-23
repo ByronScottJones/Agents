@@ -17,17 +17,21 @@ Every application must accept the arguments below unless a section states
 otherwise. Use the same spelling in every application so users and agents
 can rely on them.
 
+In the Requirement column, "Required" means the application must accept the
+argument, not that every invocation must pass it. Defaults are stated in the
+section for each argument.
+
 | Argument | Requirement | Purpose |
 | --- | --- | --- |
 | `-h`, `-H`, `--help`, `--HELP`, `-?` | Required | Show help and exit. |
 | `-V`, `--version` | Required | Print the version and exit. |
-| `--about` | Required | Print identity, build, and license metadata as YAML. |
+| `--about` | Required | Print identity, build, and license metadata. YAML by default. |
 | `-v`, `--verbose` | Required | Increase diagnostic output. |
 | `-c`, `--config <path>` | Required when the application reads a config file | Use an explicit configuration file. |
 | `-q`, `--quiet` | Recommended | Suppress non-error output. |
 | `--log-level <level>` | Recommended | Set log verbosity explicitly. |
 | `--no-color` | Recommended | Disable ANSI color. |
-| `--format=<type>` | Required with `--about`; recommended for other output | Select output format: `text`, `yaml`, or `json`. |
+| `--format=<type>` | Required for `--about`; recommended for other output | Select output format: `text`, `yaml`, or `json`. |
 | `--dry-run` | Required for state-changing commands | Report actions without performing them. |
 | `-y`, `--yes` | Recommended for confirmation prompts | Answer prompts affirmatively. |
 | `--completion <shell>` | Recommended | Print a shell completion script. |
@@ -60,8 +64,14 @@ Every application must provide:
 - `-h`, `-H`, `--help`, `--HELP`, and `-?` help options.
 - A human-readable help display that is also structured enough for an AI agent
   to parse.
+
+User-facing CLI and TUI tools must also provide:
+
 - A Linux manpage.
 - An HTML help document.
+
+Services and batch jobs do not need a manpage or HTML help document. Their
+help display and the project documentation are enough.
 
 Help display requirements:
 
@@ -115,7 +125,7 @@ Help display requirements:
 | `support` | Recommended | Issue tracker URL or support contact. |
 | `build` | Required | Compile-time diagnostics object, below. |
 | `build.target` | Required | Architecture and OS triple, such as `aarch64-apple-darwin`. |
-| `build.commit` | Required | Short Git commit hash. |
+| `build.commit` | Required when built from a Git checkout; otherwise omitted | Short Git commit hash. |
 | `build.dirty` | Recommended | `true` when built from uncommitted changes; omit when clean. |
 | `build.timestamp` | Required | ISO 8601 UTC build timestamp. |
 | `build.compiler` | Required | Compiler or toolchain and its version. |
