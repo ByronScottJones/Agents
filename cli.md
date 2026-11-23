@@ -110,7 +110,8 @@ Help display requirements:
 | `purpose` | Required | One sentence describing what the tool does. |
 | `repository` | Required | Full URL of the source repository. |
 | `license` | Required | SPDX identifier, or `LicenseRef-<name>` for custom commercial terms. |
-| `owner` | Recommended | Maintaining team or person. |
+| `authors` | Required | Array of people or organizations who wrote the software, as names or `Name <email>`. |
+| `owner` | Required | Team or person accountable for maintaining it, which may differ from the authors. |
 | `support` | Recommended | Issue tracker URL or support contact. |
 | `build` | Required | Compile-time diagnostics object, below. |
 | `build.target` | Required | Architecture and OS triple, such as `aarch64-apple-darwin`. |
@@ -119,22 +120,29 @@ Help display requirements:
 | `build.timestamp` | Required | ISO 8601 UTC build timestamp. |
 | `build.compiler` | Required | Compiler or toolchain and its version. |
 | `build.profile` | Recommended | Build profile, such as `release` or `debug`. |
+| `build.features` | Optional | Array of enabled compile-time feature flags. |
 | `notices` | Recommended | Location of third-party license notices and the SBOM, when shipped. |
 
 Example:
 
 ```yaml
 name: mytool
-version: 1.4.2
+version: "1.4.2"
 purpose: Validates and publishes release manifests.
 repository: https://github.com/example/mytool
 license: Apache-2.0
+authors:
+  - Jane Doe <jane@example.com>
+owner: Release Engineering
+support: https://github.com/example/mytool/issues
 build:
   target: aarch64-apple-darwin
   commit: 3f9c2ab
   timestamp: 2026-11-23T14:05:00Z
   compiler: rustc 1.91.0
   profile: release
+  features:
+    - tls
 ```
 
 ### Behavior
@@ -152,6 +160,20 @@ build:
   reproducible.
 - Never include secrets, user data, hostnames, or absolute paths from the
   build machine.
+- If build metadata such as the Git commit is unavailable in a build
+  environment, omit the key rather than emitting placeholder text or `null`.
+
+### YAML Serialization
+
+Use the project's YAML library when it already has one. When emitting YAML
+without a library:
+
+1. Quote ambiguous strings. Wrap a value in double quotes if it contains `:`
+   followed by a space, contains `#`, has leading or trailing whitespace, or
+   looks like a number or boolean, such as `"1.0"` or `"yes"`. Always quote
+   `version`.
+2. Escape double quotes (`\"`) and backslashes (`\\`) inside quoted strings.
+3. Emit `authors` and `build.features` as YAML sequences, one item per line.
 
 ## Verbose
 

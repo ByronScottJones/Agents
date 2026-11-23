@@ -53,6 +53,7 @@ Open this file only when writing or modifying C#, Dotnet, .Net, code. General ru
 - Use `appsettings.json` and `appsettings.{Environment}.json` for application settings.
 - Load configuration in this order when using the default host: appsettings files, user secrets in development, environment variables, then command-line arguments.
 - Use `__` in environment variables for nested settings, such as `Logging__LogLevel__Default`.
+- Command-line applications follow `cli.md` for argument names, help, and exit codes.
 - Use `dotnet user-secrets` for local development secrets, never for production secrets.
 - Use `Environment.GetFolderPath` and `Path.Combine` for platform-specific paths.
 
