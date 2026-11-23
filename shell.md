@@ -34,6 +34,8 @@ Open this file only when writing or modifying Bash or Zsh scripts. General rules
 
 ## Conventions
 
+- Scripts that accept arguments follow `cli.md`: provide `-h`/`--help`, reject
+  unknown arguments with exit code `2`, and accept `--` to end options.
 - Prefer functions over long linear scripts.
 - Use `local` for all variables inside functions.
 - Avoid parsing `ls` output — use globs or `find`.

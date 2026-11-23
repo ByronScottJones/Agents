@@ -48,6 +48,8 @@ dashboards, or alerts.
 
 ## Configuration
 
+- Expose log verbosity through the standard `--verbose`, `--quiet`, and
+  `--log-level` arguments defined in `cli.md`.
 - Document telemetry configuration keys, defaults, accepted values, and
   validation alongside the application's other settings.
 - Do not require environment variables as the only way to select a telemetry
