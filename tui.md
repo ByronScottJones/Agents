@@ -10,15 +10,10 @@ Load this file when designing or modifying a terminal user interface.
 These are general TUI requirements. Apply `CUA_TUI_Specification.md` as an
 additional, stricter contract only when CUA compliance is explicitly requested.
 
-## CLI Help
+## Command-Line Interface
 
-Every CLI or TUI application must provide:
-
-- `-h`, `-H`, `--help`, `--HELP`, and `-?` help options.
-- A human-readable help display that is also structured enough for an AI agent
-  to parse.
-- A Linux manpage.
-- An HTML help document.
+Every TUI application is also a command-line application. Load `cli.md` and
+apply its standard arguments, help, manpage, and HTML help requirements.
 
 ## Terminal Size and Scrolling
 

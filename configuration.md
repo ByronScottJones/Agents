@@ -41,12 +41,16 @@ the last source applied wins. A source that does not set a key leaves the value
 from the previously applied source unchanged.
 
 1. Application defaults (lowest priority)
-2. Global config file ("<appname>_config.toml")
-3. Environment-specific config file ("<appname>_config_dev.toml", "<appname>_config_prod.toml")
+2. Global config file (`<appname>_config.toml`)
+3. Environment-specific config file (`<appname>_config_dev.toml`,
+   `<appname>_config_prod.toml`)
 4. Local config file in the application directory (development override, not
    committed)
 5. Environment variables
 6. Runtime command-line arguments (highest priority)
+
+Command-line argument names and syntax, including `--config`, follow
+[`cli.md`](cli.md).
 
 Where the files live follows the Locations table above. Frameworks and
 deployment platforms may define a different order; document that order in the
@@ -58,8 +62,8 @@ owning topic file, including whether it replaces or extends this order.
 - Use a secret manager or an environment variable for runtime secrets.
 - Treat variables exposed to browser or client bundles as public configuration,
   never as secrets.
-- Namespace environment variables to avoid collisions, such as "<APPNAME>_API_KEY"
-  instead of "API_KEY".
+- Namespace environment variables to avoid collisions, such as `<APPNAME>_API_KEY`
+  instead of `API_KEY`.
 - Keep local `.env` files in `.gitignore`; commit a `.env.example` when useful.
 - Restrict permissions on local files that contain sensitive values.
 

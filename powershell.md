@@ -84,6 +84,11 @@ standards unless the project defines stricter conventions.
 
 ## 7. Configuration and Command-Line Arguments
 
+- **Standard Arguments**: Scripts and modules that expose a command-line
+  interface follow `cli.md`. Map its standard arguments to idiomatic
+  PowerShell where one exists, such as `-Verbose`, `-WhatIf` for `--dry-run`,
+  and `Get-Help` for `--help`.
+
 - **Configuration Files (PSD1 / JSON)**: Prefer `.psd1` (PowerShell Data Files) or `.json` for external configuration. Never dot-source `.ps1` scripts to load variables, as this executes code and poses a security risk. Use `Import-PowerShellDataFile` (PSv5+) to safely parse `.psd1` files without execution.
 - **Splatting**: When passing multiple arguments to cmdlets or functions, use splatting (creating a hashtable of parameters and passing it with `@`) instead of chaining long commands with the backtick (`` ` ``) line continuation character.
 - **Parameter Validation**: Utilize PowerShell's built-in validation attributes (`[ValidateSet()]`, `[ValidateRange()]`, `[ValidateScript()]`, `[ValidateNotNullOrEmpty()]`) within your `param()` block to enforce constraints at the parameter binding stage, reducing the need for manual `if/throw` validation logic inside the function.

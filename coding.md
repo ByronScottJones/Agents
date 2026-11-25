@@ -104,6 +104,7 @@ Required sections:
    compatibility, accessibility, performance), each with an ID.
 3. External interfaces: commands, flags, environment variables, configuration,
    exit codes, and the stdout and stderr contract, with defaults and validation.
+   Flags and exit codes follow `cli.md`.
 4. Data: input formats and their known quirks, output formats with exact
    structure, directory and file layout, and naming rules.
 5. Behavior and algorithms: every non-trivial transformation, precisely enough
@@ -319,3 +320,9 @@ free-form input or invent validation rules.
 - Avoid race conditions by using the project’s established synchronization patterns.
 - Keep operations idempotent when they may be retried or run concurrently.
 - Document ordering assumptions when they matter to correctness.
+
+## Command-Line Interface
+
+All applications implement the standard arguments in [`cli.md`](cli.md),
+including `--help`, `--version`, and the `--about` metadata schema. Do not
+restate those rules here.

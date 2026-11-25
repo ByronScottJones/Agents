@@ -10,10 +10,12 @@ topic files required by the task. Do not load every topic file by default.
 
 ## Code Related Work
 
-Before any repository work — including inspection, editing, branching, or
-committing — read git.md and the project guidance below. Treat its
-branch and commit workflow as required: create a branch for each feature,
-and commit each completed change after validation. If a session starts
+Before any repository write operation — editing, branching, committing,
+pushing, or opening a pull request — read git.md and the project guidance
+below. Read-only inspection, such as `git status`, `git log`, and
+`git diff`, does not require loading git.md. Treat its branch and commit
+workflow as required: create a branch for each feature, and commit each
+completed change after validation. If a session starts
 with uncommitted changes, inspect and preserve them; don’t assume they
 should be committed or discarded.
 
@@ -66,6 +68,7 @@ application with a Rust backend and Terraform deployment requires
 | Terraform | [`terraform.md`](terraform.md) |
 | Tauri applications | [`tauri.md`](tauri.md) |
 | Delegating work to local LM Studio models, or the `lmstudio-rs-mcp` server | [`lmstudio-subagents.md`](lmstudio-subagents.md) |
+| Command-line arguments, help, version, or CLI output | [`cli.md`](cli.md) |
 | Terminal user interfaces | [`tui.md`](tui.md) |
 | Common User Access TUI specification | [`CUA_TUI_Specification.md`](CUA_TUI_Specification.md) |
 | Twelve-Factor application design | [`twelvefactors.md`](twelvefactors.md) |

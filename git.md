@@ -17,14 +17,18 @@ Load this file for repository, branch, commit, or pull request work.
   installed; see "GitHub Credentials"), and ask the user to confirm the account
   is the one to create the project in.
 - Repo details: ask the user whether the project is work or personal, and never
-  assume. Work goes to `byronjones-elsevier` and personal goes to
-  `byronscottjones`.
+  assume. Work projects go to the user's work GitHub account and personal
+  projects go to the user's personal account. If the owner name is not already
+  known in the session, ask for it. Do not record employer account names in
+  this public repository.
 - New empty project: run `git init -b main`, add a `.gitignore`, and make an
   initial commit on `main` with only that file. Then work on a feature branch.
 - Project with existing files: run `git init -b main`, add a `.gitignore` and a
   `README.md`, and commit the existing files as the initial commit on `main`.
   Then work on a feature branch.
-- GitHub repository: create it private, always. Set the description and
+- GitHub repository: create it private, always, unless the user explicitly
+  asks for a public one. Before the first push of a public repository, follow
+  "Public Repositories" in `security.md`. Set the description and
   relevant topics with `gh` when those fields are missing. Set a license; MIT
   is the default unless the user says otherwise. Include `MCP` as a topic when
   creating an MCP service.
@@ -39,7 +43,7 @@ environment.
 
 - Tokens live in `~/.secrets/secrets.json`, group `github.com`, key
   `<owner>_GHTOKEN` with the owner in lowercase (for example
-  `byronscottjones_GHTOKEN`). Never print, log, commit, or paste a token, and
+  `octocat_GHTOKEN`). Never print, log, commit, or paste a token, and
   never read the secrets file directly; use the commands below.
 - Run GitHub CLI commands as `ghx <gh arguments>`. It finds the owner from
   `-R/--repo`, `GH_REPO`, or the `origin` remote; use `ghx --owner <owner> ...`
